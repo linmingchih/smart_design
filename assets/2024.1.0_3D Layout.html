@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+    table.fixed {
+        table-layout:fixed; 
+        }
+    table.fixed td {
+        overflow: hidden; 
+        }
+    </style>
+</head>
+<body><h1 style="color:RoyalBlue";>2024.1.0_3D Layout.html</h1><h2 style="color:RoyalBlue";>oDesktop(98)</h2><table class="fixed">
+<col width="360px"/>
+<col width="360px"/>
+<col width="360px"/><tr><td>AddMessage</td><td>AreThereSimulationsRunning</td><td>ClearMessages</td></tr>
+<tr><td>CloseAllWindows</td><td>CloseProject</td><td>CloseProjectNoForce</td></tr>
+<tr><td>DeleteProject</td><td>DeleteRegistryEntry</td><td>DoesRegistryValueExist</td></tr>
+<tr><td>DownloadJobResults</td><td>EnableAutoSave</td><td>Equals</td></tr>
+<tr><td>ExportOptionsFiles</td><td>GenerateMetadata</td><td>GetActiveProject</td></tr>
+<tr><td>GetActiveScheduler</td><td>GetActiveSchedulerInfo</td><td>GetAutoSaveEnabled</td></tr>
+<tr><td>GetBuildDateTimeString</td><td>GetChildNames</td><td>GetChildObject</td></tr>
+<tr><td>GetChildTypes</td><td>GetCustomMenuSet</td><td>GetDefaultUnit</td></tr>
+<tr><td>GetDesktopConfiguration</td><td>GetDistributedAnalysisMachines</td><td>GetDistributedAnalysisMachinesForDesignType</td></tr>
+<tr><td>GetExeDir</td><td>GetGDIObjectCount</td><td>GetGrpcServerPort</td></tr>
+<tr><td>GetHashCode</td><td>GetIsGrpcServer</td><td>GetIsNonGraphical</td></tr>
+<tr><td>GetLibraryDirectory</td><td>GetLocalizationHelper</td><td>GetMessages</td></tr>
+<tr><td>GetMonitorData</td><td>GetPPELicensingEnabled</td><td>GetPersonalLibDirectory</td></tr>
+<tr><td>GetProcessID</td><td>GetProjectDirectory</td><td>GetProjectList</td></tr>
+<tr><td>GetProjects</td><td>GetRegistryInt</td><td>GetRegistryString</td></tr>
+<tr><td>GetRunningInstancesMgr</td><td>GetSchematicEnvironment</td><td>GetScriptingToolsHelper</td></tr>
+<tr><td>GetSysLibDirectory</td><td>GetTempDirectory</td><td>GetTool</td></tr>
+<tr><td>GetType</td><td>GetUserLibDirectory</td><td>GetVersion</td></tr>
+<tr><td>IsFeatureEnabled</td><td>KeepDesktopResponsive</td><td>LaunchJobMonitor</td></tr>
+<tr><td>MemberwiseClone</td><td>NewProject</td><td>OpenAndConvertProject</td></tr>
+<tr><td>OpenMultipleProjects</td><td>OpenProject</td><td>OpenProjectWithConversion</td></tr>
+<tr><td>PageSetup</td><td>PauseRecording</td><td>PauseScript</td></tr>
+<tr><td>Print</td><td>QuitApplication</td><td>ReferenceEquals</td></tr>
+<tr><td>RefreshJobMonitor</td><td>RefreshToolkitUI</td><td>ResetLogging</td></tr>
+<tr><td>RestoreProjectArchive</td><td>RestoreWindow</td><td>ResumeRecording</td></tr>
+<tr><td>RunACTWizardScript</td><td>RunProgram</td><td>RunScript</td></tr>
+<tr><td>RunScriptWithArguments</td><td>SelectScheduler</td><td>SetActiveProject</td></tr>
+<tr><td>SetActiveProjectByPath</td><td>SetCustomMenuSet</td><td>SetDesktopConfiguration</td></tr>
+<tr><td>SetLibraryDirectory</td><td>SetProjectDirectory</td><td>SetRegistryFromFile</td></tr>
+<tr><td>SetRegistryInt</td><td>SetRegistryString</td><td>SetSchematicEnvironment</td></tr>
+<tr><td>SetTempDirectory</td><td>ShowDockingWindow</td><td>Sleep</td></tr>
+<tr><td>StopSimulations</td><td>SubmitJob</td><td>TileWindows</td></tr>
+<tr><td>ToString</td><td>WaitForSimulationsToBeDone</td></table><h2 style="color:RoyalBlue";>oProject(70)</h2><table class="fixed">
+<col width="360px"/>
+<col width="360px"/>
+<col width="360px"/><tr><td>AddDataset</td><td>AddMaterial</td><td>AnalyzeAll</td></tr>
+<tr><td>ChangeProperty</td><td>ClearMessages</td><td>CloneMaterial</td></tr>
+<tr><td>Close</td><td>CopyDesign</td><td>CutDesign</td></tr>
+<tr><td>DeleteDataset</td><td>DeleteDesign</td><td>DeleteToolObject</td></tr>
+<tr><td>EditDataset</td><td>EditMaterial</td><td>Equals</td></tr>
+<tr><td>ExportDataset</td><td>ExportMaterial</td><td>GetActiveDesign</td></tr>
+<tr><td>GetArrayVariables</td><td>GetChildNames</td><td>GetChildObject</td></tr>
+<tr><td>GetChildTypes</td><td>GetConfigurableData</td><td>GetDefinitionManager</td></tr>
+<tr><td>GetDependentFiles</td><td>GetDesign</td><td>GetDesigns</td></tr>
+<tr><td>GetEDBHandle</td><td>GetHashCode</td><td>GetLegacyName</td></tr>
+<tr><td>GetName</td><td>GetObjPath</td><td>GetPath</td></tr>
+<tr><td>GetPropEvaluatedValue</td><td>GetPropNames</td><td>GetPropSIValue</td></tr>
+<tr><td>GetPropValue</td><td>GetProperties</td><td>GetPropertyValue</td></tr>
+<tr><td>GetTopDesignList</td><td>GetType</td><td>GetVariableValue</td></tr>
+<tr><td>GetVariables</td><td>ImportDataset</td><td>InsertDesign</td></tr>
+<tr><td>InsertDesignWithWorkflow</td><td>InsertToolObject</td><td>MemberwiseClone</td></tr>
+<tr><td>Paste</td><td>PasteDesignBlock</td><td>Redo</td></tr>
+<tr><td>ReferenceEquals</td><td>RemoveAllUnusedDefinitions</td><td>RemoveMaterial</td></tr>
+<tr><td>RemoveUnusedDefinitions</td><td>Rename</td><td>RunToolkit</td></tr>
+<tr><td>Save</td><td>SaveAs</td><td>SaveAsStandAloneProject</td></tr>
+<tr><td>SaveProjectArchive</td><td>SetActiveDefinitionEditor</td><td>SetActiveDesign</td></tr>
+<tr><td>SetPropValue</td><td>SetPropertyValue</td><td>SetVariableValue</td></tr>
+<tr><td>SimulateAll</td><td>ToString</td><td>Undo</td></tr>
+<tr><td>UpdateDefinitions</td></table><h2 style="color:RoyalBlue";>oDefinitionManager(64)</h2><table class="fixed">
+<col width="360px"/>
+<col width="360px"/>
+<col width="360px"/><tr><td>AddComponent</td><td>AddDataset</td><td>AddDefinitionFromBlock</td></tr>
+<tr><td>AddDefinitionFromLibFile</td><td>AddFootprint</td><td>AddMaterial</td></tr>
+<tr><td>AddPadstack</td><td>AddScript</td><td>AddSurfaceMaterial</td></tr>
+<tr><td>AddSymbol</td><td>AreMaterialPropertiesEqual</td><td>AreSurfaceMaterialPropertiesEqual</td></tr>
+<tr><td>ChangeProperty</td><td>CloneMaterial</td><td>ComputeCoreLossCoefficients</td></tr>
+<tr><td>CreateComponentData</td><td>DeleteDataset</td><td>DoesMaterialExist</td></tr>
+<tr><td>DoesSurfaceMaterialExist</td><td>EditComponent</td><td>EditDataset</td></tr>
+<tr><td>EditFootprint</td><td>EditMaterial</td><td>EditPadstack</td></tr>
+<tr><td>EditScript</td><td>EditSurfaceMaterial</td><td>EditSymbol</td></tr>
+<tr><td>Equals</td><td>ExportComponent</td><td>ExportDataset</td></tr>
+<tr><td>ExportFootprint</td><td>ExportMaterial</td><td>ExportPadstack</td></tr>
+<tr><td>ExportScript</td><td>ExportSurfaceMaterial</td><td>ExportSymbol</td></tr>
+<tr><td>GetExtendedDefinitionObject</td><td>GetHashCode</td><td>GetInUseProjectMaterialNames</td></tr>
+<tr><td>GetManager</td><td>GetMaterialLibraryNames</td><td>GetMaterialNamesInConfiguredLibraries</td></tr>
+<tr><td>GetMaterialsInLibraryByPhysicsTypeOfDesign</td><td>GetProjectMaterialNames</td><td>GetProperties</td></tr>
+<tr><td>GetPropertyValue</td><td>GetType</td><td>ImportDataset</td></tr>
+<tr><td>MemberwiseClone</td><td>ModifyLibraries</td><td>ReferenceEquals</td></tr>
+<tr><td>RemoveComponent</td><td>RemoveFootprint</td><td>RemoveMaterial</td></tr>
+<tr><td>RemovePadstack</td><td>RemoveScript</td><td>RemoveSurfaceMaterial</td></tr>
+<tr><td>RemoveSymbol</td><td>SetPropertyValue</td><td>ToString</td></tr>
+<tr><td>UpdateDefFromBlock</td><td>UpdateDefFromBlockEx</td><td>UpdateDefinition</td></tr>
+<tr><td>UpdateDefinitionFromLib</td></table><h2 style="color:RoyalBlue";>oDesign(125)</h2><table class="fixed">
+<col width="360px"/>
+<col width="360px"/>
+<col width="360px"/><tr><td>AddCompInstance</td><td>AddDataset</td><td>AddDesignVariablesForDynamicLink</td></tr>
+<tr><td>AddDynamicLink</td><td>AddModelingProperties</td><td>AddOutputVariable</td></tr>
+<tr><td>Analyze</td><td>AnalyzeAll</td><td>AnalyzeAllNominal</td></tr>
+<tr><td>ChangePortProperty</td><td>ChangeProperty</td><td>CopyItemCommand</td></tr>
+<tr><td>CopySimulationResults</td><td>CreateReport</td><td>DCReportGeneration</td></tr>
+<tr><td>DeleteCompInstance</td><td>DeleteDataset</td><td>DeleteDesignInstance</td></tr>
+<tr><td>DeleteFieldVariation</td><td>DeleteFullVariation</td><td>DeleteGFDData</td></tr>
+<tr><td>DeleteOutputVariable</td><td>DeletePort</td><td>DeleteSolutionVariation</td></tr>
+<tr><td>DeleteSource</td><td>DesignOptions</td><td>EditCoSimulationOptions</td></tr>
+<tr><td>EditDataset</td><td>EditHfssExtents</td><td>EditImportData</td></tr>
+<tr><td>EditInfiniteArray</td><td>EditNotes</td><td>EditOptions</td></tr>
+<tr><td>EditOutputVariable</td><td>EnableSolutionSetup</td><td>Equals</td></tr>
+<tr><td>ExportConvergence</td><td>ExportCurrentsData</td><td>ExportDataset</td></tr>
+<tr><td>ExportDesignPoint</td><td>ExportForHSpice</td><td>ExportForSpice</td></tr>
+<tr><td>ExportMeshStats</td><td>ExportNMFData</td><td>ExportNearFieldData</td></tr>
+<tr><td>ExportNetworkData</td><td>ExportProfile</td><td>ExportRLGCData</td></tr>
+<tr><td>ExportReport</td><td>ExportSParametersFromRLGCData</td><td>GetActiveEditor</td></tr>
+<tr><td>GetChildNames</td><td>GetChildObject</td><td>GetChildTypes</td></tr>
+<tr><td>GetConfigurableData</td><td>GetData</td><td>GetDesignID</td></tr>
+<tr><td>GetDesignName</td><td>GetDesignType</td><td>GetDiagnostics</td></tr>
+<tr><td>GetEditor</td><td>GetGFDData</td><td>GetGeometryIdsForAllNetLayerCombinations</td></tr>
+<tr><td>GetGeometryIdsForNetLayerCombination</td><td>GetHashCode</td><td>GetManagedFilesPath</td></tr>
+<tr><td>GetMenuChoices</td><td>GetModule</td><td>GetName</td></tr>
+<tr><td>GetNominalVariation</td><td>GetNoteText</td><td>GetObjPath</td></tr>
+<tr><td>GetOutputVariableValue</td><td>GetOutputVariables</td><td>GetPropEvaluatedValue</td></tr>
+<tr><td>GetPropHost</td><td>GetPropNames</td><td>GetPropSIValue</td></tr>
+<tr><td>GetPropValue</td><td>GetProperties</td><td>GetPropertyValue</td></tr>
+<tr><td>GetSitempFilePath</td><td>GetType</td><td>GetVariableValue</td></tr>
+<tr><td>GetVariables</td><td>ImportComponentFile</td><td>ImportComponentMappingFile</td></tr>
+<tr><td>ImportData</td><td>ImportDataFilePath</td><td>ImportDataset</td></tr>
+<tr><td>InsertDesign</td><td>InvalidateAllSolutions</td><td>InvalidateSolutions</td></tr>
+<tr><td>MemberwiseClone</td><td>PasteDesign</td><td>PasteItemCommand</td></tr>
+<tr><td>PushExcitations</td><td>Redo</td><td>ReferenceEquals</td></tr>
+<tr><td>RemoveAllReports</td><td>RemoveCircuitElement</td><td>RemoveImportData</td></tr>
+<tr><td>RemoveModelingProperties</td><td>RemoveReport</td><td>RenameCircuitElement</td></tr>
+<tr><td>RenameDesignInstance</td><td>RenameImportData</td><td>RenamePort</td></tr>
+<tr><td>RenameSource</td><td>ReportTemplates</td><td>RunToolkit</td></tr>
+<tr><td>SetActiveEditor</td><td>SetDesignMode</td><td>SetPropValue</td></tr>
+<tr><td>SetPropertyValue</td><td>SetTemperatureSettings</td><td>SetVariableValue</td></tr>
+<tr><td>SimulateLink</td><td>StartAnalysis</td><td>StopSimLink</td></tr>
+<tr><td>ToString</td><td>Undo</td><td>UpdateSources</td></tr>
+<tr><td>ValidateCircuit</td><td>ValidateLink</td></table><h2 style="color:RoyalBlue";>oEditor(228)</h2><table class="fixed">
+<col width="360px"/>
+<col width="360px"/>
+<col width="360px"/><tr><td>Activate</td><td>AddBondwirePrimitive</td><td>AddCircuitRefPort</td></tr>
+<tr><td>AddLayer</td><td>AddObject</td><td>AddPinGroupRefPort</td></tr>
+<tr><td>AddPortsToAllNets</td><td>AddPortsToNet</td><td>AddRefPort</td></tr>
+<tr><td>AddStackupLayer</td><td>AddVoltageRegulators</td><td>AlignObjects</td></tr>
+<tr><td>AlignPorts</td><td>AssignCircuitRefPort</td><td>AssignRefPort</td></tr>
+<tr><td>ChangeLayer</td><td>ChangeLayers</td><td>ChangeOptions</td></tr>
+<tr><td>ChangeProperty</td><td>ClearLayerMappings</td><td>ClearRefPort</td></tr>
+<tr><td>ClearRelative</td><td>ClipPlane</td><td>Connect</td></tr>
+<tr><td>ConnectPortInstancesToPins</td><td>ConvertPlanetoTrace</td><td>ConvertPrimitivestoVias</td></tr>
+<tr><td>ConvertTracetoPlane</td><td>Copy</td><td>CopyToPlanarEM</td></tr>
+<tr><td>Create3DStructure</td><td>CreateAutomaticTrace</td><td>CreateBoardBend</td></tr>
+<tr><td>CreateCS</td><td>CreateCircle</td><td>CreateCircleVoid</td></tr>
+<tr><td>CreateCircuitElement</td><td>CreateCircuitPort</td><td>CreateComponent</td></tr>
+<tr><td>CreateCurrentSourcePort</td><td>CreateDCTerminal</td><td>CreateDCTerminalComponent</td></tr>
+<tr><td>CreateDifferentialPair</td><td>CreateEdgePort</td><td>CreateExtendedNet</td></tr>
+<tr><td>CreateGroundPortComponent</td><td>CreateGroupSelected</td><td>CreateHole</td></tr>
+<tr><td>CreateImpliedRegions</td><td>CreateInterfaceGround</td><td>CreateInterfacePort</td></tr>
+<tr><td>CreateInterfacePortComponent</td><td>CreateLine</td><td>CreateLineFromPolygon</td></tr>
+<tr><td>CreateLineVoid</td><td>CreateMeasure</td><td>CreateMeshRegion</td></tr>
+<tr><td>CreateMeshRegionPartitionLine</td><td>CreateNPort</td><td>CreateNetClass</td></tr>
+<tr><td>CreateObjectFromPolygon</td><td>CreatePin</td><td>CreatePinGroup</td></tr>
+<tr><td>CreatePinGroupPort</td><td>CreatePinGroups</td><td>CreatePolygon</td></tr>
+<tr><td>CreatePolygonVoid</td><td>CreatePortInstancePorts</td><td>CreatePortsOnComponents</td></tr>
+<tr><td>CreatePortsOnComponentsByNet</td><td>CreateRectangle</td><td>CreateRectangleVoid</td></tr>
+<tr><td>CreateText</td><td>CreateTrace</td><td>CreateVia</td></tr>
+<tr><td>CreateViaGroups</td><td>CreateVoltageProbePort</td><td>CreateVoltageSourcePort</td></tr>
+<tr><td>CutOutSubDesign</td><td>DeactivateOpen</td><td>DeactivateShort</td></tr>
+<tr><td>DefeatureObjects</td><td>DelExtendedNet</td><td>DelNetClass</td></tr>
+<tr><td>Delete</td><td>DeleteNets</td><td>DeletePinGroup</td></tr>
+<tr><td>Disconnect</td><td>DissolveComponents</td><td>DumpPolygon</td></tr>
+<tr><td>Duplicate</td><td>DuplicateAcrossLyrs</td><td>Edit</td></tr>
+<tr><td>Edit3DComponentDefinitions</td><td>EditComponent</td><td>EditPinGroup</td></tr>
+<tr><td>EnableBentModel</td><td>EnableComponents</td><td>Equals</td></tr>
+<tr><td>EraseMeasurements</td><td>Expand</td><td>ExpandWithPorts</td></tr>
+<tr><td>ExportAcis</td><td>ExportCAD</td><td>ExportDXF</td></tr>
+<tr><td>ExportELC</td><td>ExportGDSII</td><td>ExportGerber</td></tr>
+<tr><td>ExportImage</td><td>ExportMaterialToHFSSUDP</td><td>ExportNCDrill</td></tr>
+<tr><td>ExportStackupXML</td><td>ExportStride</td><td>ExportToHFSS</td></tr>
+<tr><td>ExportToHFSSUDP</td><td>ExportToQ3D</td><td>FilterObjectList</td></tr>
+<tr><td>FindObjects</td><td>FindObjectsByPoint</td><td>FindObjectsByPolygon</td></tr>
+<tr><td>FlipHorizontal</td><td>FlipVertical</td><td>GenerateFacetDataForModel</td></tr>
+<tr><td>GenerateSuggestedHFSSRegions</td><td>GeometryCheckAndAutofix</td><td>GetActiveLayer</td></tr>
+<tr><td>GetActiveUnits</td><td>GetAllLayerNames</td><td>GetBBox</td></tr>
+<tr><td>GetBendGraphicsMode</td><td>GetBentModelInfo</td><td>GetCSObjects</td></tr>
+<tr><td>GetCompInstanceFromRefDes</td><td>GetComponentInfo</td><td>GetComponentPinInfo</td></tr>
+<tr><td>GetComponentPins</td><td>GetEditorName</td><td>GetHashCode</td></tr>
+<tr><td>GetLayerInfo</td><td>GetMaterialList</td><td>GetNetClassNets</td></tr>
+<tr><td>GetNetClasses</td><td>GetNetConnections</td><td>GetNets</td></tr>
+<tr><td>GetPolygon</td><td>GetPolygonDef</td><td>GetPolygonInfo</td></tr>
+<tr><td>GetPolygonVoids</td><td>GetPortInfo</td><td>GetPortInstances</td></tr>
+<tr><td>GetProperties</td><td>GetPropertyValue</td><td>GetSelections</td></tr>
+<tr><td>GetStackupLayerNames</td><td>GetType</td><td>GetUserGeometryList</td></tr>
+<tr><td>Group</td><td>Heal</td><td>HighlightNet</td></tr>
+<tr><td>ImportDXF</td><td>ImportGDSII</td><td>ImportStackupXML</td></tr>
+<tr><td>Intersect</td><td>MemberwiseClone</td><td>ModifyDifferentialPair</td></tr>
+<tr><td>ModifyExtendedNet</td><td>ModifyNetClass</td><td>ModifyPackageDefinition</td></tr>
+<tr><td>Move</td><td>PageSetup</td><td>Paste</td></tr>
+<tr><td>PasteFullDesign</td><td>PinConnectivity</td><td>PlaceDesign</td></tr>
+<tr><td>Point</td><td>Polygon</td><td>PositionRelative</td></tr>
+<tr><td>ProcessBentModelCmd</td><td>PushExcitations</td><td>ReferenceEquals</td></tr>
+<tr><td>RefreshBendsCmd</td><td>RemoveLayer</td><td>RemovePort</td></tr>
+<tr><td>RemovePortsFromAllNets</td><td>RemovePortsFromNet</td><td>RemovePortsOnComponents</td></tr>
+<tr><td>RemoveVoltageRegulators</td><td>ResetDifferentialPairs</td><td>ResyncGeometry</td></tr>
+<tr><td>ReverseLine</td><td>Rotate</td><td>SanitizeLayout</td></tr>
+<tr><td>Select</td><td>SelectAll</td><td>SelectAllNetViolations</td></tr>
+<tr><td>SelectFirstViolation</td><td>SelectNetConnected</td><td>SelectPhysicallyConnected</td></tr>
+<tr><td>SelectRegion</td><td>SetActiveLayer</td><td>SetActiveUnits</td></tr>
+<tr><td>SetBendGraphicsMode</td><td>SetCS</td><td>SetHfssExtentsVisible</td></tr>
+<tr><td>SetHfssPortsVisible</td><td>SetLayerMapping</td><td>SetLayerVisibility</td></tr>
+<tr><td>SetMCADInstanceAttributes</td><td>SetMCADModelOrigin</td><td>SetNetColor</td></tr>
+<tr><td>SetNetVisible</td><td>SetPropertyValue</td><td>Snap3D</td></tr>
+<tr><td>SplitRegion</td><td>StitchLines</td><td>Subtract</td></tr>
+<tr><td>SyncRigidFlexSandbox</td><td>ToString</td><td>ToggleNetHighlight</td></tr>
+<tr><td>ToggleViaPin</td><td>Ungroup</td><td>Unite</td></tr>
+<tr><td>UnselectAll</td><td>Update3DComponentDefinitions</td><td>UpdateExtendedNets</td></tr>
+<tr><td>UpdateModels</td><td>UpdateVoltageRegulators</td><td>ZoomToFit</td></tr>
+</table><h2 style="color:RoyalBlue";>oEditor-Point(22)</h2><table class="fixed">
+<col width="360px"/>
+<col width="360px"/>
+<col width="360px"/><tr><td>ClosestPointOnLine</td><td>Cross</td><td>Distance</td></tr>
+<tr><td>DistanceFromLine</td><td>Equals</td><td>GetHashCode</td></tr>
+<tr><td>GetType</td><td>GetX</td><td>GetY</td></tr>
+<tr><td>IsArc</td><td>IsEqual</td><td>Mag</td></tr>
+<tr><td>MemberwiseClone</td><td>Move</td><td>Normalize</td></tr>
+<tr><td>ReferenceEquals</td><td>Rotate</td><td>Set</td></tr>
+<tr><td>SetArc</td><td>SetX</td><td>SetY</td></tr>
+<tr><td>ToString</td></table><h2 style="color:RoyalBlue";>oEditor-Polygon(40)</h2><table class="fixed">
+<col width="360px"/>
+<col width="360px"/>
+<col width="360px"/><tr><td>AddHole</td><td>AddPoint</td><td>Area</td></tr>
+<tr><td>BBoxLL</td><td>BBoxUR</td><td>CircleIntersectsPolygon</td></tr>
+<tr><td>Equals</td><td>GetBoundingCircleCenter</td><td>GetBoundingCircleRadius</td></tr>
+<tr><td>GetClosestPoint</td><td>GetClosestPoints</td><td>GetHashCode</td></tr>
+<tr><td>GetHoles</td><td>GetIntersectionType</td><td>GetPoints</td></tr>
+<tr><td>GetType</td><td>HasArcs</td><td>HasHoles</td></tr>
+<tr><td>HasSelfIntersections</td><td>Intersect</td><td>IsArc</td></tr>
+<tr><td>IsBox</td><td>IsCircle</td><td>IsClosed</td></tr>
+<tr><td>IsConvex</td><td>IsParametric</td><td>IsPoint</td></tr>
+<tr><td>IsSegment</td><td>MemberwiseClone</td><td>MirrorX</td></tr>
+<tr><td>Move</td><td>PointInPolygon</td><td>ReferenceEquals</td></tr>
+<tr><td>Rotate</td><td>Scale</td><td>SetClosed</td></tr>
+<tr><td>Subtract</td><td>ToString</td><td>Unite</td></tr>
+<tr><td>Xor</td></table><h2 style="color:RoyalBlue";>oTool-NdExplorer(29)</h2><table class="fixed">
+<col width="360px"/>
+<col width="360px"/>
+<col width="360px"/><tr><td>Cascade</td><td>CheckCausality</td><td>Combine</td></tr>
+<tr><td>Deembed</td><td>DeembedBack</td><td>DeembedFront</td></tr>
+<tr><td>Equals</td><td>ExportFullWaveSpice</td><td>ExportNMFData</td></tr>
+<tr><td>ExportNetworkData</td><td>Extract</td><td>ExtractImpulseResponse</td></tr>
+<tr><td>Get</td><td>GetAllSolutionVariations</td><td>GetHashCode</td></tr>
+<tr><td>GetSolutionVariation</td><td>GetType</td><td>LoadSolution</td></tr>
+<tr><td>MemberwiseClone</td><td>Open</td><td>ReferenceEquals</td></tr>
+<tr><td>Rename</td><td>Renormalize</td><td>Reorder</td></tr>
+<tr><td>SetExportTouchstoneOptions</td><td>Smooth</td><td>Stretch</td></tr>
+<tr><td>Terminate</td><td>ToString</td></table><h2 style="color:RoyalBlue";>oTool-ImportExport(19)</h2><table class="fixed">
+<col width="360px"/>
+<col width="360px"/>
+<col width="360px"/><tr><td>Equals</td><td>GetHashCode</td><td>GetType</td></tr>
+<tr><td>ImportANF</td><td>ImportANFV2</td><td>ImportAWRMicrowaveOffice</td></tr>
+<tr><td>ImportAutoCAD</td><td>ImportEDB</td><td>ImportExtracta</td></tr>
+<tr><td>ImportGDSII</td><td>ImportGerber</td><td>ImportIDF</td></tr>
+<tr><td>ImportIDFandMerge</td><td>ImportIPC</td><td>ImportODB</td></tr>
+<tr><td>ImportXFL</td><td>MemberwiseClone</td><td>ReferenceEquals</td></tr>
+<tr><td>ToString</td></table><h2 style="color:RoyalBlue";>oModule-Optimetrics(48)</h2><table class="fixed">
+<col width="360px"/>
+<col width="360px"/>
+<col width="360px"/><tr><td>CopySetup</td><td>DeleteSetups</td><td>DistributedAnalyzeSetup</td></tr>
+<tr><td>EditSetup</td><td>EnableSetup</td><td>Equals</td></tr>
+<tr><td>ExportDOELocalSensitivity</td><td>ExportDOELocalSensitivityCurve</td><td>ExportDOEResponseCurve</td></tr>
+<tr><td>ExportDOEResponseCurveSlices</td><td>ExportDOEResponseSurface</td><td>ExportDXConfigFile</td></tr>
+<tr><td>ExportOptimetricsProfile</td><td>ExportOptimetricsResult</td><td>ExportParametricResults</td></tr>
+<tr><td>ExportParametricSetupTable</td><td>ExportRespSurfaceMinMaxTable</td><td>ExportRespSurfacePlotToFile</td></tr>
+<tr><td>ExportRespSurfaceRefinePoints</td><td>ExportRespSurfaceResponsePoints</td><td>ExportRespSurfaceVerificationPoints</td></tr>
+<tr><td>GenerateVariationData</td><td>GetChildNames</td><td>GetChildObject</td></tr>
+<tr><td>GetChildTypes</td><td>GetHashCode</td><td>GetName</td></tr>
+<tr><td>GetObjPath</td><td>GetOptimetricResult</td><td>GetOptimetricResultRowCount</td></tr>
+<tr><td>GetPropEvaluatedValue</td><td>GetPropNames</td><td>GetPropSIValue</td></tr>
+<tr><td>GetPropValue</td><td>GetSetupNames</td><td>GetSetupNamesByType</td></tr>
+<tr><td>GetType</td><td>ImportSetup</td><td>InsertSetup</td></tr>
+<tr><td>MemberwiseClone</td><td>PasteSetup</td><td>ReferenceEquals</td></tr>
+<tr><td>RenameSetup</td><td>SetPropValue</td><td>SolveAllSetup</td></tr>
+<tr><td>SolveSetup</td><td>ToString</td><td>ValidateSetup</td></tr>
+</table><h2 style="color:RoyalBlue";>oModule-SolveSetups(45)</h2><table class="fixed">
+<col width="360px"/>
+<col width="360px"/>
+<col width="360px"/><tr><td>Add</td><td>AddMeshOperation</td><td>AddSweep</td></tr>
+<tr><td>Analyze</td><td>AnalyzeSweep</td><td>Delete</td></tr>
+<tr><td>DeleteMeshOperation</td><td>DeleteMeshOperations</td><td>DeleteSweep</td></tr>
+<tr><td>DisplayMesh</td><td>DynamicMeshOverlays</td><td>Edit</td></tr>
+<tr><td>EditMeshOperation</td><td>EditSweep</td><td>Equals</td></tr>
+<tr><td>ExportToHfss</td><td>ExportToQ3d</td><td>GenerateMesh</td></tr>
+<tr><td>GenerateModelDef</td><td>GenerateModelMesh</td><td>GenerateRaptorXGFD</td></tr>
+<tr><td>GetAllSolutionNames</td><td>GetHashCode</td><td>GetHfssSetups</td></tr>
+<tr><td>GetMeshOperations</td><td>GetSetupData</td><td>GetSetups</td></tr>
+<tr><td>GetSweepInfo</td><td>GetSweeps</td><td>GetType</td></tr>
+<tr><td>LayoutMeshOverlay</td><td>ListVariations</td><td>MemberwiseClone</td></tr>
+<tr><td>ReferenceEquals</td><td>RefreshMeshOverlays</td><td>Rename</td></tr>
+<tr><td>RenameMeshOperation</td><td>RenameSweep</td><td>RestoreSIwaveDCGeometryProcessingDefaultValues</td></tr>
+<tr><td>RestoreSIwaveSIPIGeometryProcessingDefaultValues</td><td>RevertToInitialMesh</td><td>SetQ3DSATNetChanges</td></tr>
+<tr><td>ShowMeshErrorDialog</td><td>ToString</td><td>Validate</td></tr>
+</table><h2 style="color:RoyalBlue";>oModule-FieldsReporter(96)</h2><table class="fixed">
+<col width="360px"/>
+<col width="360px"/>
+<col width="360px"/><tr><td>AddMarker</td><td>AddMarkerToPlot</td><td>AddNamedExpr</td></tr>
+<tr><td>AddNamedExpression</td><td>CalcOp</td><td>CalcRead</td></tr>
+<tr><td>CalcStack</td><td>CalcWrite</td><td>CalculatorRead</td></tr>
+<tr><td>CalculatorWrite</td><td>ChangeGeomSettings</td><td>ClcEval</td></tr>
+<tr><td>ClcMaterial</td><td>ClcMaterialValue</td><td>ClearAllMarkers</td></tr>
+<tr><td>ClearAllNamedExpr</td><td>CopyNamedExprToStack</td><td>CreateFieldPlot</td></tr>
+<tr><td>DeleteFieldPlot</td><td>DeleteMarker</td><td>DeleteNamedExpr</td></tr>
+<tr><td>DeleteUneditablePlot</td><td>DoesNamedExpressionExists</td><td>DumpCalculatorStack</td></tr>
+<tr><td>EditFieldsSummarySetting</td><td>EditSurfaceMeshSummaryData</td><td>EnterAdjacentSurf</td></tr>
+<tr><td>EnterComplex</td><td>EnterComplexVector</td><td>EnterCoord</td></tr>
+<tr><td>EnterEdge</td><td>EnterLine</td><td>EnterOutputVar</td></tr>
+<tr><td>EnterPoint</td><td>EnterQty</td><td>EnterScalar</td></tr>
+<tr><td>EnterScalarFunc</td><td>EnterSurf</td><td>EnterVector</td></tr>
+<tr><td>EnterVectorFunc</td><td>EnterVol</td><td>Equals</td></tr>
+<tr><td>EvaluateExpressionCache</td><td>ExportFieldPlot</td><td>ExportFieldsSummary</td></tr>
+<tr><td>ExportMarkerTable</td><td>ExportOnGrid</td><td>ExportPlotImageToFile</td></tr>
+<tr><td>ExportPlotImageWithViewToFile</td><td>ExportSurfaceMeshSummary</td><td>ExportToFile</td></tr>
+<tr><td>GetChildNames</td><td>GetChildObject</td><td>GetChildTypes</td></tr>
+<tr><td>GetFieldFolderNames</td><td>GetFieldPlotMesh</td><td>GetFieldPlotNames</td></tr>
+<tr><td>GetFieldPlotQuantityName</td><td>GetFieldPlotQuantityUnits</td><td>GetHashCode</td></tr>
+<tr><td>GetMeshPlotNames</td><td>GetName</td><td>GetObjPath</td></tr>
+<tr><td>GetPropEvaluatedValue</td><td>GetPropNames</td><td>GetPropSIValue</td></tr>
+<tr><td>GetPropValue</td><td>GetTopEntryValue</td><td>GetType</td></tr>
+<tr><td>HideAntennaParameterOverlay</td><td>HidePolarPlot</td><td>HideRadiatedPlotOverlay</td></tr>
+<tr><td>LoadNamedExpressions</td><td>MemberwiseClone</td><td>ModifyFieldPlot</td></tr>
+<tr><td>ModifyInceptionParameters</td><td>ReassignFieldPlot</td><td>ReferenceEquals</td></tr>
+<tr><td>RenameFieldPlot</td><td>RenamePlotFolder</td><td>SaveFieldsPlots</td></tr>
+<tr><td>SaveNamedExpressions</td><td>SetFieldPlotSettings</td><td>SetFieldTypeSettings</td></tr>
+<tr><td>SetPlotFolderSettings</td><td>SetPlotsSolutionContext</td><td>SetPlotsViewSolutionContext</td></tr>
+<tr><td>SetPropValue</td><td>ShowAntennaParameterOverlay</td><td>ShowPolarPlot</td></tr>
+<tr><td>ShowRadiatedPlotOverlay</td><td>Test</td><td>ToString</td></tr>
+<tr><td>UpdateAllFieldsPlots</td><td>UpdateQuantityFieldsPlots</td><td>XForm</td></tr>
+</table><h2 style="color:RoyalBlue";>oModule-RadiationSetupMgr(10)</h2><table class="fixed">
+<col width="360px"/>
+<col width="360px"/>
+<col width="360px"/><tr><td>Add</td><td>Delete</td><td>Edit</td></tr>
+<tr><td>Equals</td><td>GetHashCode</td><td>GetType</td></tr>
+<tr><td>MemberwiseClone</td><td>ReferenceEquals</td><td>Rename</td></tr>
+<tr><td>ToString</td></table><h2 style="color:RoyalBlue";>oModule-ReportSetup(106)</h2><table class="fixed">
+<col width="360px"/>
+<col width="360px"/>
+<col width="360px"/><tr><td>AddAllEyeMeasurements</td><td>AddCartesianLimitLine</td><td>AddCartesianLimitLineFromCurve</td></tr>
+<tr><td>AddCartesianLimitLineFromEquation</td><td>AddCartesianXMarker</td><td>AddCartesianYMarker</td></tr>
+<tr><td>AddCartesianYMarkerToStack</td><td>AddDeltaMarker</td><td>AddMarker</td></tr>
+<tr><td>AddNote</td><td>AddTraceCharacteristics</td><td>AddTraces</td></tr>
+<tr><td>ApplyReportTemplate</td><td>ChangeProperty</td><td>ClearAllMarkers</td></tr>
+<tr><td>ClearAllTraceCharacteristics</td><td>CloneReportsFromDatasetSolution</td><td>CompareReportDataForRegressionTesting</td></tr>
+<tr><td>CompareReportDataForRegressionTesting2</td><td>CompareTracesForRegressionTesting</td><td>CompareTracesForRegressionTesting2</td></tr>
+<tr><td>CopyPlotSettings</td><td>CopyReportDefinitions</td><td>CopyReportsData</td></tr>
+<tr><td>CopyTraceDefinitions</td><td>CopyTracesData</td><td>CreateReport</td></tr>
+<tr><td>CreateReportFromFile</td><td>CreateReportFromTemplate</td><td>CreateReportOfAllQuantities</td></tr>
+<tr><td>DeleteAllReports</td><td>DeleteReports</td><td>DeleteTraceCharacteristics</td></tr>
+<tr><td>DeleteTraces</td><td>DoesSupportTraceCharacteristics</td><td>DumpAllReportsData</td></tr>
+<tr><td>DumpReportDataForRegressionTesting</td><td>EditCartesianXMarker</td><td>EditCartesianYMarker</td></tr>
+<tr><td>EditMarker</td><td>Equals</td><td>ExportEyeMaskViolation</td></tr>
+<tr><td>ExportImageToFile</td><td>ExportPlot3DToFile</td><td>ExportReportDataToFile</td></tr>
+<tr><td>ExportTableToFile</td><td>ExportToFile</td><td>ExportUniformPointsToFile</td></tr>
+<tr><td>GetAllCategories</td><td>GetAllQuantities</td><td>GetAllReportNames</td></tr>
+<tr><td>GetAvailableDisplayTypes</td><td>GetAvailableReportTypes</td><td>GetAvailableSolutions</td></tr>
+<tr><td>GetChildNames</td><td>GetChildObject</td><td>GetChildTypes</td></tr>
+<tr><td>GetCurvePropServerName</td><td>GetDisplayType</td><td>GetDynLinkIntrinsicVariables</td></tr>
+<tr><td>GetDynLinkQtyData</td><td>GetDynLinkQtyValueState</td><td>GetDynLinkTraces</td></tr>
+<tr><td>GetDynLinkVariableValues</td><td>GetHashCode</td><td>GetName</td></tr>
+<tr><td>GetObjPath</td><td>GetPropEvaluatedValue</td><td>GetPropNames</td></tr>
+<tr><td>GetPropSIValue</td><td>GetPropValue</td><td>GetPropertyValue</td></tr>
+<tr><td>GetQtyExpressionsForSourceTrace</td><td>GetReportData</td><td>GetReportDefinition</td></tr>
+<tr><td>GetReportSummaryForRegressionTesting</td><td>GetReportTraceNames</td><td>GetSolutionContexts</td></tr>
+<tr><td>GetSolutionDataPerVariation</td><td>GetType</td><td>GroupPlotCurvesByGroupingStrategy</td></tr>
+<tr><td>ImportIntoReport</td><td>ImportReportDataIntoReport</td><td>MemberwiseClone</td></tr>
+<tr><td>MovePlotCurvesToGroup</td><td>MovePlotCurvesToNewGroup</td><td>OpenWindowForAllReports</td></tr>
+<tr><td>OpenWindowForReports</td><td>PastePlotSettings</td><td>PasteReports</td></tr>
+<tr><td>PasteReportsWithLegacyNames</td><td>PasteTraces</td><td>PasteTracesWithLegacyNames</td></tr>
+<tr><td>ReferenceEquals</td><td>RenameReport</td><td>RenameTrace</td></tr>
+<tr><td>ResetPlotSettings</td><td>SavePlotSettingsAsDefault</td><td>SetLinkOutputTraces</td></tr>
+<tr><td>SetPropValue</td><td>ToString</td><td>UngroupPlotCurvesInGroup</td></tr>
+<tr><td>UpdateAllReports</td><td>UpdateReports</td><td>UpdateTraces</td></tr>
+<tr><td>UpdateTracesContextAndSweeps</td></table><h2 style="color:RoyalBlue";>oModule-OutputVariable(14)</h2><table class="fixed">
+<col width="360px"/>
+<col width="360px"/>
+<col width="360px"/><tr><td>CreateOutputVariable</td><td>DeleteOutputVariable</td><td>DoesOutputVariableExist</td></tr>
+<tr><td>EditOutputVariable</td><td>Equals</td><td>ExportOutputVariables</td></tr>
+<tr><td>GetHashCode</td><td>GetOutputVariableValue</td><td>GetOutputVariables</td></tr>
+<tr><td>GetType</td><td>ImportOutputVariables</td><td>MemberwiseClone</td></tr>
+<tr><td>ReferenceEquals</td><td>ToString</td></table><h2 style="color:RoyalBlue";>oModule-UserDefinedSolutionModule(11)</h2><table class="fixed">
+<col width="360px"/>
+<col width="360px"/>
+<col width="360px"/><tr><td>CreateUserDefinedSolution</td><td>DeleteUserDefinedSolutions</td><td>EditUserDefinedSolution</td></tr>
+<tr><td>Equals</td><td>GetHashCode</td><td>GetType</td></tr>
+<tr><td>GetUserDefinedSolutionNames</td><td>GetUserDefinedSolutionProperties</td><td>MemberwiseClone</td></tr>
+<tr><td>ReferenceEquals</td><td>ToString</td></table><h2 style="color:RoyalBlue";>oModule-DV(17)</h2><table class="fixed">
+<col width="360px"/>
+<col width="360px"/>
+<col width="360px"/><tr><td>AddRuleSet</td><td>AddRun</td><td>DeleteRuleSet</td></tr>
+<tr><td>DeleteRun</td><td>EditRuleSet</td><td>EditRun</td></tr>
+<tr><td>Equals</td><td>GetHashCode</td><td>GetType</td></tr>
+<tr><td>MemberwiseClone</td><td>ReferenceEquals</td><td>RenameRuleSet</td></tr>
+<tr><td>RenameRun</td><td>RunAllDV</td><td>RunAllRuleSetDV</td></tr>
+<tr><td>RunDV</td><td>ToString</td></table><h2 style="color:RoyalBlue";>oModule-Excitations(38)</h2><table class="fixed">
+<col width="360px"/>
+<col width="360px"/>
+<col width="360px"/><tr><td>Add</td><td>AddRefPort</td><td>AddRefPortUsingEdges</td></tr>
+<tr><td>AlphaNumericCircuitMatrix</td><td>AlphaNumericMatrix</td><td>ConvertToCoax</td></tr>
+<tr><td>CoupleEdgePorts</td><td>DecoupleEdgePorts</td><td>Delete</td></tr>
+<tr><td>DeleteDCIRPort</td><td>DeleteExcitation</td><td>DeleteProbePortAndVia</td></tr>
+<tr><td>DeleteSource</td><td>Edit</td><td>EditCircuitPort</td></tr>
+<tr><td>EditExcitations</td><td>Equals</td><td>GetAllBoundariesList</td></tr>
+<tr><td>GetAllCircuitPortsList</td><td>GetAllPortsList</td><td>GetHashCode</td></tr>
+<tr><td>GetType</td><td>LoadDiffPairsFromFile</td><td>MemberwiseClone</td></tr>
+<tr><td>MultiEdit</td><td>ReferenceEquals</td><td>RemoveRefPort</td></tr>
+<tr><td>Rename</td><td>RenameSource</td><td>ReorderCircuitMatrix</td></tr>
+<tr><td>ReorderMatrix</td><td>SaveDiffPairsToFile</td><td>SelectInLayout</td></tr>
+<tr><td>SetCircuitDiffPairs</td><td>SetCircuitExcitations</td><td>SetDiffPairs</td></tr>
+<tr><td>ToString</td><td>UpdateSources</td></table><h2 style="color:RoyalBlue";>oModule-Cavities(11)</h2><table class="fixed">
+<col width="360px"/>
+<col width="360px"/>
+<col width="360px"/><tr><td>Add</td><td>Delete</td><td>Edit</td></tr>
+<tr><td>Equals</td><td>GetHashCode</td><td>GetType</td></tr>
+<tr><td>MemberwiseClone</td><td>ReferenceEquals</td><td>Rename</td></tr>
+<tr><td>SelectInLayout</td><td>ToString</td></table><h2 style="color:RoyalBlue";>oManager-NdExplorer(29)</h2><table class="fixed">
+<col width="360px"/>
+<col width="360px"/>
+<col width="360px"/><tr><td>Cascade</td><td>CheckCausality</td><td>Combine</td></tr>
+<tr><td>Deembed</td><td>DeembedBack</td><td>DeembedFront</td></tr>
+<tr><td>Equals</td><td>ExportFullWaveSpice</td><td>ExportNMFData</td></tr>
+<tr><td>ExportNetworkData</td><td>Extract</td><td>ExtractImpulseResponse</td></tr>
+<tr><td>Get</td><td>GetAllSolutionVariations</td><td>GetHashCode</td></tr>
+<tr><td>GetSolutionVariation</td><td>GetType</td><td>LoadSolution</td></tr>
+<tr><td>MemberwiseClone</td><td>Open</td><td>ReferenceEquals</td></tr>
+<tr><td>Rename</td><td>Renormalize</td><td>Reorder</td></tr>
+<tr><td>SetExportTouchstoneOptions</td><td>Smooth</td><td>Stretch</td></tr>
+<tr><td>Terminate</td><td>ToString</td></table><h2 style="color:RoyalBlue";>oManager-Component(48)</h2><table class="fixed">
+<col width="360px"/>
+<col width="360px"/>
+<col width="360px"/><tr><td>Add</td><td>AddDynamicNPortData</td><td>AddFMUModel</td></tr>
+<tr><td>AddNPortData</td><td>AddPythonModel</td><td>AddROMModel</td></tr>
+<tr><td>AddSolverOnDemandModel</td><td>AddTwinModel</td><td>ClearSolutionCache</td></tr>
+<tr><td>DeleteLibraryComponent</td><td>Edit</td><td>EditSolverOnDemandModel</td></tr>
+<tr><td>Equals</td><td>Export</td><td>ExportAllProjectComps</td></tr>
+<tr><td>ExportDefinitionArchive</td><td>ExportDefs</td><td>GetData</td></tr>
+<tr><td>GetDevCharWizard</td><td>GetHashCode</td><td>GetLibContents</td></tr>
+<tr><td>GetModelicaObjectList</td><td>GetNPortData</td><td>GetNames</td></tr>
+<tr><td>GetSolverOnDemandData</td><td>GetSolverOnDemandModelList</td><td>GetType</td></tr>
+<tr><td>ImportAMIComponent</td><td>ImportDefinitionArchive</td><td>ImportModelsFromFile</td></tr>
+<tr><td>ImportSandWComponent</td><td>ImportXParamComponent</td><td>IsUsed</td></tr>
+<tr><td>LoadExample</td><td>LoadLibraries</td><td>ManageAliases</td></tr>
+<tr><td>MemberwiseClone</td><td>RecompileModelsAndPackages</td><td>ReferenceEquals</td></tr>
+<tr><td>Remove</td><td>RemoveSolverOnDemandModel</td><td>RemoveUnused</td></tr>
+<tr><td>RenameLibraryComponent</td><td>ReorderPins</td><td>SyncDefs</td></tr>
+<tr><td>ToString</td><td>UpdateDynamicComponentsFromWB</td><td>UpdateDynamicLink</td></tr>
+</table><h2 style="color:RoyalBlue";>oManager-Material(15)</h2><table class="fixed">
+<col width="360px"/>
+<col width="360px"/>
+<col width="360px"/><tr><td>Add</td><td>Edit</td><td>Equals</td></tr>
+<tr><td>Export</td><td>GetData</td><td>GetHashCode</td></tr>
+<tr><td>GetNames</td><td>GetProperties</td><td>GetType</td></tr>
+<tr><td>IsUsed</td><td>MemberwiseClone</td><td>ReferenceEquals</td></tr>
+<tr><td>Remove</td><td>RemoveUnused</td><td>ToString</td></tr>
+</table><h2 style="color:RoyalBlue";>oManager-Model(18)</h2><table class="fixed">
+<col width="360px"/>
+<col width="360px"/>
+<col width="360px"/><tr><td>Add</td><td>ConvertToDynamic</td><td>ConvertToParametric</td></tr>
+<tr><td>Edit</td><td>EditWithComps</td><td>Equals</td></tr>
+<tr><td>Export</td><td>ExportStateSpaceData</td><td>GetData</td></tr>
+<tr><td>GetHashCode</td><td>GetNames</td><td>GetType</td></tr>
+<tr><td>IsUsed</td><td>MemberwiseClone</td><td>ReferenceEquals</td></tr>
+<tr><td>Remove</td><td>RemoveUnused</td><td>ToString</td></tr>
+</table><h2 style="color:RoyalBlue";>oManager-Symbol(18)</h2><table class="fixed">
+<col width="360px"/>
+<col width="360px"/>
+<col width="360px"/><tr><td>Add</td><td>Edit</td><td>EditSymbolAndUpdateComps</td></tr>
+<tr><td>EditWithComps</td><td>Equals</td><td>Export</td></tr>
+<tr><td>GetData</td><td>GetHashCode</td><td>GetLibraryDefNames</td></tr>
+<tr><td>GetNames</td><td>GetType</td><td>IsUsed</td></tr>
+<tr><td>MemberwiseClone</td><td>ReferenceEquals</td><td>Remove</td></tr>
+<tr><td>RemoveUnused</td><td>ReorderPins</td><td>ToString</td></tr>
+</table><h2 style="color:RoyalBlue";>oManager-Footprint(16)</h2><table class="fixed">
+<col width="360px"/>
+<col width="360px"/>
+<col width="360px"/><tr><td>Add</td><td>Edit</td><td>EditWithComps</td></tr>
+<tr><td>Equals</td><td>Export</td><td>GetData</td></tr>
+<tr><td>GetHashCode</td><td>GetLibraryDefNames</td><td>GetNames</td></tr>
+<tr><td>GetType</td><td>IsUsed</td><td>MemberwiseClone</td></tr>
+<tr><td>ReferenceEquals</td><td>Remove</td><td>RemoveUnused</td></tr>
+<tr><td>ToString</td></table><h2 style="color:RoyalBlue";>oManager-Padstack(14)</h2><table class="fixed">
+<col width="360px"/>
+<col width="360px"/>
+<col width="360px"/><tr><td>Add</td><td>Edit</td><td>Equals</td></tr>
+<tr><td>Export</td><td>GetData</td><td>GetHashCode</td></tr>
+<tr><td>GetNames</td><td>GetType</td><td>IsUsed</td></tr>
+<tr><td>MemberwiseClone</td><td>ReferenceEquals</td><td>Remove</td></tr>
+<tr><td>RemoveUnused</td><td>ToString</td></table></body>

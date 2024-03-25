@@ -1,0 +1,1007 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+    table.fixed {
+        table-layout:fixed; 
+        }
+    table.fixed td {
+        overflow: hidden; 
+        }
+    </style>
+</head>
+<body><h1 style="color:GoldenRod";>2024.1.0_Icepak_signature.html</h1><h2 style="color:GoldenRod";>oDesktop(92)</h2><table class="fixed"><tr><td>AddMessage(string project, string design, int severity, string msg, [string category /*optional*/])</td></tr>
+<tr><td>AreThereSimulationsRunning() -> bool</td></tr>
+<tr><td>ClearMessages(string project, string design, int startSeverity, [int stopSeverity /*optional*/])</td></tr>
+<tr><td>CloseAllWindows()</td></tr>
+<tr><td>CloseProject(string projName)</td></tr>
+<tr><td>CloseProjectNoForce(string projectName)</td></tr>
+<tr><td>DeleteProject(string projName)</td></tr>
+<tr><td>DeleteRegistryEntry(string keyName) -> bool</td></tr>
+<tr><td>DoesRegistryValueExist(string keyName) -> bool</td></tr>
+<tr><td>DownloadJobResults([string sessionId /*optional*/], [string projectPath /*optional*/], [string resultsPath /*optional*/], [string filters /*optional*/], [string stepName /*optional*/]) -> long</td></tr>
+<tr><td>EnableAutoSave(long bEnable)</td></tr>
+<tr><td>ExportOptionsFiles(string strExportDir)</td></tr>
+<tr><td>GenerateMetadata([string projectName /*optional*/])</td></tr>
+<tr><td>GetActiveProject() -> IDispatch</td></tr>
+<tr><td>GetActiveScheduler() -> string</td></tr>
+<tr><td>GetActiveSchedulerInfo() -> string</td></tr>
+<tr><td>GetAutoSaveEnabled() -> long</td></tr>
+<tr><td>GetBuildDateTimeString() -> string</td></tr>
+<tr><td>GetChildNames([string type /*optional*/]) -> Structured Array</td></tr>
+<tr><td>GetChildObject(string path) -> Structured Array</td></tr>
+<tr><td>GetChildTypes() -> Structured Array</td></tr>
+<tr><td>GetCustomMenuSet() -> string</td></tr>
+<tr><td>GetDefaultUnit(string parameter) -> string</td></tr>
+<tr><td>GetDesktopConfiguration() -> string</td></tr>
+<tr><td>GetDistributedAnalysisMachines() -> IDispatch</td></tr>
+<tr><td>GetDistributedAnalysisMachinesForDesignType(string designTypeName) -> IDispatch</td></tr>
+<tr><td>GetExeDir() -> string</td></tr>
+<tr><td>GetGDIObjectCount() -> long</td></tr>
+<tr><td>GetGrpcServerPort() -> int</td></tr>
+<tr><td>GetIsGrpcServer() -> bool</td></tr>
+<tr><td>GetIsNonGraphical() -> bool</td></tr>
+<tr><td>GetLibraryDirectory() -> string</td></tr>
+<tr><td>GetLocalizationHelper() -> IDispatch</td></tr>
+<tr><td>GetMessages(string project, string design, int severity) -> Structured Array</td></tr>
+<tr><td>GetMonitorData(string requests) -> string</td></tr>
+<tr><td>GetPPELicensingEnabled() -> bool</td></tr>
+<tr><td>GetPersonalLibDirectory() -> string</td></tr>
+<tr><td>GetProcessID() -> int</td></tr>
+<tr><td>GetProjectDirectory() -> string</td></tr>
+<tr><td>GetProjectList() -> Structured Array</td></tr>
+<tr><td>GetProjects() -> IDispatch</td></tr>
+<tr><td>GetRegistryInt(string keyName, [int defaultValue /*optional*/]) -> int</td></tr>
+<tr><td>GetRegistryString(string keyName, [string defaultValue /*optional*/]) -> string</td></tr>
+<tr><td>GetRunningInstancesMgr() -> IDispatch</td></tr>
+<tr><td>GetSchematicEnvironment() -> int</td></tr>
+<tr><td>GetScriptingToolsHelper() -> IDispatch</td></tr>
+<tr><td>GetSysLibDirectory() -> string</td></tr>
+<tr><td>GetTempDirectory() -> string</td></tr>
+<tr><td>GetTool(string toolName) -> IDispatch</td></tr>
+<tr><td>GetUserLibDirectory() -> string</td></tr>
+<tr><td>GetVersion() -> string</td></tr>
+<tr><td>IsFeatureEnabled(string featureId) -> bool</td></tr>
+<tr><td>KeepDesktopResponsive(long minTimeInMs) -> bool</td></tr>
+<tr><td>LaunchJobMonitor(string projectPath)</td></tr>
+<tr><td>NewProject([string baseName /*optional*/]) -> IDispatch</td></tr>
+<tr><td>OpenAndConvertProject(string filePath, int legacyChoice) -> IDispatch</td></tr>
+<tr><td>OpenMultipleProjects(string itemPath, string filter) -> IDispatch</td></tr>
+<tr><td>OpenProject(string itemPath, [Structured Array argPassword /*optional*/]) -> IDispatch</td></tr>
+<tr><td>OpenProjectWithConversion(string filePath, int legacyChoice, string newfilePath) -> IDispatch</td></tr>
+<tr><td>PageSetup()</td></tr>
+<tr><td>PauseRecording()</td></tr>
+<tr><td>PauseScript(string pauseMsg)</td></tr>
+<tr><td>Print()</td></tr>
+<tr><td>QuitApplication()</td></tr>
+<tr><td>RefreshJobMonitor() -> string</td></tr>
+<tr><td>RefreshToolkitUI()</td></tr>
+<tr><td>ResetLogging(string logFile, int logLevel)</td></tr>
+<tr><td>RestoreProjectArchive(string archiveFilePath, string projectFilePath, long overwriteExistingFiles, long openProjectAfterRestore)</td></tr>
+<tr><td>RestoreWindow()</td></tr>
+<tr><td>ResumeRecording()</td></tr>
+<tr><td>RunACTWizardScript(string extensionName, string wizardName, string actPythonSnippet)</td></tr>
+<tr><td>RunProgram(string programName, string programPath, string programWorkDir, Structured Array programArgs) -> long</td></tr>
+<tr><td>RunScript(string filePath) -> long</td></tr>
+<tr><td>RunScriptWithArguments(string filePath, string arguments) -> long</td></tr>
+<tr><td>SelectScheduler(string option, [string address /*optional*/], [string username /*optional*/], [long forcePasswordEntry /*optional*/]) -> long</td></tr>
+<tr><td>SetActiveProject(string projName) -> IDispatch</td></tr>
+<tr><td>SetActiveProjectByPath(string filePath) -> IDispatch</td></tr>
+<tr><td>SetCustomMenuSet(string val)</td></tr>
+<tr><td>SetDesktopConfiguration(string val)</td></tr>
+<tr><td>SetLibraryDirectory(string libDir)</td></tr>
+<tr><td>SetProjectDirectory(string projectDir)</td></tr>
+<tr><td>SetRegistryFromFile(string filePath)</td></tr>
+<tr><td>SetRegistryInt(string keyName, int val)</td></tr>
+<tr><td>SetRegistryString(string keyName, string val)</td></tr>
+<tr><td>SetSchematicEnvironment(int val)</td></tr>
+<tr><td>SetTempDirectory(string tempDir)</td></tr>
+<tr><td>ShowDockingWindow(string windowName, long show)</td></tr>
+<tr><td>Sleep(long milliSeconds)</td></tr>
+<tr><td>StopSimulations(long clean) -> string</td></tr>
+<tr><td>SubmitJob(string settingsPath, string projectPath, [string design /*optional*/], [string setup /*optional*/]) -> Structured Array</td></tr>
+<tr><td>TileWindows(int tilingFlag)</td></tr>
+<tr><td>WaitForSimulationsToBeDone([int timeoutMs /*optional*/]) -> bool</td></tr>
+</table><h2 style="color:GoldenRod";>oProject(64)</h2><table class="fixed"><tr><td>AddDataset(Structured Array args)</td></tr>
+<tr><td>AddMaterial(Structured Array argMatData)</td></tr>
+<tr><td>AnalyzeAll([bool isBlocking /*optional*/])</td></tr>
+<tr><td>ChangeProperty(Structured Array args)</td></tr>
+<tr><td>ClearMessages()</td></tr>
+<tr><td>CloneMaterial(string name, string newName) -> bool</td></tr>
+<tr><td>Close()</td></tr>
+<tr><td>CopyDesign(string name)</td></tr>
+<tr><td>CutDesign(string name)</td></tr>
+<tr><td>DeleteDataset(string datasetName)</td></tr>
+<tr><td>DeleteDesign(string name)</td></tr>
+<tr><td>DeleteToolObject(string name)</td></tr>
+<tr><td>EditDataset(Structured Array argDataset1, Structured Array argDataset2)</td></tr>
+<tr><td>EditMaterial(Structured Array argMatData1, Structured Array argMatData2)</td></tr>
+<tr><td>ExportDataset(string datasetName, string datasetFileFullPath)</td></tr>
+<tr><td>ExportMaterial(Structured Array __MIDL__ISProject0000, string libLoc)</td></tr>
+<tr><td>GetActiveDesign() -> IDispatch</td></tr>
+<tr><td>GetArrayVariables() -> Structured Array</td></tr>
+<tr><td>GetChildNames([string type /*optional*/]) -> Structured Array</td></tr>
+<tr><td>GetChildObject(string path) -> Structured Array</td></tr>
+<tr><td>GetChildTypes() -> Structured Array</td></tr>
+<tr><td>GetConfigurableData(string type) -> string</td></tr>
+<tr><td>GetDefinitionManager() -> IDispatch</td></tr>
+<tr><td>GetDependentFiles() -> Structured Array</td></tr>
+<tr><td>GetDesign(string designName) -> IDispatch</td></tr>
+<tr><td>GetDesigns() -> IDispatch</td></tr>
+<tr><td>GetEDBHandle() -> string</td></tr>
+<tr><td>GetLegacyName() -> string</td></tr>
+<tr><td>GetName() -> string</td></tr>
+<tr><td>GetObjPath() -> string</td></tr>
+<tr><td>GetPath() -> string</td></tr>
+<tr><td>GetPropEvaluatedValue([string path /*optional*/]) -> Structured Array</td></tr>
+<tr><td>GetPropNames([bool bIncludeReadOnly /*optional*/]) -> Structured Array</td></tr>
+<tr><td>GetPropSIValue([string path /*optional*/]) -> Structured Array</td></tr>
+<tr><td>GetPropValue([string path /*optional*/]) -> Structured Array</td></tr>
+<tr><td>GetProperties(string tabArg, string serverArg) -> Structured Array</td></tr>
+<tr><td>GetPropertyValue(string tabArg, string serverArg, string propArg) -> string</td></tr>
+<tr><td>GetTopDesignList() -> Structured Array</td></tr>
+<tr><td>GetVariableValue(string varArg) -> string</td></tr>
+<tr><td>GetVariables() -> Structured Array</td></tr>
+<tr><td>ImportDataset(string datasetFileFullPath, [string optionalDatasetName /*optional*/])</td></tr>
+<tr><td>InsertDesign(string type, string name, string stationeryPath, string instanceName) -> IDispatch</td></tr>
+<tr><td>InsertDesignWithWorkflow(string type, string workflowName, string specName, string fileName, string libLoc, string stationeryPath) -> IDispatch</td></tr>
+<tr><td>InsertToolObject(string type, string name)</td></tr>
+<tr><td>Paste()</td></tr>
+<tr><td>PasteDesignBlock(string data)</td></tr>
+<tr><td>Redo()</td></tr>
+<tr><td>RemoveAllUnusedDefinitions()</td></tr>
+<tr><td>RemoveMaterial(string matName, long localMat, string libName, string libLoc)</td></tr>
+<tr><td>RemoveUnusedDefinitions(Structured Array argMatData)</td></tr>
+<tr><td>Rename(string pathName, long doOverwrite)</td></tr>
+<tr><td>RunToolkit(string libraryType, string toolkitName, Structured Array toolkitArg)</td></tr>
+<tr><td>Save()</td></tr>
+<tr><td>SaveAs(string pathName, long doOverwrite, [string externalFileAction /*optional*/], [Structured Array externalFileActionOverrides /*optional*/])</td></tr>
+<tr><td>SaveAsStandAloneProject(string pathName)</td></tr>
+<tr><td>SaveProjectArchive(string archiveFilePath, long includeExternalFiles, long includeResultsFiles, Structured Array additionalFiles, string archiveNotes)</td></tr>
+<tr><td>SetActiveDefinitionEditor(string editorName, string definitionName) -> IDispatch</td></tr>
+<tr><td>SetActiveDesign(string designName) -> IDispatch</td></tr>
+<tr><td>SetPropValue(string path, Structured Array data) -> bool</td></tr>
+<tr><td>SetPropertyValue(string tabArg, string serverArg, string propArg, string valueArg)</td></tr>
+<tr><td>SetVariableValue(string varArg, string valueArg)</td></tr>
+<tr><td>SimulateAll()</td></tr>
+<tr><td>Undo()</td></tr>
+<tr><td>UpdateDefinitions()</td></tr>
+</table><h2 style="color:GoldenRod";>oDefinitionManager(58)</h2><table class="fixed"><tr><td>AddComponent(Structured Array argMatData) -> string</td></tr>
+<tr><td>AddDataset(Structured Array args) -> string</td></tr>
+<tr><td>AddDefinitionFromBlock(string defBlock, string defFolderName, [string newTimeStamp /*optional*/], [long replaceExisting /*optional*/]) -> Structured Array</td></tr>
+<tr><td>AddDefinitionFromLibFile(string filePath, string defname, string defFolderName, [string newTimeStamp /*optional*/], [long replaceExisting /*optional*/]) -> Structured Array</td></tr>
+<tr><td>AddFootprint(Structured Array argMatData) -> string</td></tr>
+<tr><td>AddMaterial(Structured Array argMatData) -> string</td></tr>
+<tr><td>AddPadstack(Structured Array argMatData) -> string</td></tr>
+<tr><td>AddScript(Structured Array argScriptData) -> string</td></tr>
+<tr><td>AddSurfaceMaterial(Structured Array argMatData) -> string</td></tr>
+<tr><td>AddSymbol(Structured Array argMatData) -> string</td></tr>
+<tr><td>AreMaterialPropertiesEqual(Structured Array materialData, string targetMaterialName) -> bool</td></tr>
+<tr><td>AreSurfaceMaterialPropertiesEqual(Structured Array materialData, string targetSurfaceMaterialName) -> bool</td></tr>
+<tr><td>ChangeProperty(Structured Array args)</td></tr>
+<tr><td>CloneMaterial(string argMatName, string argNewMatName) -> bool</td></tr>
+<tr><td>ComputeCoreLossCoefficients(string argChoice, long double argMassDensity, Structured Array argMatData) -> Structured Array</td></tr>
+<tr><td>CreateComponentData(Structured Array argCompData)</td></tr>
+<tr><td>DeleteDataset(string datasetName)</td></tr>
+<tr><td>DoesMaterialExist(string materialName) -> long</td></tr>
+<tr><td>DoesSurfaceMaterialExist(string materialName) -> long</td></tr>
+<tr><td>EditComponent(Structured Array argMatData1, Structured Array argMatData2)</td></tr>
+<tr><td>EditDataset(Structured Array argDataset1, Structured Array argDataset2) -> string</td></tr>
+<tr><td>EditFootprint(Structured Array argMatData1, Structured Array argMatData2)</td></tr>
+<tr><td>EditMaterial(Structured Array argMatData1, Structured Array argMatData2)</td></tr>
+<tr><td>EditPadstack(Structured Array argMatData1, Structured Array argMatData2)</td></tr>
+<tr><td>EditScript(Structured Array argScriptData1, Structured Array argScriptData2)</td></tr>
+<tr><td>EditSurfaceMaterial(Structured Array argMatData1, Structured Array argMatData2)</td></tr>
+<tr><td>EditSymbol(Structured Array argMatData1, Structured Array argMatData2)</td></tr>
+<tr><td>ExportComponent(Structured Array __MIDL__ISDefinitionMgr0000, string libLoc)</td></tr>
+<tr><td>ExportDataset(string datasetName, string datasetFullFilePath)</td></tr>
+<tr><td>ExportFootprint(Structured Array __MIDL__ISDefinitionMgr0003, string libLoc)</td></tr>
+<tr><td>ExportMaterial(Structured Array __MIDL__ISDefinitionMgr0001, string libLoc)</td></tr>
+<tr><td>ExportPadstack(Structured Array __MIDL__ISDefinitionMgr0004, string libLoc)</td></tr>
+<tr><td>ExportScript(Structured Array __MIDL__ISDefinitionMgr0005, string libLoc)</td></tr>
+<tr><td>ExportSurfaceMaterial(Structured Array __MIDL__ISDefinitionMgr20000, string libLoc)</td></tr>
+<tr><td>ExportSymbol(Structured Array __MIDL__ISDefinitionMgr0002, string libLoc)</td></tr>
+<tr><td>GetExtendedDefinitionObject(string defname, string defFolderName) -> Structured Array</td></tr>
+<tr><td>GetInUseProjectMaterialNames() -> Structured Array</td></tr>
+<tr><td>GetManager(string managerType) -> IDispatch</td></tr>
+<tr><td>GetMaterialLibraryNames() -> Structured Array</td></tr>
+<tr><td>GetMaterialNamesInConfiguredLibraries(string designInstanceName) -> Structured Array</td></tr>
+<tr><td>GetMaterialsInLibraryByPhysicsTypeOfDesign(string designInstanceName, string matLibName) -> Structured Array</td></tr>
+<tr><td>GetProjectMaterialNames() -> Structured Array</td></tr>
+<tr><td>GetProperties(string tabArg, string serverArg) -> Structured Array</td></tr>
+<tr><td>GetPropertyValue(string tabArg, string serverArg, string propArg) -> string</td></tr>
+<tr><td>ImportDataset(string datasetFileFullPath, [string optionalDatasetName /*optional*/])</td></tr>
+<tr><td>ModifyLibraries(string desName, Structured Array argLibData1, Structured Array argLibData2, Structured Array argLibData3)</td></tr>
+<tr><td>RemoveComponent(string matName, long localMat, string libName, string libLoc)</td></tr>
+<tr><td>RemoveFootprint(string matName, long localMat, string libName, string libLoc)</td></tr>
+<tr><td>RemoveMaterial(string matName, long localMat, string libName, string libLoc)</td></tr>
+<tr><td>RemovePadstack(string matName, long localMat, string libName, string libLoc)</td></tr>
+<tr><td>RemoveScript(string scriptName, long localScript, string libName, string libLoc)</td></tr>
+<tr><td>RemoveSurfaceMaterial(string matName, long localMat, string libName, string libLoc)</td></tr>
+<tr><td>RemoveSymbol(string matName, long localMat, string libName, string libLoc)</td></tr>
+<tr><td>SetPropertyValue(string tabArg, string serverArg, string propArg, string valueArg)</td></tr>
+<tr><td>UpdateDefFromBlock(string targetDefName, string defBlock, string defFolderName, [string newTimeStamp /*optional*/]) -> Structured Array</td></tr>
+<tr><td>UpdateDefFromBlockEx(string targetDefName, string desiredDefName, string defBlock, string defFolderName, [string newTimeStamp /*optional*/], [bool continueIfConflict /*optional*/]) -> Structured Array</td></tr>
+<tr><td>UpdateDefinition(Structured Array args)</td></tr>
+<tr><td>UpdateDefinitionFromLib(Structured Array args)</td></tr>
+</table><h2 style="color:GoldenRod";>oDesign(64)</h2><table class="fixed"><tr><td>AddDataset(Structured Array args) -> string</td></tr>
+<tr><td>Analyze(string simulationName, [bool isBlocking /*optional*/])</td></tr>
+<tr><td>AnalyzeAll([bool isBlocking /*optional*/])</td></tr>
+<tr><td>AnalyzeAllNominal([bool isBlocking /*optional*/])</td></tr>
+<tr><td>ChangeProperty(Structured Array args)</td></tr>
+<tr><td>ClearLinkedData()</td></tr>
+<tr><td>ConstructVariationString(Structured Array variableNamesArg, Structured Array valueStringsArg) -> string</td></tr>
+<tr><td>DeleteDataset(string datasetName)</td></tr>
+<tr><td>DeleteFullVariation(Structured Array variationKeys, long deleteLinkedData)</td></tr>
+<tr><td>EditDataset(Structured Array argDataset1, Structured Array argDataset2) -> string</td></tr>
+<tr><td>EditNotes(string text)</td></tr>
+<tr><td>ExportDataset(string datasetName, string datasetFileFullPath)</td></tr>
+<tr><td>ExportECXML(string ecxmlFile)</td></tr>
+<tr><td>ExportLPVROM(string paramSetup, string solveSetup, string exportDirectory)</td></tr>
+<tr><td>ExportLTIROM(Structured Array exportdata)</td></tr>
+<tr><td>ExportProfile(string setupName, string variationKey, string filePath, [long overwriteIfExists /*optional*/])</td></tr>
+<tr><td>ExportROM(Structured Array exportdata)</td></tr>
+<tr><td>GenerateMesh(Structured Array simulationNames) -> long</td></tr>
+<tr><td>GetArrayVariables() -> Structured Array</td></tr>
+<tr><td>GetChildNames([string type /*optional*/]) -> Structured Array</td></tr>
+<tr><td>GetChildObject(string path) -> Structured Array</td></tr>
+<tr><td>GetChildTypes() -> Structured Array</td></tr>
+<tr><td>GetData(string linkType, string config, [string msg /*optional*/]) -> string</td></tr>
+<tr><td>GetDesignType() -> string</td></tr>
+<tr><td>GetManagedFilesPath() -> string</td></tr>
+<tr><td>GetModule(string moduleName) -> IDispatch</td></tr>
+<tr><td>GetName() -> string</td></tr>
+<tr><td>GetNominalVariation([long includePPV /*optional*/]) -> string</td></tr>
+<tr><td>GetNoteText() -> string</td></tr>
+<tr><td>GetObjPath() -> string</td></tr>
+<tr><td>GetPostProcessingVariables() -> Structured Array</td></tr>
+<tr><td>GetProblemType() -> string</td></tr>
+<tr><td>GetPropEvaluatedValue([string path /*optional*/]) -> Structured Array</td></tr>
+<tr><td>GetPropNames([bool bIncludeReadOnly /*optional*/]) -> Structured Array</td></tr>
+<tr><td>GetPropSIValue([string path /*optional*/]) -> Structured Array</td></tr>
+<tr><td>GetPropValue([string path /*optional*/]) -> Structured Array</td></tr>
+<tr><td>GetProperties(string tabArg, string serverArg) -> Structured Array</td></tr>
+<tr><td>GetPropertyValue(string tabArg, string serverArg, string propArg) -> string</td></tr>
+<tr><td>GetSolutionType() -> string</td></tr>
+<tr><td>GetVariableValue(string varArg) -> string</td></tr>
+<tr><td>GetVariables() -> Structured Array</td></tr>
+<tr><td>GetVariationVariableValue(string variationArg, string variableNameArg) -> long double</td></tr>
+<tr><td>ImportDataset(string datasetFileFullPath, [string optionalDatasetName /*optional*/])</td></tr>
+<tr><td>ImportECXML(string ecxmlFile)</td></tr>
+<tr><td>ImportIDF(Structured Array settings)</td></tr>
+<tr><td>ImportIDX(Structured Array settings)</td></tr>
+<tr><td>ImportJEDEC(string jedecFile, string extension)</td></tr>
+<tr><td>ImportSolverFiles(string simulationName, string importDir)</td></tr>
+<tr><td>InitializeSystemCoupling(string setupName) -> long</td></tr>
+<tr><td>Redo()</td></tr>
+<tr><td>RenameDesignInstance(string oldName, string newName)</td></tr>
+<tr><td>RunToolkit(string libraryType, string toolkitName, Structured Array toolkitArg)</td></tr>
+<tr><td>SetActiveEditor(string editorName) -> IDispatch</td></tr>
+<tr><td>SetDesignSettings(Structured Array variationKeys, [Structured Array modelSettings /*optional*/])</td></tr>
+<tr><td>SetPropValue(string path, Structured Array data) -> bool</td></tr>
+<tr><td>SetPropertyValue(string tabArg, string serverArg, string propArg, string valueArg)</td></tr>
+<tr><td>SetSolutionType(Structured Array option)</td></tr>
+<tr><td>SetVariableValue(string varArg, string valueArg)</td></tr>
+<tr><td>SimulateLink(string config, [IDispatch cb /*optional*/], [string linkType /*optional*/], [string msg /*optional*/]) -> int</td></tr>
+<tr><td>StopSimLink(int simID, long stopNow)</td></tr>
+<tr><td>Undo()</td></tr>
+<tr><td>ValidateDesign([string fileLoc /*optional*/], [long rewrite /*optional*/]) -> long</td></tr>
+<tr><td>ValidateLink(string linkType, string dataToValidate, string msg) -> long</td></tr>
+<tr><td>WriteSolverFiles(string simulationName)</td></tr>
+</table><h2 style="color:GoldenRod";>oEditor(231)</h2><table class="fixed"><tr><td>AddViewOrientation(string orientationName, long isGlobalOrientation, Structured Array argOrientationParams, [Structured Array argProjectionParams /*optional*/])</td></tr>
+<tr><td>AlignFaces(Structured Array argFaceList)</td></tr>
+<tr><td>AssignMaterial(Structured Array argSelections, Structured Array argMaterialName)</td></tr>
+<tr><td>AssignSurfaceMaterial(Structured Array argSelections, Structured Array argMaterialName)</td></tr>
+<tr><td>BreakUDMConnection(Structured Array argData)</td></tr>
+<tr><td>Chamfer(Structured Array argSelections, Structured Array argParamters)</td></tr>
+<tr><td>ChangeProperty(Structured Array args)</td></tr>
+<tr><td>CheckObject(string objectName) -> long</td></tr>
+<tr><td>CleanUpModel([long lenthHistory /*optional*/])</td></tr>
+<tr><td>CloseAllWindows()</td></tr>
+<tr><td>Connect(Structured Array argSelections)</td></tr>
+<tr><td>Copy(Structured Array argParameters)</td></tr>
+<tr><td>CoverLines(Structured Array argSelections)</td></tr>
+<tr><td>CoverSurfaces(Structured Array argSelections)</td></tr>
+<tr><td>Create3DComponent(Structured Array argGeometryData, Structured Array argDesignData, string argFileName, [Structured Array argImageFile /*optional*/])</td></tr>
+<tr><td>CreateBondwire(Structured Array argParamters, Structured Array argAttributes) -> string</td></tr>
+<tr><td>CreateBox(Structured Array argParamters, Structured Array argAttributes) -> string</td></tr>
+<tr><td>CreateCircle(Structured Array argParamters, Structured Array argAttributes) -> string</td></tr>
+<tr><td>CreateComponent(Structured Array argGeometryData, Structured Array argDesignData, string argFileName)</td></tr>
+<tr><td>CreateCone(Structured Array argParamters, Structured Array argAttributes) -> string</td></tr>
+<tr><td>CreateCutplane(Structured Array argParamters, Structured Array argAttributes)</td></tr>
+<tr><td>CreateCylinder(Structured Array argParamters, Structured Array argAttributes) -> string</td></tr>
+<tr><td>CreateEllipse(Structured Array argParameters, Structured Array argAttributes) -> string</td></tr>
+<tr><td>CreateEntityList(Structured Array argParamters, Structured Array argAttributes) -> string</td></tr>
+<tr><td>CreateEquationCurve(Structured Array argParameters, Structured Array argAttributes) -> string</td></tr>
+<tr><td>CreateEquationSurface(Structured Array argParameters, Structured Array argAttributes) -> string</td></tr>
+<tr><td>CreateFaceCS(Structured Array argParameters, Structured Array argAttributes)</td></tr>
+<tr><td>CreateGroup(Structured Array argParamters) -> string</td></tr>
+<tr><td>CreateHelix(Structured Array argSelections, Structured Array argParameters)</td></tr>
+<tr><td>CreateObjectCS(Structured Array argParameters, Structured Array argAttributes)</td></tr>
+<tr><td>CreateObjectFromEdges(Structured Array argSelections, Structured Array argParamters, [Structured Array argCreateGroup /*optional*/]) -> Structured Array</td></tr>
+<tr><td>CreateObjectFromFace(Structured Array argSelections, Structured Array argParamters, Structured Array argAttributes) -> string</td></tr>
+<tr><td>CreateObjectFromFaces(Structured Array argSelections, Structured Array argParamters, [Structured Array argCreateGroup /*optional*/]) -> Structured Array</td></tr>
+<tr><td>CreatePoint(Structured Array argParamters, Structured Array argAttributes)</td></tr>
+<tr><td>CreatePolyline(Structured Array argParamters, Structured Array argAttributes) -> string</td></tr>
+<tr><td>CreateRectangle(Structured Array argParameters, Structured Array argAttributes) -> string</td></tr>
+<tr><td>CreateRegion(Structured Array argParamters, Structured Array argAttributes) -> string</td></tr>
+<tr><td>CreateRegularPolygon(Structured Array argParamters, Structured Array argAttributes) -> string</td></tr>
+<tr><td>CreateRegularPolyhedron(Structured Array argParamters, Structured Array argAttributes) -> string</td></tr>
+<tr><td>CreateRelativeCS(Structured Array argParameters, Structured Array argAttributes)</td></tr>
+<tr><td>CreateSphere(Structured Array argParamters, Structured Array argAttributes) -> string</td></tr>
+<tr><td>CreateSpiral(Structured Array argSelections, Structured Array argParameters)</td></tr>
+<tr><td>CreateSubRegion(Structured Array argParamters, Structured Array argAttributes) -> string</td></tr>
+<tr><td>CreateTorus(Structured Array argParamters, Structured Array argAttributes) -> string</td></tr>
+<tr><td>CreateUserDefinedModel(Structured Array argParameters) -> string</td></tr>
+<tr><td>CreateUserDefinedPart(Structured Array argParameters, Structured Array argAttributes) -> string</td></tr>
+<tr><td>CustomGeometryOperation(Structured Array argSelections, Structured Array argParameters)</td></tr>
+<tr><td>Defeature(Structured Array argSelections, Structured Array argParamters)</td></tr>
+<tr><td>DeletPolylinePoint(Structured Array argParameters)</td></tr>
+<tr><td>Delete(Structured Array argParameters)</td></tr>
+<tr><td>DeleteEmptyGroups(Structured Array argGroupList)</td></tr>
+<tr><td>DeleteLastOperation(Structured Array argSelections) -> Structured Array</td></tr>
+<tr><td>DeleteOperation(Structured Array argParameters) -> Structured Array</td></tr>
+<tr><td>DeletePolylinePoint(Structured Array argParameters)</td></tr>
+<tr><td>DetachEdge(Structured Array argSelections, Structured Array argParamters, Structured Array argAttributes) -> string</td></tr>
+<tr><td>DetachEdges(Structured Array argSelections, Structured Array argParamters) -> Structured Array</td></tr>
+<tr><td>DetachFace(Structured Array argSelections, Structured Array argParamters, Structured Array argAttributes) -> string</td></tr>
+<tr><td>DetachFaces(Structured Array argSelections, Structured Array argParamters) -> Structured Array</td></tr>
+<tr><td>DoModalValidationForTest()</td></tr>
+<tr><td>DoesGeometryMatchForTest(string filePath, long bAllowGeomIdChange) -> long</td></tr>
+<tr><td>DuplicateAlongLine(Structured Array argSelections, Structured Array argParamters, Structured Array argOptions, [Structured Array argCreateGroup /*optional*/]) -> Structured Array</td></tr>
+<tr><td>DuplicateAroundAxis(Structured Array argSelections, Structured Array argParamters, Structured Array argOptions, [Structured Array argCreateGroup /*optional*/]) -> Structured Array</td></tr>
+<tr><td>DuplicateMirror(Structured Array argSelections, Structured Array argParamters, Structured Array argOptions, [Structured Array argCreateGroup /*optional*/]) -> Structured Array</td></tr>
+<tr><td>Edit3DComponent(string compName, Structured Array argData)</td></tr>
+<tr><td>Edit3DComponentDefinition(Structured Array argData) -> Structured Array</td></tr>
+<tr><td>EditEntityList(Structured Array argSelections, Structured Array argParameters)</td></tr>
+<tr><td>EditFaceCS(Structured Array argParameters, Structured Array argAttributes)</td></tr>
+<tr><td>EditNativeComponentDefinition(Structured Array argData)</td></tr>
+<tr><td>EditObjectCS(Structured Array argParameters, Structured Array argAttributes)</td></tr>
+<tr><td>EditPolyline(Structured Array argSelections, Structured Array argParamters)</td></tr>
+<tr><td>EditRelativeCS(Structured Array argParameters, Structured Array argAttributes)</td></tr>
+<tr><td>Export(Structured Array argParameters)</td></tr>
+<tr><td>ExportGDSII(Structured Array argParameters)</td></tr>
+<tr><td>ExportModelImageToFile(string sFilename, long width, long height, Structured Array saveImageParams)</td></tr>
+<tr><td>ExportModelMeshToFile(string sFilename, Structured Array selectedParts)</td></tr>
+<tr><td>Fillet(Structured Array argSelections, Structured Array argParamters)</td></tr>
+<tr><td>FitAll()</td></tr>
+<tr><td>FlattenGroup(Structured Array argGroupList)</td></tr>
+<tr><td>GenerateAllUserDefinedModels() -> Structured Array</td></tr>
+<tr><td>GenerateFacetDataForModel(string variation, string tempDirectory)</td></tr>
+<tr><td>GenerateHistory(Structured Array argSelections)</td></tr>
+<tr><td>GenerateUserDefinedModel(Structured Array argSelections) -> Structured Array</td></tr>
+<tr><td>Get3DComponentDefinitionNames() -> Structured Array</td></tr>
+<tr><td>Get3DComponentInstanceNames(string definitionName) -> Structured Array</td></tr>
+<tr><td>Get3DComponentMaterialNames(string compInstanceName) -> Structured Array</td></tr>
+<tr><td>Get3DComponentMaterialProperties(string completeMaterialName) -> Structured Array</td></tr>
+<tr><td>Get3DComponentParameters(string compName) -> Structured Array</td></tr>
+<tr><td>Get3DComponentPartNames(string instanceName) -> Structured Array</td></tr>
+<tr><td>GetActiveCoordinateSystem() -> string</td></tr>
+<tr><td>GetActiveCoordinateSystemTransform() -> Structured Array</td></tr>
+<tr><td>GetAllObjectInfo(Structured Array names) -> string</td></tr>
+<tr><td>GetBodyMassPropertiesCentroid(string objectName) -> Structured Array</td></tr>
+<tr><td>GetBodyMassPropertiesPrincipalAxes(string objectName) -> Structured Array</td></tr>
+<tr><td>GetBodyMassPropertiesPrincipalMoments(string objectName) -> Structured Array</td></tr>
+<tr><td>GetBodyNamesByPosition(Structured Array thePos) -> Structured Array</td></tr>
+<tr><td>GetChildNames([string type /*optional*/]) -> Structured Array</td></tr>
+<tr><td>GetChildObject(string path) -> Structured Array</td></tr>
+<tr><td>GetChildTypes() -> Structured Array</td></tr>
+<tr><td>GetCoordinateSystems() -> Structured Array</td></tr>
+<tr><td>GetEdgeByPosition(Structured Array argParameters) -> long</td></tr>
+<tr><td>GetEdgeIDFromNameForFirstOperation(string thePartNameArg, string theEdgeNameArg) -> long</td></tr>
+<tr><td>GetEdgeIDsFromFace(long faceID) -> Structured Array</td></tr>
+<tr><td>GetEdgeIDsFromObject(string objectName) -> Structured Array</td></tr>
+<tr><td>GetEdgeLength(long faceID) -> long double</td></tr>
+<tr><td>GetEdgePositionAtNormalizedParameter(long edgeID, long double fParam) -> Structured Array</td></tr>
+<tr><td>GetEntityListIDByName(string listName) -> long</td></tr>
+<tr><td>GetExportedModelMesh(Structured Array selectedParts, string format, string exportType, long single) -> Structured Array</td></tr>
+<tr><td>GetFaceArea(long faceID) -> long double</td></tr>
+<tr><td>GetFaceByPosition(Structured Array argParameters) -> long</td></tr>
+<tr><td>GetFaceCenter(long faceID) -> Structured Array</td></tr>
+<tr><td>GetFaceIDFromNameForFirstOperation(string thePartNameArg, string theFaceNameArg) -> long</td></tr>
+<tr><td>GetFaceIDs(string objectName) -> Structured Array</td></tr>
+<tr><td>GetFaceIDsOfSheet(string sheetName) -> Structured Array</td></tr>
+<tr><td>GetFullGeometry(string variation, Structured Array drawings)</td></tr>
+<tr><td>GetGeometryModelerMode() -> string</td></tr>
+<tr><td>GetGroupSubmodelNames(string groupName) -> IDispatch</td></tr>
+<tr><td>GetMatchedObjectName(string nameArg) -> Structured Array</td></tr>
+<tr><td>GetModelBoundingBox() -> Structured Array</td></tr>
+<tr><td>GetModelDrawAttributes(string variation, Structured Array modelAttributes)</td></tr>
+<tr><td>GetModelUnits() -> string</td></tr>
+<tr><td>GetName() -> string</td></tr>
+<tr><td>GetNumObjects() -> long</td></tr>
+<tr><td>GetObjPath() -> string</td></tr>
+<tr><td>GetObjectAttributeTypes() -> Structured Array</td></tr>
+<tr><td>GetObjectAttributeValues(string objectName, string type, Structured Array nameFilters) -> Structured Array</td></tr>
+<tr><td>GetObjectBoundingBox(string partName) -> Structured Array</td></tr>
+<tr><td>GetObjectIDByName(string objectName) -> long</td></tr>
+<tr><td>GetObjectName(long indexArg) -> string</td></tr>
+<tr><td>GetObjectNameByEdgeID(long nEdgeID) -> string</td></tr>
+<tr><td>GetObjectNameByFaceID(long nFaceID) -> string</td></tr>
+<tr><td>GetObjectNameByID(long nObjID) -> string</td></tr>
+<tr><td>GetObjectNameByVertexID(long nVertexID) -> string</td></tr>
+<tr><td>GetObjectShapeType(string objName, string csName) -> string</td></tr>
+<tr><td>GetObjectSurfaceArea(string objectName) -> long double</td></tr>
+<tr><td>GetObjectVolume(string objectName) -> long double</td></tr>
+<tr><td>GetObjectsByMaterial(string materialName) -> Structured Array</td></tr>
+<tr><td>GetObjectsInGroup(string groupName) -> IDispatch</td></tr>
+<tr><td>GetOperationIndex(string partName, string operName, long sameOperIndex) -> long</td></tr>
+<tr><td>GetPartsForUserDefinedModel(string udmName) -> Structured Array</td></tr>
+<tr><td>GetPoints() -> IDispatch</td></tr>
+<tr><td>GetPropEvaluatedValue([string path /*optional*/]) -> Structured Array</td></tr>
+<tr><td>GetPropNames([bool bIncludeReadOnly /*optional*/]) -> Structured Array</td></tr>
+<tr><td>GetPropSIValue([string path /*optional*/]) -> Structured Array</td></tr>
+<tr><td>GetPropValue([string path /*optional*/]) -> Structured Array</td></tr>
+<tr><td>GetProperties(string tabArg, string serverArg) -> Structured Array</td></tr>
+<tr><td>GetPropertyValue(string tabArg, string serverArg, string propArg) -> string</td></tr>
+<tr><td>GetRelativeCoordinateSystems() -> Structured Array</td></tr>
+<tr><td>GetSelections() -> Structured Array</td></tr>
+<tr><td>GetSubGroupsInGroup(string groupName) -> IDispatch</td></tr>
+<tr><td>GetUserPosition(string prompt) -> Structured Array</td></tr>
+<tr><td>GetVertexIDFromNameForFirstOperation(string thePartNameArg, string theVertexNameArg) -> long</td></tr>
+<tr><td>GetVertexIDsFromEdge(long edgeID) -> Structured Array</td></tr>
+<tr><td>GetVertexIDsFromFace(long faceID) -> Structured Array</td></tr>
+<tr><td>GetVertexIDsFromObject(string objectName) -> Structured Array</td></tr>
+<tr><td>GetVertexPosition(long vertexID) -> Structured Array</td></tr>
+<tr><td>GetWireBodyNames() -> Structured Array</td></tr>
+<tr><td>HealObject(Structured Array argSelections, Structured Array argParameters)</td></tr>
+<tr><td>Import(Structured Array argParameters)</td></tr>
+<tr><td>ImportDXF(Structured Array argParameters)</td></tr>
+<tr><td>ImportFromClipboard() -> Structured Array</td></tr>
+<tr><td>ImportGDSII(Structured Array argParameters)</td></tr>
+<tr><td>Imprint(Structured Array argSelections, Structured Array argParamters)</td></tr>
+<tr><td>ImprintProjection(Structured Array argSelections, Structured Array argParamters)</td></tr>
+<tr><td>Insert3DComponent(Structured Array argData) -> string</td></tr>
+<tr><td>InsertComponent(Structured Array argData)</td></tr>
+<tr><td>InsertNativeComponent(Structured Array argData) -> string</td></tr>
+<tr><td>InsertPolylineSegment(Structured Array argParameters)</td></tr>
+<tr><td>Intersect(Structured Array argSelections, Structured Array argParamters)</td></tr>
+<tr><td>Make3DComponentIndenpendent(Structured Array argComponentList)</td></tr>
+<tr><td>Mirror(Structured Array argSelections, Structured Array argParameters)</td></tr>
+<tr><td>Move(Structured Array argSelections, Structured Array argParameters)</td></tr>
+<tr><td>MoveCSToEnd(Structured Array argSelections)</td></tr>
+<tr><td>MoveEdges(Structured Array argSelections, Structured Array argParamters)</td></tr>
+<tr><td>MoveEntityToGroup(Structured Array argEntityIDList, Structured Array argParentGroupName)</td></tr>
+<tr><td>MoveFaces(Structured Array argSelections, Structured Array argParamters)</td></tr>
+<tr><td>ObjectExists(string nameArg) -> long</td></tr>
+<tr><td>OffsetFaces(Structured Array argSelections, Structured Array argParamters)</td></tr>
+<tr><td>OpenExternalEditor(Structured Array argData)</td></tr>
+<tr><td>PageSetup(Structured Array pageSetupData)</td></tr>
+<tr><td>Paste() -> Structured Array</td></tr>
+<tr><td>PerformExplicitSubtractions(Structured Array argSelections)</td></tr>
+<tr><td>PrepareModel(string data)</td></tr>
+<tr><td>PrepareSubmodel(string data, string submodelFileName, string preparedsubmodelFileName, [string encrUsePassword /*optional*/], [string encrEditPassword /*optional*/])</td></tr>
+<tr><td>ProjectSheet(Structured Array argSelections, Structured Array argParamters)</td></tr>
+<tr><td>ProjectUDPParametersToValidPlane(Structured Array argParameters, Structured Array theParam) -> long</td></tr>
+<tr><td>ProjectUDPParametersToValidPlane2(Structured Array argParameters, Structured Array theParam) -> long</td></tr>
+<tr><td>PurgeHistory(Structured Array argSelections)</td></tr>
+<tr><td>ReassignSubregion(Structured Array argSelections, Structured Array argParameters, Structured Array argAttributes) -> long</td></tr>
+<tr><td>RefreshAllUserDefinedModelFrom() -> Structured Array</td></tr>
+<tr><td>RefreshUserDefinedModelFrom(Structured Array argSelections) -> Structured Array</td></tr>
+<tr><td>RefreshUserDefinedModelTo(Structured Array argSelections) -> Structured Array</td></tr>
+<tr><td>RemoveBadEdges(Structured Array argEdgeList)</td></tr>
+<tr><td>RemoveBadFaces(Structured Array argFaceList)</td></tr>
+<tr><td>RemoveBadVertices(Structured Array argVertexList)</td></tr>
+<tr><td>RemoveObjectAttributeValues(string objectName, string type, Structured Array keysRemove) -> long</td></tr>
+<tr><td>RenamePart(Structured Array argParameters)</td></tr>
+<tr><td>ReplaceWith3DComponent(Structured Array argGeometryData, Structured Array argDesignData, Structured Array argImageFile)</td></tr>
+<tr><td>Rotate(Structured Array argSelections, Structured Array argParameters)</td></tr>
+<tr><td>Scale(Structured Array argSelections, Structured Array argParameters)</td></tr>
+<tr><td>Section(Structured Array argSelections, Structured Array argParamters) -> Structured Array</td></tr>
+<tr><td>SendParametersAndGenerateUserDefineModel(Structured Array argSelections) -> Structured Array</td></tr>
+<tr><td>SeparateBody(Structured Array argSelections, [Structured Array argCreateGroup /*optional*/]) -> Structured Array</td></tr>
+<tr><td>SetModelUnits(Structured Array argParameters)</td></tr>
+<tr><td>SetModelValidationSettings(Structured Array argParameters)</td></tr>
+<tr><td>SetObjectAttributeValues(string objectName, string type, Structured Array nameValuePairs) -> long</td></tr>
+<tr><td>SetPropValue(string path, Structured Array data) -> bool</td></tr>
+<tr><td>SetPropertyValue(string tabArg, string serverArg, string propArg, string valueArg)</td></tr>
+<tr><td>SetTopDownViewDirectionForActiveView(string rcsName)</td></tr>
+<tr><td>SetTopDownViewDirectionForAllViews(string rcsName)</td></tr>
+<tr><td>SetWCS(Structured Array argParameters)</td></tr>
+<tr><td>ShowWindow()</td></tr>
+<tr><td>Simplify(Structured Array argSelections, Structured Array argParamters, [Structured Array argCreateGroup /*optional*/])</td></tr>
+<tr><td>Split(Structured Array argSelections, Structured Array argParamters) -> Structured Array</td></tr>
+<tr><td>Stitch(Structured Array argSelections, Structured Array argParamters)</td></tr>
+<tr><td>Subtract(Structured Array argSelections, Structured Array argParamters)</td></tr>
+<tr><td>SweepAlongPath(Structured Array argSelections, Structured Array argParameters)</td></tr>
+<tr><td>SweepAlongVector(Structured Array argSelections, Structured Array argParameters)</td></tr>
+<tr><td>SweepAroundAxis(Structured Array argSelections, Structured Array argParameters)</td></tr>
+<tr><td>SweepFacesAlongNormal(Structured Array argSelections, Structured Array argParamters) -> Structured Array</td></tr>
+<tr><td>SweepFacesAlongNormalWithAttributes(Structured Array argSelections, Structured Array argParamters, Structured Array argAttributes) -> Structured Array</td></tr>
+<tr><td>ThickenSheet(Structured Array argSelections, Structured Array argParamters)</td></tr>
+<tr><td>UncoverFaces(Structured Array argSelections, Structured Array argParamters)</td></tr>
+<tr><td>Ungroup(Structured Array argGroupList)</td></tr>
+<tr><td>Unite(Structured Array argSelections, Structured Array argParamters)</td></tr>
+<tr><td>UpdateComponentDefinition(Structured Array argData)</td></tr>
+<tr><td>UpdatePriorityList(Structured Array argLists)</td></tr>
+<tr><td>UpgradeVersion(Structured Array argSelections)</td></tr>
+<tr><td>Validate3DComponent(string componentPath, [string password /*optional*/]) -> long</td></tr>
+<tr><td>WrapSheet(Structured Array argSelections, Structured Array argParamters)</td></tr>
+<tr><td>WriteAttributesBlockForTest(string filePath)</td></tr>
+<tr><td>WriteHistoryTreeLayoutForTest(string filePath, long bOrgByMaterial, long bOrgByAssignment, long bOrgByCompDefinition, long bDonotOrgUnderGroup, [long bShowGroup /*optional*/])</td></tr>
+</table><h2 style="color:GoldenRod";>oTool-NdExplorer(23)</h2><table class="fixed"><tr><td>Cascade(Structured Array inputDataArray) -> IDispatch</td></tr>
+<tr><td>CheckCausality(string designname, long loadedfromfile, string name, string variation, long double tolerance, long useCores, int numCores)</td></tr>
+<tr><td>Combine(Structured Array inputDataArray, long double freqTolerance) -> IDispatch</td></tr>
+<tr><td>Deembed(IDispatch totalData, IDispatch frontData, IDispatch backData) -> IDispatch</td></tr>
+<tr><td>DeembedBack(IDispatch totalData, IDispatch backData) -> IDispatch</td></tr>
+<tr><td>DeembedFront(IDispatch totalData, IDispatch frontData) -> IDispatch</td></tr>
+<tr><td>ExportFullWaveSpice(string designname, long loadedfromfile, string name, string variation, Structured Array frequencies, Structured Array data)</td></tr>
+<tr><td>ExportNMFData(string designname, long loadedfromfile, string name, string exportfile, Structured Array frequencies, Structured Array data)</td></tr>
+<tr><td>ExportNetworkData(string designname, long loadedfromfile, string name, string exportfile, string variation, Structured Array frequencies, Structured Array data)</td></tr>
+<tr><td>Extract(IDispatch inputData, Structured Array portNumberArray) -> IDispatch</td></tr>
+<tr><td>ExtractImpulseResponse(string sssfile, string outputfile, long double timestep, long double timestop, Structured Array entries)</td></tr>
+<tr><td>Get(string name) -> IDispatch</td></tr>
+<tr><td>GetAllSolutionVariations(int solutionID) -> Structured Array</td></tr>
+<tr><td>GetSolutionVariation(int solutionID, string variation) -> IDispatch</td></tr>
+<tr><td>LoadSolution(string projectPath, string designname, string solutionName) -> int</td></tr>
+<tr><td>Open(string fileName) -> IDispatch</td></tr>
+<tr><td>Rename(IDispatch inputData, Structured Array newNameArray) -> IDispatch</td></tr>
+<tr><td>Renormalize(IDispatch inputData, Structured Array newRefZ) -> IDispatch</td></tr>
+<tr><td>Reorder(IDispatch inputData, Structured Array newOrderArray) -> IDispatch</td></tr>
+<tr><td>SetExportTouchstoneOptions(string registrykey, string designname, Structured Array data)</td></tr>
+<tr><td>Smooth(IDispatch inputData, [int order /*optional*/], [long enforceCausality /*optional*/]) -> IDispatch</td></tr>
+<tr><td>Stretch(IDispatch inputData, long double factor) -> IDispatch</td></tr>
+<tr><td>Terminate(IDispatch inputData, Structured Array portNumbers, Structured Array impedances) -> IDispatch</td></tr>
+</table><h2 style="color:GoldenRod";>oTool-ImportExport(13)</h2><table class="fixed"><tr><td>ImportANF(string anfFileName)</td></tr>
+<tr><td>ImportANFV2(string anfFileName, string outputPathName, string controlFileName, string cmpFileName)</td></tr>
+<tr><td>ImportAWRMicrowaveOffice(string xmlFileName, string outputPathName, string logFileName)</td></tr>
+<tr><td>ImportAutoCAD(string dxfFileName, string outputPathName, string controlFileName)</td></tr>
+<tr><td>ImportEDB(string edbFileName)</td></tr>
+<tr><td>ImportExtracta(string extractaFileName, string outputPathName, [string controlFileName /*optional*/])</td></tr>
+<tr><td>ImportGDSII(string gdsiiFileName, string outputPathName, string controlFileName, string propertyFileName)</td></tr>
+<tr><td>ImportGerber(string gerberFileName, string outputPathName, string controlFileName)</td></tr>
+<tr><td>ImportIDF(string idfFileName, string outputPathName, string controlFileName, string libFileName)</td></tr>
+<tr><td>ImportIDFandMerge(string idfFileName, string libFileName, string controlFileName, string project, string design)</td></tr>
+<tr><td>ImportIPC(string ipcFileName, string outputPathName, string controlFileName)</td></tr>
+<tr><td>ImportODB(string odbFileName, string outputPathName, string controlFileName)</td></tr>
+<tr><td>ImportXFL(string xfLFileName, string outputPathName, string controlFileName)</td></tr>
+</table><h2 style="color:GoldenRod";>oModule-BoundarySetup(61)</h2><table class="fixed"><tr><td>AddAssignmentToBoundary(Structured Array dataArg)</td></tr>
+<tr><td>AddAssignmentToEMSurfaceLoss(Structured Array dataArg)</td></tr>
+<tr><td>AddAssignmentToEMVolumeLoss(Structured Array dataArg)</td></tr>
+<tr><td>AddAssignmentToInitialTemperature(Structured Array dataArg)</td></tr>
+<tr><td>AddAssignmentToSolarLoading(Structured Array dataArg)</td></tr>
+<tr><td>AssignAdiabaticPlateBoundary(Structured Array dataArg)</td></tr>
+<tr><td>AssignBlockBoundary(Structured Array dataArg)</td></tr>
+<tr><td>AssignBlowerBoundary(Structured Array dataArg)</td></tr>
+<tr><td>AssignConductingPlateBoundary(Structured Array dataArg)</td></tr>
+<tr><td>AssignEMLoss(Structured Array dataArg)</td></tr>
+<tr><td>AssignGrilleBoundary(Structured Array dataArg)</td></tr>
+<tr><td>AssignInitialTemperature(Structured Array dataArg)</td></tr>
+<tr><td>AssignNetworkBoundary(Structured Array dataArg)</td></tr>
+<tr><td>AssignOpeningBoundary(Structured Array dataArg)</td></tr>
+<tr><td>AssignRecircBoundary(Structured Array dataArg)</td></tr>
+<tr><td>AssignResistanceBoundary(Structured Array dataArg)</td></tr>
+<tr><td>AssignSolarLoading(Structured Array dataArg)</td></tr>
+<tr><td>AssignSourceBoundary(Structured Array dataArg)</td></tr>
+<tr><td>AssignStationaryWallBoundary(Structured Array dataArg)</td></tr>
+<tr><td>AssignSymmetryWallBoundary(Structured Array dataArg)</td></tr>
+<tr><td>DeleteAllBoundaries()</td></tr>
+<tr><td>DeleteAllInitialTemperature()</td></tr>
+<tr><td>DeleteAllSolarLoading()</td></tr>
+<tr><td>DeleteBoundaries(Structured Array namesArg)</td></tr>
+<tr><td>DeleteInitialTemperature(Structured Array dataArg)</td></tr>
+<tr><td>DeleteSolarLoading(Structured Array dataArg)</td></tr>
+<tr><td>EditAdiabaticPlateBoundary(string oldNameArg, Structured Array dataArg)</td></tr>
+<tr><td>EditBlockBoundary(string oldNameArg, Structured Array dataArg)</td></tr>
+<tr><td>EditBlowerBoundary(string oldNameArg, Structured Array dataArg)</td></tr>
+<tr><td>EditConductingPlateBoundary(string oldNameArg, Structured Array dataArg)</td></tr>
+<tr><td>EditEMLoss(string oldNameArg, Structured Array dataArg)</td></tr>
+<tr><td>EditGrilleBoundary(string oldNameArg, Structured Array dataArg)</td></tr>
+<tr><td>EditInitialTemperature(string oldNameArg, Structured Array dataArg)</td></tr>
+<tr><td>EditNetworkBoundary(string oldNameArg, Structured Array dataArg)</td></tr>
+<tr><td>EditOpeningBoundary(string oldNameArg, Structured Array dataArg)</td></tr>
+<tr><td>EditRecircBoundary(string oldNameArg, Structured Array dataArg)</td></tr>
+<tr><td>EditResistanceBoundary(string oldNameArg, Structured Array dataArg)</td></tr>
+<tr><td>EditSolarLoading(string oldNameArg, Structured Array dataArg)</td></tr>
+<tr><td>EditSourceBoundary(string oldNameArg, Structured Array dataArg)</td></tr>
+<tr><td>EditStationaryWallBoundary(string oldNameArg, Structured Array dataArg)</td></tr>
+<tr><td>EditSymmetryWallBoundary(string oldNameArg, Structured Array dataArg)</td></tr>
+<tr><td>GetBoundaryAssignment(string bndNameArg) -> Structured Array</td></tr>
+<tr><td>GetInitialTemperatureAssignment(string bndNameArg) -> Structured Array</td></tr>
+<tr><td>GetSolarLoadingAssignment(string bndNameArg) -> Structured Array</td></tr>
+<tr><td>ReassignBlowerInlet(Structured Array dataArg)</td></tr>
+<tr><td>ReassignBlowerOutlet(Structured Array dataArg)</td></tr>
+<tr><td>ReassignBoundary(Structured Array dataArg)</td></tr>
+<tr><td>ReassignEMSurfaceLoss(Structured Array dataArg)</td></tr>
+<tr><td>ReassignEMVolumeLoss(Structured Array dataArg)</td></tr>
+<tr><td>ReassignInitialTemperature(Structured Array dataArg)</td></tr>
+<tr><td>ReassignRecircExtract(Structured Array dataArg)</td></tr>
+<tr><td>ReassignRecircSupply(Structured Array dataArg)</td></tr>
+<tr><td>ReassignSolarLoading(Structured Array dataArg)</td></tr>
+<tr><td>RemoveAssignmentFromBoundary(Structured Array dataArg)</td></tr>
+<tr><td>RemoveAssignmentFromInitialTemperature(Structured Array dataArg)</td></tr>
+<tr><td>RemoveAssignmentFromSolarLoading(Structured Array dataArg)</td></tr>
+<tr><td>RenameBoundary(string oldNameArg, string newNameArg)</td></tr>
+<tr><td>RenameInitialTemperature(string oldNameArg, string newNameArg)</td></tr>
+<tr><td>RenameSolarLoading(string oldNameArg, string newNameArg)</td></tr>
+<tr><td>ToggleBlower(Structured Array dataArg)</td></tr>
+<tr><td>ToggleRecirc(Structured Array dataArg)</td></tr>
+</table><h2 style="color:GoldenRod";>oModule-AnalysisSetup(17)</h2><table class="fixed"><tr><td>AddMeshLink(Structured Array link)</td></tr>
+<tr><td>AddTwoWayCoupling(string setupName, Structured Array option)</td></tr>
+<tr><td>CopySetup(string setupName)</td></tr>
+<tr><td>DeleteSetups(Structured Array namesArg)</td></tr>
+<tr><td>DeleteTwoWayCoupling()</td></tr>
+<tr><td>EditMeshLink(Structured Array link)</td></tr>
+<tr><td>EditSetup(string oldName, Structured Array setupData)</td></tr>
+<tr><td>EditTwoWayCoupling(Structured Array option)</td></tr>
+<tr><td>GetProblemType(string setupName) -> string</td></tr>
+<tr><td>GetSetups() -> Structured Array</td></tr>
+<tr><td>InsertSetup(string type, Structured Array setupData)</td></tr>
+<tr><td>IsGravityIncluded(string setupName) -> long</td></tr>
+<tr><td>PasteSetup() -> string</td></tr>
+<tr><td>RemoveMeshLink()</td></tr>
+<tr><td>RenameSetup(string oldName, string newName)</td></tr>
+<tr><td>RevertAllToInitialCondition()</td></tr>
+<tr><td>RevertSetupToInitialCondition(string setupName)</td></tr>
+</table><h2 style="color:GoldenRod";>oModule-Optimetrics(42)</h2><table class="fixed"><tr><td>CopySetup(string theName)</td></tr>
+<tr><td>DeleteSetups(Structured Array theNames)</td></tr>
+<tr><td>DistributedAnalyzeSetup(string theName, [bool isBlocking /*optional*/])</td></tr>
+<tr><td>EditSetup(string oldName, Structured Array setupData)</td></tr>
+<tr><td>EnableSetup(string setupName, long bEnable)</td></tr>
+<tr><td>ExportDOELocalSensitivity(string setupName, Structured Array fixValues, Structured Array selectedInputs, string outputExpr, bool bScaleToMax, string filename)</td></tr>
+<tr><td>ExportDOELocalSensitivityCurve(string setupName, Structured Array fixValues, Structured Array selectedInputs, string inputExpr, int PointCount, string outputExpr, string filename)</td></tr>
+<tr><td>ExportDOEResponseCurve(string setupName, Structured Array fixValues, string var, int PointCount, string outputExpr, string filename)</td></tr>
+<tr><td>ExportDOEResponseCurveSlices(string setupName, Structured Array fixValues, string var, int PointCount, string varSlice, int sliceCount, string outputExpr, string filename)</td></tr>
+<tr><td>ExportDOEResponseSurface(string setupName, Structured Array fixValues, string varX, int xPointCount, string varY, int yPointCount, string outputExpr, string filename)</td></tr>
+<tr><td>ExportDXConfigFile(string setupName, string filename)</td></tr>
+<tr><td>ExportOptimetricsProfile(string setupName, string filename, [string profileNum /*optional*/])</td></tr>
+<tr><td>ExportOptimetricsResult(string setupName, string filename, [long useFullOutputName /*optional*/], [int nSignificantDigits /*optional*/])</td></tr>
+<tr><td>ExportParametricResults(string theName, string filename, long bOutputUnits)</td></tr>
+<tr><td>ExportParametricSetupTable(string setupName, string filename)</td></tr>
+<tr><td>ExportRespSurfaceMinMaxTable(string setupName, string filename)</td></tr>
+<tr><td>ExportRespSurfacePlotToFile(string setupName, Structured Array fixValues, string var1, int PointCount1, string var2, int PointCount2, string outputExpr, bool bSlicePlot, string filename) -> bool</td></tr>
+<tr><td>ExportRespSurfaceRefinePoints(string setupName, string filename)</td></tr>
+<tr><td>ExportRespSurfaceResponsePoints(string setupName, string filename)</td></tr>
+<tr><td>ExportRespSurfaceVerificationPoints(string setupName, string filename)</td></tr>
+<tr><td>GenerateVariationData(string setupName)</td></tr>
+<tr><td>GetChildNames([string type /*optional*/]) -> Structured Array</td></tr>
+<tr><td>GetChildObject(string path) -> Structured Array</td></tr>
+<tr><td>GetChildTypes() -> Structured Array</td></tr>
+<tr><td>GetName() -> string</td></tr>
+<tr><td>GetObjPath() -> string</td></tr>
+<tr><td>GetOptimetricResult(string setupName, Structured Array vars, [Structured Array values /*optional*/]) -> Structured Array</td></tr>
+<tr><td>GetOptimetricResultRowCount(string setupName) -> long</td></tr>
+<tr><td>GetPropEvaluatedValue([string path /*optional*/]) -> Structured Array</td></tr>
+<tr><td>GetPropNames([bool bIncludeReadOnly /*optional*/]) -> Structured Array</td></tr>
+<tr><td>GetPropSIValue([string path /*optional*/]) -> Structured Array</td></tr>
+<tr><td>GetPropValue([string path /*optional*/]) -> Structured Array</td></tr>
+<tr><td>GetSetupNames([Structured Array boolIncludeDisabled /*optional*/]) -> IDispatch</td></tr>
+<tr><td>GetSetupNamesByType(string typeName, [Structured Array boolIncludeDisabled /*optional*/]) -> IDispatch</td></tr>
+<tr><td>ImportSetup(string type, Structured Array setupData)</td></tr>
+<tr><td>InsertSetup(string type, Structured Array setupData)</td></tr>
+<tr><td>PasteSetup()</td></tr>
+<tr><td>RenameSetup(string oldName, string newName)</td></tr>
+<tr><td>SetPropValue(string path, Structured Array data) -> bool</td></tr>
+<tr><td>SolveAllSetup(string theName, [bool isBlocking /*optional*/])</td></tr>
+<tr><td>SolveSetup(string theName, [bool isBlocking /*optional*/])</td></tr>
+<tr><td>ValidateSetup(string theName)</td></tr>
+</table><h2 style="color:GoldenRod";>oModule-Solutions(6)</h2><table class="fixed"><tr><td>EditFieldsSummarySetting(Structured Array dataArg)</td></tr>
+<tr><td>ExportFanOperatingPoint(Structured Array dataArg)</td></tr>
+<tr><td>ExportFieldsSummary(Structured Array dataArg)</td></tr>
+<tr><td>ExtractDelphiNetwork(Structured Array dataArg)</td></tr>
+<tr><td>GetAvailableVariations(string theSolutionName) -> Structured Array</td></tr>
+<tr><td>GetTransientSolveTimes(string fullSolnNameArg, string variationKey) -> Structured Array</td></tr>
+</table><h2 style="color:GoldenRod";>oModule-ModelSetup(4)</h2><table class="fixed"><tr><td>CreateFlowRegion([string material /*optional*/])</td></tr>
+<tr><td>IdentifyFan(Structured Array selections, Structured Array settings)</td></tr>
+<tr><td>IdentifyGrille(Structured Array selections, Structured Array settings)</td></tr>
+<tr><td>IdentifyOpening(Structured Array selections, Structured Array settings)</td></tr>
+</table><h2 style="color:GoldenRod";>oModule-FieldsReporter(90)</h2><table class="fixed"><tr><td>AddMarker(Structured Array position)</td></tr>
+<tr><td>AddMarkerToPlot(Structured Array position, string plotName)</td></tr>
+<tr><td>AddNamedExpr(string exprName)</td></tr>
+<tr><td>AddNamedExpression(string exprName, string fieldType, [Structured Array expression /*optional*/])</td></tr>
+<tr><td>CalcOp(string data)</td></tr>
+<tr><td>CalcRead(string fName, string solnName, Structured Array varVals)</td></tr>
+<tr><td>CalcStack(string stackOp)</td></tr>
+<tr><td>CalcWrite(string fName, string solnName, Structured Array varVals)</td></tr>
+<tr><td>CalculatorRead(string fName, string solnName, string fieldType, Structured Array varVals)</td></tr>
+<tr><td>CalculatorWrite(string fName, Structured Array context, Structured Array varVals)</td></tr>
+<tr><td>ChangeGeomSettings(Structured Array data)</td></tr>
+<tr><td>ClcEval(string solnName, Structured Array varVals, [string fldType /*optional*/])</td></tr>
+<tr><td>ClcMaterial(string matName, string opType)</td></tr>
+<tr><td>ClcMaterialValue(string matName)</td></tr>
+<tr><td>ClearAllMarkers()</td></tr>
+<tr><td>ClearAllNamedExpr()</td></tr>
+<tr><td>CopyNamedExprToStack(string exprName)</td></tr>
+<tr><td>CreateFieldPlot(Structured Array data, [Structured Array plotType /*optional*/])</td></tr>
+<tr><td>DeleteFieldPlot(Structured Array namesArg)</td></tr>
+<tr><td>DeleteMarker(Structured Array markerNames)</td></tr>
+<tr><td>DeleteNamedExpr(Structured Array exprNames)</td></tr>
+<tr><td>DeleteUneditablePlot(Structured Array namesArg)</td></tr>
+<tr><td>DoesNamedExpressionExists(string name) -> long</td></tr>
+<tr><td>DumpCalculatorStack(string fName)</td></tr>
+<tr><td>EditFieldsSummarySetting(Structured Array dataArg)</td></tr>
+<tr><td>EditSurfaceMeshSummaryData(Structured Array dataArg)</td></tr>
+<tr><td>EnterAdjacentSurf(string geomName)</td></tr>
+<tr><td>EnterComplex(Structured Array data)</td></tr>
+<tr><td>EnterComplexVector(Structured Array data)</td></tr>
+<tr><td>EnterCoord(string geomName)</td></tr>
+<tr><td>EnterEdge(string geomName)</td></tr>
+<tr><td>EnterLine(string geomName)</td></tr>
+<tr><td>EnterOutputVar(string varName, string varDataType)</td></tr>
+<tr><td>EnterPoint(string geomName)</td></tr>
+<tr><td>EnterQty(string quantityName)</td></tr>
+<tr><td>EnterScalar(Structured Array data)</td></tr>
+<tr><td>EnterScalarFunc(string funcName)</td></tr>
+<tr><td>EnterSurf(string geomName)</td></tr>
+<tr><td>EnterVector(Structured Array data)</td></tr>
+<tr><td>EnterVectorFunc(Structured Array funcNames)</td></tr>
+<tr><td>EnterVol(string geomName)</td></tr>
+<tr><td>EvaluateExpressionCache(string configFilename)</td></tr>
+<tr><td>ExportFieldPlot(string plotName, string showHeader, string fileName)</td></tr>
+<tr><td>ExportFieldsSummary(Structured Array dataArg)</td></tr>
+<tr><td>ExportMarkerTable(string fileName)</td></tr>
+<tr><td>ExportOnGrid(string outFname, Structured Array min, Structured Array max, Structured Array spacing, string solnName, Structured Array varVals, [Structured Array exportOption /*optional*/], [string csType /*optional*/], [Structured Array offsets /*optional*/], [long byCount /*optional*/])</td></tr>
+<tr><td>ExportPlotImageToFile(string sFilename, string folderName, string plotItemname, [string setViewTopDownDirectionByRCS /*optional*/])</td></tr>
+<tr><td>ExportPlotImageWithViewToFile(string sFilename, string folderName, string plotItemname, long width, long height, [string viewOrientation /*optional*/])</td></tr>
+<tr><td>ExportSurfaceMeshSummary(Structured Array dataArg)</td></tr>
+<tr><td>ExportToFile(string outFname, string ptsFName, string solnName, Structured Array varVals, [Structured Array exportOption /*optional*/])</td></tr>
+<tr><td>GetChildNames([string type /*optional*/]) -> Structured Array</td></tr>
+<tr><td>GetChildObject(string path) -> Structured Array</td></tr>
+<tr><td>GetChildTypes() -> Structured Array</td></tr>
+<tr><td>GetFieldFolderNames() -> IDispatch</td></tr>
+<tr><td>GetFieldPlotMesh(Structured Array fieldPlotNames, string format, string exportType) -> Structured Array</td></tr>
+<tr><td>GetFieldPlotNames() -> IDispatch</td></tr>
+<tr><td>GetFieldPlotQuantityName(string plotName) -> string</td></tr>
+<tr><td>GetFieldPlotQuantityUnits(string plotName) -> string</td></tr>
+<tr><td>GetMeshPlotNames() -> IDispatch</td></tr>
+<tr><td>GetName() -> string</td></tr>
+<tr><td>GetObjPath() -> string</td></tr>
+<tr><td>GetPropEvaluatedValue([string path /*optional*/]) -> Structured Array</td></tr>
+<tr><td>GetPropNames([bool bIncludeReadOnly /*optional*/]) -> Structured Array</td></tr>
+<tr><td>GetPropSIValue([string path /*optional*/]) -> Structured Array</td></tr>
+<tr><td>GetPropValue([string path /*optional*/]) -> Structured Array</td></tr>
+<tr><td>GetTopEntryValue(string solnName, Structured Array varVals) -> Structured Array</td></tr>
+<tr><td>HideAntennaParameterOverlay(string plotName)</td></tr>
+<tr><td>HidePolarPlot(string plotName)</td></tr>
+<tr><td>HideRadiatedPlotOverlay(string plotName)</td></tr>
+<tr><td>LoadNamedExpressions(string fName, string ftype, Structured Array exprlist)</td></tr>
+<tr><td>ModifyFieldPlot(string oldName, Structured Array plotData)</td></tr>
+<tr><td>ModifyInceptionParameters(string plotName, Structured Array inceptionSettings)</td></tr>
+<tr><td>ReassignFieldPlot(string plotName, Structured Array plotData)</td></tr>
+<tr><td>RenameFieldPlot(string oldName, string newName)</td></tr>
+<tr><td>RenamePlotFolder(string oldName, string newName)</td></tr>
+<tr><td>SaveFieldsPlots(Structured Array plots, string fileName)</td></tr>
+<tr><td>SaveNamedExpressions(string fName, Structured Array exprlist, Structured Array overwrite)</td></tr>
+<tr><td>SetFieldPlotSettings(string oldName, Structured Array settings)</td></tr>
+<tr><td>SetFieldTypeSettings(string oldName, Structured Array settings)</td></tr>
+<tr><td>SetPlotFolderSettings(string oldName, Structured Array settings)</td></tr>
+<tr><td>SetPlotsSolutionContext(Structured Array plots, string solName, string solTime)</td></tr>
+<tr><td>SetPlotsViewSolutionContext(Structured Array plots, string solName, string solTime)</td></tr>
+<tr><td>SetPropValue(string path, Structured Array data) -> bool</td></tr>
+<tr><td>ShowAntennaParameterOverlay(string plotName)</td></tr>
+<tr><td>ShowPolarPlot(string plotName, Structured Array transp, Structured Array scale)</td></tr>
+<tr><td>ShowRadiatedPlotOverlay(string plotName, Structured Array transp, Structured Array scale)</td></tr>
+<tr><td>Test(string str)</td></tr>
+<tr><td>UpdateAllFieldsPlots()</td></tr>
+<tr><td>UpdateQuantityFieldsPlots(string folderName)</td></tr>
+<tr><td>XForm(string csType, Structured Array offset)</td></tr>
+</table><h2 style="color:GoldenRod";>oModule-ReportSetup(100)</h2><table class="fixed"><tr><td>AddAllEyeMeasurements(string reportNameArg)</td></tr>
+<tr><td>AddCartesianLimitLine(string reportName, Structured Array llDef)</td></tr>
+<tr><td>AddCartesianLimitLineFromCurve(string reportName, Structured Array limitLineFromCurveArg)</td></tr>
+<tr><td>AddCartesianLimitLineFromEquation(string reportName, Structured Array limitLineFromEqnArg)</td></tr>
+<tr><td>AddCartesianXMarker(string reportName, string markerName, long double xValue)</td></tr>
+<tr><td>AddCartesianYMarker(string reportName, string markerName, string axisNameArg, long double yValue, string curveName)</td></tr>
+<tr><td>AddCartesianYMarkerToStack(string reportName, string markerName, string axisNameArg, long double yValue, string curveName, Structured Array stackArgInfo)</td></tr>
+<tr><td>AddDeltaMarker(string reportName, string markerName1, string curveName1, string primarySweepValue1, string markerName2, string curveName2, string primarySweepValue2)</td></tr>
+<tr><td>AddMarker(string reportName, string markerName, string curveName, string primarySweepValue)</td></tr>
+<tr><td>AddNote(string reportNameArg, Structured Array noteTxtArg)</td></tr>
+<tr><td>AddTraceCharacteristics(string reportNameArg, string functionNameArg, Structured Array functionArgsArg, Structured Array rangeArg)</td></tr>
+<tr><td>AddTraces(string reportNameArg, string solutionNameArg, Structured Array simValueCtxtArg, Structured Array pointSetArg, Structured Array expressionsOfTracesArg, [Structured Array extTraceInfoArg /*optional*/])</td></tr>
+<tr><td>ApplyReportTemplate(string reportName, string templatePathOrName, string propertyTypeArg)</td></tr>
+<tr><td>ChangeProperty(Structured Array args)</td></tr>
+<tr><td>ClearAllMarkers(string reportName)</td></tr>
+<tr><td>ClearAllTraceCharacteristics(string reportNameArg)</td></tr>
+<tr><td>CloneReportsFromDatasetSolution(Structured Array reportsToClone, string solnNameToUse)</td></tr>
+<tr><td>CompareReportDataForRegressionTesting(string referenceDumpFileName, string testDumpFileName, Structured Array compareArgBlock) -> long</td></tr>
+<tr><td>CompareReportDataForRegressionTesting2(string referenceDumpFileName, string testDumpFileName, Structured Array compareArgBlock) -> string</td></tr>
+<tr><td>CompareTracesForRegressionTesting(string referenceReportName, string referenceTraceName, string testReportName, string testTraceName, Structured Array compareArgBlock) -> long</td></tr>
+<tr><td>CompareTracesForRegressionTesting2(string referenceReportName, string referenceTraceName, string testReportName, string testTraceName, Structured Array compareArgBlock) -> string</td></tr>
+<tr><td>CopyPlotSettings(string reportName)</td></tr>
+<tr><td>CopyReportDefinitions(Structured Array reportNamesArg)</td></tr>
+<tr><td>CopyReportsData(Structured Array reportNamesArg)</td></tr>
+<tr><td>CopyTraceDefinitions(string reportName, Structured Array traceNamesArg)</td></tr>
+<tr><td>CopyTracesData(string reportName, Structured Array traceNamesArg)</td></tr>
+<tr><td>CreateReport(string reportNameArg, string reportTypeArg, string displayTypeArg, string solutionNameArg, Structured Array simValueCtxtArg, Structured Array pointSetArg, Structured Array expressionsOfTracesArg, [Structured Array extTraceInfoArg /*optional*/])</td></tr>
+<tr><td>CreateReportFromFile(string fileName)</td></tr>
+<tr><td>CreateReportFromTemplate(string templateFileName)</td></tr>
+<tr><td>CreateReportOfAllQuantities(string reportNameArg, string reportTypeArg, string displayTypeArg, string solutionNameArg, Structured Array simValueCtxtArg, string categoryNameArg, Structured Array pointSetArg, Structured Array commonComponentsOfTracesArg, [Structured Array extTraceInfoArg /*optional*/])</td></tr>
+<tr><td>DeleteAllReports()</td></tr>
+<tr><td>DeleteReports(Structured Array reportNamesArg)</td></tr>
+<tr><td>DeleteTraceCharacteristics(string reportNameArg, Structured Array traceCharacteristicsNamesArg)</td></tr>
+<tr><td>DeleteTraces(Structured Array traceNamesArg)</td></tr>
+<tr><td>DoesSupportTraceCharacteristics(string displayType) -> long</td></tr>
+<tr><td>DumpAllReportsData(string fileName)</td></tr>
+<tr><td>DumpReportDataForRegressionTesting(string fileName, Structured Array dumpArgBlock)</td></tr>
+<tr><td>EditCartesianXMarker(string reportName, string markerName, long double xValue)</td></tr>
+<tr><td>EditCartesianYMarker(string reportName, string markerName, string axisNameArg, long double yValue, string curveName)</td></tr>
+<tr><td>EditMarker(string reportName, string markerName, string curveName, string primarySweepValue)</td></tr>
+<tr><td>ExportEyeMaskViolation(string reportNameArg, string exportFilenameArg)</td></tr>
+<tr><td>ExportImageToFile(string reportName, string exportFileName, long width, long height, [Structured Array saveImageParams /*optional*/])</td></tr>
+<tr><td>ExportPlot3DToFile(string reportName, string exportFileName)</td></tr>
+<tr><td>ExportReportDataToFile(string reportName, string exportFileName)</td></tr>
+<tr><td>ExportTableToFile(string reportName, string exportFileName, string tableType)</td></tr>
+<tr><td>ExportToFile(string reportName, string exportFileName, [bool bColPerCurve /*optional*/], [string unitSpec /*optional*/], [bool bUseTraceNumberFormat /*optional*/])</td></tr>
+<tr><td>ExportUniformPointsToFile(string reportName, string exportFileName, string start, string stop, string step, [bool bColPerCurve /*optional*/], [string unitSpec /*optional*/], [bool bUseTraceNumberFormat /*optional*/], [bool bALwaysAddStopvalue /*optional*/])</td></tr>
+<tr><td>GetAllCategories(string reportTypeArg, string displayTypeArg, string solutionNameArg, Structured Array simValueCtxtArg) -> Structured Array</td></tr>
+<tr><td>GetAllQuantities(string reportTypeArg, string displayTypeArg, string solutionNameArg, Structured Array simValueCtxtArg, string categoryNameArg) -> Structured Array</td></tr>
+<tr><td>GetAllReportNames() -> Structured Array</td></tr>
+<tr><td>GetAvailableDisplayTypes(string reportTypeArg) -> Structured Array</td></tr>
+<tr><td>GetAvailableReportTypes() -> Structured Array</td></tr>
+<tr><td>GetAvailableSolutions(string reportTypeArg) -> Structured Array</td></tr>
+<tr><td>GetChildNames([string type /*optional*/]) -> Structured Array</td></tr>
+<tr><td>GetChildObject(string path) -> Structured Array</td></tr>
+<tr><td>GetChildTypes() -> Structured Array</td></tr>
+<tr><td>GetCurvePropServerName(string reportName, string traceName) -> Structured Array</td></tr>
+<tr><td>GetDisplayType(string reportName) -> string</td></tr>
+<tr><td>GetDynLinkIntrinsicVariables(string sourceTraceName) -> Structured Array</td></tr>
+<tr><td>GetDynLinkQtyData(string sourceTraceName, string qtyName, Structured Array pointset) -> Structured Array</td></tr>
+<tr><td>GetDynLinkQtyValueState(string sourceTraceName, string qtyName) -> Structured Array</td></tr>
+<tr><td>GetDynLinkTraces(string sourceSolutionName) -> Structured Array</td></tr>
+<tr><td>GetDynLinkVariableValues(string sourceTraceName, string variableName) -> Structured Array</td></tr>
+<tr><td>GetName() -> string</td></tr>
+<tr><td>GetObjPath() -> string</td></tr>
+<tr><td>GetPropEvaluatedValue([string path /*optional*/]) -> Structured Array</td></tr>
+<tr><td>GetPropNames([bool bIncludeReadOnly /*optional*/]) -> Structured Array</td></tr>
+<tr><td>GetPropSIValue([string path /*optional*/]) -> Structured Array</td></tr>
+<tr><td>GetPropValue([string path /*optional*/]) -> Structured Array</td></tr>
+<tr><td>GetPropertyValue(string tabArg, string serverArg, string propArg) -> string</td></tr>
+<tr><td>GetQtyExpressionsForSourceTrace(string sourceTraceName) -> Structured Array</td></tr>
+<tr><td>GetReportData(string name, long updateData) -> string</td></tr>
+<tr><td>GetReportDefinition(string name) -> string</td></tr>
+<tr><td>GetReportSummaryForRegressionTesting(string reportDumpFileName) -> string</td></tr>
+<tr><td>GetReportTraceNames(string reportName) -> Structured Array</td></tr>
+<tr><td>GetSolutionContexts(string reportTypeArg, string displayTypeArg, string solutionNameArg) -> Structured Array</td></tr>
+<tr><td>GetSolutionDataPerVariation(string reportTypeArg, string solutionNameArg, Structured Array simValueCtxtArg, Structured Array pointSetArg, Structured Array expressionArgs) -> Structured Array</td></tr>
+<tr><td>GroupPlotCurvesByGroupingStrategy(string reportName, string groupingStrategy)</td></tr>
+<tr><td>ImportIntoReport(string reportName, string importFileName)</td></tr>
+<tr><td>ImportReportDataIntoReport(string reportName, string importFileName)</td></tr>
+<tr><td>MovePlotCurvesToGroup(string reportName, Structured Array curveNames, string groupName)</td></tr>
+<tr><td>MovePlotCurvesToNewGroup(string reportName, Structured Array curveNames)</td></tr>
+<tr><td>OpenWindowForAllReports()</td></tr>
+<tr><td>OpenWindowForReports(Structured Array reportNamesArg)</td></tr>
+<tr><td>PastePlotSettings(string reportName, string propertyTypeToApply)</td></tr>
+<tr><td>PasteReports()</td></tr>
+<tr><td>PasteReportsWithLegacyNames()</td></tr>
+<tr><td>PasteTraces(string reportName)</td></tr>
+<tr><td>PasteTracesWithLegacyNames(string reportName)</td></tr>
+<tr><td>RenameReport(string reportNameArg, string newReportNameArg)</td></tr>
+<tr><td>RenameTrace(string reportNameArg, string traceNameArg, string newTraceNameArg)</td></tr>
+<tr><td>ResetPlotSettings(string reportName)</td></tr>
+<tr><td>SavePlotSettingsAsDefault(string reportName)</td></tr>
+<tr><td>SetLinkOutputTraces(Structured Array trace_array)</td></tr>
+<tr><td>SetPropValue(string path, Structured Array data) -> bool</td></tr>
+<tr><td>UngroupPlotCurvesInGroup(string reportName, string groupName)</td></tr>
+<tr><td>UpdateAllReports()</td></tr>
+<tr><td>UpdateReports(Structured Array reportNamesArg)</td></tr>
+<tr><td>UpdateTraces(string reportNameArg, Structured Array traceNamesArg, string solutionNameArg, Structured Array simValueCtxtArg, Structured Array pointSetArg, Structured Array expressionsOfTracesArg, [Structured Array extTraceInfoArg /*optional*/])</td></tr>
+<tr><td>UpdateTracesContextAndSweeps(string reportNameArg, Structured Array traceNamesArg, string solutionNameArg, Structured Array simValueCtxtArg, Structured Array pointSetArg)</td></tr>
+</table><h2 style="color:GoldenRod";>oModule-OutputVariable(8)</h2><table class="fixed"><tr><td>CreateOutputVariable(string outputVariableNameArg, string outputVariableExpressionArg, string solutionNameArg, string reportTypeNameArg, Structured Array simValueCtxtArg)</td></tr>
+<tr><td>DeleteOutputVariable(string outputVariableNameArg)</td></tr>
+<tr><td>DoesOutputVariableExist(string name) -> bool</td></tr>
+<tr><td>EditOutputVariable(string outputVariableOrigNameArg, string outputVariableExpressionArg, string outputVariableNewNameArg, string solutionNameArg, string reportTypeNameArg, Structured Array simValueCtxtArg)</td></tr>
+<tr><td>ExportOutputVariables(string fileName) -> bool</td></tr>
+<tr><td>GetOutputVariableValue(string outputVariableNameArg, string strVariation, string solutionNameArg, string reportTypeNameArg, Structured Array simValueCtxtArg) -> long double</td></tr>
+<tr><td>GetOutputVariables() -> IDispatch</td></tr>
+<tr><td>ImportOutputVariables(string fileName) -> bool</td></tr>
+</table><h2 style="color:GoldenRod";>oModule-UserDefinedSolutionModule(5)</h2><table class="fixed"><tr><td>CreateUserDefinedSolution(string solutionName, string libraryType, string relativePathName, Structured Array propList, Structured Array probes, Structured Array userSelectionForDynamicProbes) -> string</td></tr>
+<tr><td>DeleteUserDefinedSolutions(Structured Array solutionNames)</td></tr>
+<tr><td>EditUserDefinedSolution(string existingSolutionName, string newSolutionName, string libraryType, string relativePathName, Structured Array propList, Structured Array probes, Structured Array userSelectionForDynamicProbes) -> string</td></tr>
+<tr><td>GetUserDefinedSolutionNames() -> Structured Array</td></tr>
+<tr><td>GetUserDefinedSolutionProperties(string solutionName) -> Structured Array</td></tr>
+</table><h2 style="color:GoldenRod";>oManager-NdExplorer(23)</h2><table class="fixed"><tr><td>Cascade(Structured Array inputDataArray) -> IDispatch</td></tr>
+<tr><td>CheckCausality(string designname, long loadedfromfile, string name, string variation, long double tolerance, long useCores, int numCores)</td></tr>
+<tr><td>Combine(Structured Array inputDataArray, long double freqTolerance) -> IDispatch</td></tr>
+<tr><td>Deembed(IDispatch totalData, IDispatch frontData, IDispatch backData) -> IDispatch</td></tr>
+<tr><td>DeembedBack(IDispatch totalData, IDispatch backData) -> IDispatch</td></tr>
+<tr><td>DeembedFront(IDispatch totalData, IDispatch frontData) -> IDispatch</td></tr>
+<tr><td>ExportFullWaveSpice(string designname, long loadedfromfile, string name, string variation, Structured Array frequencies, Structured Array data)</td></tr>
+<tr><td>ExportNMFData(string designname, long loadedfromfile, string name, string exportfile, Structured Array frequencies, Structured Array data)</td></tr>
+<tr><td>ExportNetworkData(string designname, long loadedfromfile, string name, string exportfile, string variation, Structured Array frequencies, Structured Array data)</td></tr>
+<tr><td>Extract(IDispatch inputData, Structured Array portNumberArray) -> IDispatch</td></tr>
+<tr><td>ExtractImpulseResponse(string sssfile, string outputfile, long double timestep, long double timestop, Structured Array entries)</td></tr>
+<tr><td>Get(string name) -> IDispatch</td></tr>
+<tr><td>GetAllSolutionVariations(int solutionID) -> Structured Array</td></tr>
+<tr><td>GetSolutionVariation(int solutionID, string variation) -> IDispatch</td></tr>
+<tr><td>LoadSolution(string projectPath, string designname, string solutionName) -> int</td></tr>
+<tr><td>Open(string fileName) -> IDispatch</td></tr>
+<tr><td>Rename(IDispatch inputData, Structured Array newNameArray) -> IDispatch</td></tr>
+<tr><td>Renormalize(IDispatch inputData, Structured Array newRefZ) -> IDispatch</td></tr>
+<tr><td>Reorder(IDispatch inputData, Structured Array newOrderArray) -> IDispatch</td></tr>
+<tr><td>SetExportTouchstoneOptions(string registrykey, string designname, Structured Array data)</td></tr>
+<tr><td>Smooth(IDispatch inputData, [int order /*optional*/], [long enforceCausality /*optional*/]) -> IDispatch</td></tr>
+<tr><td>Stretch(IDispatch inputData, long double factor) -> IDispatch</td></tr>
+<tr><td>Terminate(IDispatch inputData, Structured Array portNumbers, Structured Array impedances) -> IDispatch</td></tr>
+</table><h2 style="color:GoldenRod";>oManager-Component(42)</h2><table class="fixed"><tr><td>Add(Structured Array argMatData) -> string</td></tr>
+<tr><td>AddDynamicNPortData(Structured Array argCompData) -> string</td></tr>
+<tr><td>AddFMUModel(string fileName, Structured Array options) -> string</td></tr>
+<tr><td>AddNPortData(Structured Array argCompData) -> string</td></tr>
+<tr><td>AddPythonModel(string compname, string fileName, Structured Array pyInterfaces) -> string</td></tr>
+<tr><td>AddROMModel(string fileName, Structured Array options, int modelType) -> string</td></tr>
+<tr><td>AddSolverOnDemandModel(string defname, Structured Array argSODData) -> string</td></tr>
+<tr><td>AddTwinModel(string fileName, Structured Array options) -> string</td></tr>
+<tr><td>ClearSolutionCache(string compname)</td></tr>
+<tr><td>DeleteLibraryComponent(string compname, string libName)</td></tr>
+<tr><td>Edit(Structured Array argMatData1, Structured Array argMatData2) -> string</td></tr>
+<tr><td>EditSolverOnDemandModel(string defname, string targetSODName, Structured Array argSODData) -> string</td></tr>
+<tr><td>Export(Structured Array __MIDL__ISComponentMgr0000, string libLoc)</td></tr>
+<tr><td>ExportAllProjectComps(string libName, long toPersonalLib) -> long</td></tr>
+<tr><td>ExportDefinitionArchive(string archiveName, Structured Array defs) -> long</td></tr>
+<tr><td>ExportDefs(Structured Array argDefs)</td></tr>
+<tr><td>GetData(string defname) -> Structured Array</td></tr>
+<tr><td>GetDevCharWizard() -> IDispatch</td></tr>
+<tr><td>GetLibContents(string libpath) -> Structured Array</td></tr>
+<tr><td>GetModelicaObjectList(string modelicaFileName) -> Structured Array</td></tr>
+<tr><td>GetNPortData(string defname) -> Structured Array</td></tr>
+<tr><td>GetNames() -> Structured Array</td></tr>
+<tr><td>GetSolverOnDemandData(string defname, string sodName) -> Structured Array</td></tr>
+<tr><td>GetSolverOnDemandModelList(string defname) -> Structured Array</td></tr>
+<tr><td>ImportAMIComponent(string fileNames, Structured Array importOptions) -> string</td></tr>
+<tr><td>ImportDefinitionArchive(string archiveName, long ispersonal, string libpath, string pjtpath) -> long</td></tr>
+<tr><td>ImportModelsFromFile(string fileName, Structured Array importOptions) -> Structured Array</td></tr>
+<tr><td>ImportSandWComponent(Structured Array fileNames, Structured Array importOptions) -> string</td></tr>
+<tr><td>ImportXParamComponent(string fileName) -> string</td></tr>
+<tr><td>IsUsed(string matName) -> long</td></tr>
+<tr><td>LoadExample(string defname) -> long</td></tr>
+<tr><td>LoadLibraries(Structured Array argDefs)</td></tr>
+<tr><td>ManageAliases(string action, string shortcut, string expandTo, long addToRegistry) -> long</td></tr>
+<tr><td>RecompileModelsAndPackages() -> long</td></tr>
+<tr><td>Remove(string matName, long localMat, string libName, string libLoc)</td></tr>
+<tr><td>RemoveSolverOnDemandModel(string defname, string sodName)</td></tr>
+<tr><td>RemoveUnused() -> long</td></tr>
+<tr><td>RenameLibraryComponent(string origCompName, string libName, string newCompName)</td></tr>
+<tr><td>ReorderPins(string compname, string leftPins, [string rightPins /*optional*/], [string topPins /*optional*/], [string bottomPins /*optional*/])</td></tr>
+<tr><td>SyncDefs(Structured Array argDefs)</td></tr>
+<tr><td>UpdateDynamicComponentsFromWB()</td></tr>
+<tr><td>UpdateDynamicLink(string compname)</td></tr>
+</table><h2 style="color:GoldenRod";>oManager-Material(9)</h2><table class="fixed"><tr><td>Add(Structured Array argMatData) -> string</td></tr>
+<tr><td>Edit(Structured Array argMatData1, Structured Array argMatData2) -> string</td></tr>
+<tr><td>Export(Structured Array __MIDL__ISMaterialMgr0000, string libLoc)</td></tr>
+<tr><td>GetData(string defname) -> Structured Array</td></tr>
+<tr><td>GetNames() -> Structured Array</td></tr>
+<tr><td>GetProperties(string matName, [long getDefaults /*optional*/]) -> Structured Array</td></tr>
+<tr><td>IsUsed(string matName) -> long</td></tr>
+<tr><td>Remove(string matName, long localMat, string libName, string libLoc)</td></tr>
+<tr><td>RemoveUnused() -> long</td></tr>
+</table><h2 style="color:GoldenRod";>oManager-Model(12)</h2><table class="fixed"><tr><td>Add(Structured Array argMatData) -> string</td></tr>
+<tr><td>ConvertToDynamic(string defname) -> string</td></tr>
+<tr><td>ConvertToParametric(string defname) -> string</td></tr>
+<tr><td>Edit(Structured Array argMatData1, Structured Array argMatData2) -> string</td></tr>
+<tr><td>EditWithComps(Structured Array argMatData1, Structured Array argMatData2, Structured Array argMatData3) -> string</td></tr>
+<tr><td>Export(Structured Array __MIDL__ISModelMgr0000, string libLoc)</td></tr>
+<tr><td>ExportStateSpaceData(string defname, string fileName)</td></tr>
+<tr><td>GetData(string defname) -> Structured Array</td></tr>
+<tr><td>GetNames() -> Structured Array</td></tr>
+<tr><td>IsUsed(string matName) -> long</td></tr>
+<tr><td>Remove(string matName, long localMat, string libName, string libLoc)</td></tr>
+<tr><td>RemoveUnused() -> long</td></tr>
+</table><h2 style="color:GoldenRod";>oManager-Symbol(12)</h2><table class="fixed"><tr><td>Add(Structured Array argMatData) -> string</td></tr>
+<tr><td>Edit(Structured Array argMatData1, Structured Array argMatData2) -> string</td></tr>
+<tr><td>EditSymbolAndUpdateComps(Structured Array argMatData1, Structured Array argMatData2, Structured Array argMatData3, Structured Array argMatData4) -> string</td></tr>
+<tr><td>EditWithComps(Structured Array argMatData1, Structured Array argMatData2, Structured Array argMatData3) -> string</td></tr>
+<tr><td>Export(Structured Array __MIDL__ISSymbolMgr0000, string libLoc)</td></tr>
+<tr><td>GetData(string defname) -> Structured Array</td></tr>
+<tr><td>GetLibraryDefNames(string libName) -> Structured Array</td></tr>
+<tr><td>GetNames() -> Structured Array</td></tr>
+<tr><td>IsUsed(string matName) -> long</td></tr>
+<tr><td>Remove(string matName, long localMat, string libName, string libLoc)</td></tr>
+<tr><td>RemoveUnused() -> long</td></tr>
+<tr><td>ReorderPins(string symbolName, string leftPins, [string rightPins /*optional*/], [string topPins /*optional*/], [string bottomPins /*optional*/])</td></tr>
+</table><h2 style="color:GoldenRod";>oManager-Footprint(10)</h2><table class="fixed"><tr><td>Add(Structured Array argMatData) -> string</td></tr>
+<tr><td>Edit(Structured Array argMatData1, Structured Array argMatData2) -> string</td></tr>
+<tr><td>EditWithComps(Structured Array argMatData1, Structured Array argMatData2, Structured Array argMatData3) -> string</td></tr>
+<tr><td>Export(Structured Array __MIDL__ISFootprintMgr0000, string libLoc)</td></tr>
+<tr><td>GetData(string defname) -> Structured Array</td></tr>
+<tr><td>GetLibraryDefNames(string libName) -> Structured Array</td></tr>
+<tr><td>GetNames() -> Structured Array</td></tr>
+<tr><td>IsUsed(string matName) -> long</td></tr>
+<tr><td>Remove(string matName, long localMat, string libName, string libLoc)</td></tr>
+<tr><td>RemoveUnused() -> long</td></tr>
+</table><h2 style="color:GoldenRod";>oManager-Padstack(8)</h2><table class="fixed"><tr><td>Add(Structured Array argMatData) -> string</td></tr>
+<tr><td>Edit(Structured Array argMatData1, Structured Array argMatData2) -> string</td></tr>
+<tr><td>Export(Structured Array __MIDL__ISPadstackMgr0000, string libLoc)</td></tr>
+<tr><td>GetData(string defname) -> Structured Array</td></tr>
+<tr><td>GetNames() -> Structured Array</td></tr>
+<tr><td>IsUsed(string matName) -> long</td></tr>
+<tr><td>Remove(string matName, long localMat, string libName, string libLoc)</td></tr>
+<tr><td>RemoveUnused() -> long</td></tr>
+</table></body>
