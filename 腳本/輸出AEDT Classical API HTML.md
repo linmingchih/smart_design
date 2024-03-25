@@ -7,5 +7,5 @@ AEDT的Classical API在每個版本更新時都可能會有所變動，包括新
 ![2024-03-25_20-25-53](/assets/2024-03-25_20-25-53.png)
 
 > :link: **腳本下載**
-[AEDT API函數HTML輸出](/assets//queryAEDT_API_simple.py)
-[AEDT API函數與參數HTML輸出](/assets/queryAEDT_API_signature.py)
+AEDT API函數HTML輸出[queryAEDT_API_simple.py](/assets//queryAEDT_API_simple.py)
+AEDT API函數與參數HTML輸出[queryAEDT_API_signature.py](/assets/queryAEDT_API_signature.py)
