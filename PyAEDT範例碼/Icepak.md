@@ -51,9 +51,3 @@ g2 = icepak.modeler.create_group(objects=[x3], groups=[g1], group_name='PCB_ASSM
 
 這些步驟在模擬環境中創建了幾個基本幾何形狀，並將它們組織成兩個不同的組。
 
-### 新內容
-
-``` mermaid
-graph LR
-A --> B
-```
