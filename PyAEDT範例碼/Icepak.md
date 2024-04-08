@@ -50,3 +50,5 @@ g2 = icepak.modeler.create_group(objects=[x3], groups=[g1], group_name='PCB_ASSM
 這一步將x3（球體）和之前創建的組g1放入一個名為'PCB_ASSM'的更大的組中。
 
 這些步驟在模擬環境中創建了幾個基本幾何形狀，並將它們組織成兩個不同的組。
+
+### 新內容
