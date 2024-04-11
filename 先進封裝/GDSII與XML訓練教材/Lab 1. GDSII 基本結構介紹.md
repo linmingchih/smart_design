@@ -1,8 +1,9 @@
-Lab 1. GDSII 基本
+Lab 1. GDSII 基本結構介紹
 ---
 
 > :link: **範例檔案下載**
 [lab1.gds](/assets/lab1.gds)
+
 
 GDSII（Graphic Data System II），是一種用於集成電路（IC）設計的文件格式，廣泛用於半導體工業的集成電路設計、製造和測試。GDSII文件包含了描述集成電路布局的所有必要信息，包括圖形、幾何形狀、層次結構以及用於製造的元素。
 #### GDSII的主要特點： 
@@ -31,24 +32,7 @@ GDSII（Graphic Data System II），是一種用於集成電路（IC）設計的
     - **模塊化** ：Cell 通過模塊化設計，允許設計者重用特定功能或結構的設計，在更大的設計中多次引用同一個 cell。
 
 
-```python
-import gdspy  # 導入 gdspy 函式庫
 
-# 初始化 GDS 檔案
-gds_lib = gdspy.GdsLibrary()
-gds_cell = gds_lib.new_cell('MAIN')  # 創建一個新的 cell
-
-# 創建方塊在DataType=0的層
-rectangle = gdspy.Rectangle((0, 0), (10, 10), layer=100, datatype=0)
-gds_cell.add(rectangle)  # 將方塊添加到 cell
-
-# 添加標籤在DataType=20的層
-label = gdspy.Label('s0', (5, 5), layer=100, texttype=20)
-gds_cell.add(label)  # 將標籤添加到 cell
-
-# 將 GDS 檔案輸出到一個檔案中
-gds_lib.write_gds('d:/demo/lab1.gds')
-```
 
 ### 實驗操作
 #### I. KLayout檢視
@@ -109,3 +93,24 @@ gds_lib.write_gds('d:/demo/lab1.gds')
 在畫面中間顯示的是GDSII設計圖面。當中是一個Rectangle及 `s1` Label。
 
 截至目前為止，我們只是匯入了單一的GDSII文件，當中仍然缺乏許多關鍵的細節。由於缺少材料屬性、結構堆疊、連接點(net)和端口(port)的數據，匯入的凸面無法直接用於仿真。為了解決這個問題，接下來將會介紹如何引入一個XML格式的控制文件。這個控制文件將包含所需的所有補充資訊，並與GDSII文件一起匯入，這樣就能夠提供足夠的數據以進行準確的電子仿真。
+
+#### V. 附註
+生成lab1.gds的python程式碼：
+```python
+import gdspy  # 導入 gdspy 函式庫
+
+# 初始化 GDS 檔案
+gds_lib = gdspy.GdsLibrary()
+gds_cell = gds_lib.new_cell('MAIN')  # 創建一個新的 cell
+
+# 創建方塊在DataType=0的層
+rectangle = gdspy.Rectangle((0, 0), (10, 10), layer=100, datatype=0)
+gds_cell.add(rectangle)  # 將方塊添加到 cell
+
+# 添加標籤在DataType=20的層
+label = gdspy.Label('s0', (5, 5), layer=100, texttype=20)
+gds_cell.add(label)  # 將標籤添加到 cell
+
+# 將 GDS 檔案輸出到一個檔案中
+gds_lib.write_gds('d:/demo/lab1.gds')
+```
