@@ -51,8 +51,11 @@ main_cell.add(rectangle)
 rectangle = gdspy.Rectangle((-0.1, -0.1), (11.1, 1.05), layer=300, datatype=0)
 main_cell.add(rectangle)
 
+# 將標籤添加到 cell
+label = gdspy.Label('s0', (0.5, 0.5), layer=200, texttype=20)
+main_cell.add(label)
+
 # 將設計保存到GDSII文件
 gds_filename = 'd:/demo/lab2.gds'
 lib.write_gds(gds_filename)
-
 ```
