@@ -132,8 +132,8 @@ XML 中的註解可以使用 `<!-- 註解內容 -->` 來添加，註解的內容
 在上方的截圖中，列出了三個層級100、200和300依序排列。在下方的截圖中，層級300、100和200的順序按照XML當中的Elevation定義被重新排列，
 
 2. **導入層名稱(Import layer name)** :
-- 上方截圖顯示“Import layer name”列與File layername相同。
-- 下方截圖展示了層級300、100和200分別對應到“metal2”、“via1”和“metal1”，這表明用戶已經對應了GDSII檔案中的層級到特定的仿真層名稱。 
+	- 上方截圖顯示“Import layer name”列與"File layer name"內容相同。
+	- 下方截圖展示了層級300、100和200分別對應到“metal2”、“via1”和“metal1”，這表明XML已經對應了GDSII檔案中的層級到特定的堆疊層名稱。 
 
 3. **型別改變**
 觀察編號為100的layer，型別變成via。且其Lower (下界) 和 Upper (上界)分別對應到「metal1」和「metal2」。表示layer 100（via12）是連接metal1層和metal2層的通孔。這兩個欄位定義了通孔的上下連接界限。
