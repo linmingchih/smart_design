@@ -1,8 +1,6 @@
 Lab 2. XML 控制檔案介紹
 ---
-> :link: **範例檔案下載**
-[lab2.gds](/assets/lab2.gds)
-[lab2.xml](/assets/lab2.xml)
+
 
 GDSII檔案主要被用於描述集成電路的圖形設計資料，但它不包含材料的物理或電氣特性等製程相關資訊。因此，在進行電磁場模擬時，僅有GDSII檔案是不足夠的。要進行有效的模擬，必須知道每一層的具體物理和電氣特性，這些資訊通常包含在控制檔案中。
 
@@ -123,7 +121,7 @@ XML 中的註解可以使用 `<!-- 註解內容 -->` 來添加，註解的內容
 
 ### 2.3 實驗操作
 #### I. 匯入控制檔
-按照之前Lab 1所學匯入GDSII方法，匯入lab2.gds。在跳出GDS Import視窗視窗之後，點擊“Import control file…”按鈕來導入一個控制檔案。在這個例子中，控制檔案是一個XML檔案。
+按照之前Lab 1所學匯入GDSII方法，匯入example.gds。在跳出GDS Import視窗視窗之後，點擊“Import control file…”按鈕來導入一個控制檔案example.xml。
 
 ![2024-04-12_12-27-05](/assets/2024-04-12_12-27-05.png)
 
@@ -157,59 +155,3 @@ GDS Import Window 右下角的按鈕**Summary**可以開啟箭頭所指的「GDS
 
 ![2024-04-12_12-43-56](/assets/2024-04-12_12-43-56.png)
 
-### 2.4 附註
-生成lab2.gds的python程式碼：
-
-```python
-import gdspy
-
-# 定義單元大小和實例之間的間距
-unit_size = 0.05  # 方塊的大小
-spacing = 10   # 實例之間的間距
-
-# 創建一個新的庫（或GDSII文件）
-lib = gdspy.GdsLibrary()
-
-# 為方塊陣列創建一個cell
-cell = lib.new_cell('SQUARE_ARRAY')
-
-# 向cell中添加方塊
-for i in range(10):
-    for j in range(10):
-        square = gdspy.Rectangle((0.1*i, 0.1*j), 
-                                 (0.1*i+unit_size, 0.1*j+unit_size),
-                                 layer=100, 
-                                 datatype=0)
-        cell.add(square)
-
-# 創建主cell以放置陣列的實例
-main_cell = lib.new_cell('MAIN')
-
-# 創建兩個間隔一定距離的方塊陣列cell的實例
-instance1 = gdspy.CellReference(cell, (0, 0))
-instance2 = gdspy.CellReference(cell, (unit_size + spacing, 0))
-
-# 將實例添加到主cell
-main_cell.add(instance1)
-main_cell.add(instance2)
-
-# 添加外框以顯示實例的位置和邊界
-rectangle = gdspy.Rectangle((-0.05, -0.05), (1, 1), layer=200, datatype=0)
-main_cell.add(rectangle)
-rectangle = gdspy.Rectangle((10, -0.05), (11.05, 1), layer=200, datatype=0)
-main_cell.add(rectangle)
-
-# 添加更大的外框以顯示整個設計的邊界
-rectangle = gdspy.Rectangle((-0.1, -0.1), (11.1, 1.05), layer=300, datatype=0)
-main_cell.add(rectangle)
-
-# 將標籤添加到 cell
-label = gdspy.Label('s0', (0.5, 0.5), layer=200, texttype=20)
-main_cell.add(label)
-
-# 將設計保存到GDSII文件
-gds_filename = 'd:/demo/lab2.gds'
-lib.write_gds(gds_filename)
-```
-
-![2024-04-12_04-19-57](/assets/2024-04-12_04-19-57.png)
