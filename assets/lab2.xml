@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<c:Control
+	xmlns:c="http://www.ansys.com/control" schemaVersion="1.0">
+	<Stackup schemaVersion="1.0">
+		<Materials>
+			<Material Name="m1_cond">
+				<Conductivity>
+					<Double>43000000</Double>
+				</Conductivity>
+			</Material>
+			<Material Name="m2_cond">
+				<Conductivity>
+					<Double>43000000</Double>
+				</Conductivity>
+			</Material>
+			<Material Name="via_cond">
+				<Conductivity>
+					<Double>43000000</Double>
+				</Conductivity>
+			</Material>
+			<Material Name="IMD">
+				<Permittivity>
+					<Double>3.23</Double>
+				</Permittivity>
+			</Material>
+		</Materials>
+		<ELayers LengthUnit="um">
+			<Dielectrics>
+				<Layer Name="IMD" Material="IMD"  Thickness="5"/>
+			</Dielectrics>
+			<Layers>
+				<Layer Name="200" Material="m1_cond" GDSDataType="0" TargetLayer="metal1" Type="conductor" Thickness="0.5" Elevation="1"/>
+				<Layer Name="300" Material="m2_cond" GDSDataType="0" TargetLayer="metal2" Type="conductor" Thickness="0.5" Elevation="4"/>
+			</Layers>
+			<Vias>
+				<Layer Name="100" Material="via_cond" GDSDataType="0" TargetLayer="via12"  StartLayer="metal1" StopLayer="metal2"></Layer>
+			</Vias>
+		</ELayers>
+	</Stackup>
+</c:Control>
