@@ -46,8 +46,6 @@
       </Layers>
       <Vias>
         <Layer Name="100" Material="via_cond" GDSDataType="0" TargetLayer="via12" StartLayer="metal1" StopLayer="metal2">
-		  <CreateViaGroups Method="proximity" Tolerance="5um" CheckContainment="true" />
-		  <SnapViaGroups Method="areaFactor" Tolerance="3" RemoveUnconnected="true" />
         </Layer>
       </Vias>
     </ELayers>
