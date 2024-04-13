@@ -1,20 +1,20 @@
-XML 控制檔案介紹
+AEDT XML 控制檔案介紹
 ---
 
 GDSII檔案主要被用於描述集成電路的圖形設計資料，但它不包含材料的物理或電氣特性等製程相關資訊。因此，在進行電磁場模擬時，僅有GDSII檔案是不足夠的。要進行有效的模擬，必須知道每一層的具體物理和電氣特性，這些資訊通常包含在控制檔案中。
 
 AEDT支援多種格式的控制檔，例如： 
-- `*.xml` AEDT標準結構化控制檔案。 
-- `*.tech` 可能是某些技術或設計軟體的特定格式。 
-- `*.layermap` 可能指的是包含圖層信息的映射文件。 
-- `*.ircx` 和 `*.itf` 可能是特定行業或軟體的專用檔案格式。 
-- `*.vlc.tech` 這個擴展名不是很常見，可能是特定軟體的專有格式。
+- `*.xml` AEDT標準結構化控制檔案，也是我們本書要介紹的格式
+- `*.tech`  
+- `*.layermap`  
+- `*.ircx` 和 `*.itf` 
+- `*.vlc.tech` 
 
 控制檔案充當GDSII資料和模擬軟體之間的橋梁，它包含了層的對應、厚度、連結方式以及材料特性等重要資訊。例如，AEDT使用XML格式的控制檔案來實現這一功能。這個XML檔案詳細描述了每層的配置、物理和電氣特性（如導電係數、介電常數等），以及結構簡化、網絡（Nets）、端口（Port）等額外元素。
 
 因此，將GDSII檔案與相應的XML控制檔案結合使用，可以建構出一個完整的模型，這個模型不僅包含了設計的幾何資訊，還融合了進行精確模擬所需的所有材料和結構特性。
 
-### 2.1 XML基本語法
+### XML基本語法
 XML（Extensible Markup Language）是一種標記語言，它讓文檔具有結構化的格式，並且能夠在不同的系統和設備之間交換數據。XML 非常類似 HTML，但是它是自我描述性的，並且可以定義用戶自己的標籤。以下是一些 XML 基本語法的介紹，特別適合入門者了解：
 #### I. XML 文檔的結構
 
@@ -60,12 +60,28 @@ XML 中的註解可以使用 `<!-- 註解內容 -->` 來添加，註解的內容
 ```
 
 
-### 2.2 GDSII 控制檔 XML介紹
+### AEDT 控制檔 XML介紹
+AEDT 採用了XML格式，並制定了一組完整的schema（模式定義），用以定義數據的結構、描述文檔中哪些元素可以出現以及它們如何出現。每個頂層標籤代表了XML文件中的一個重要部分，通過這些頂層標籤（如`Stackup`、`Geometry`、`Components`等），確定了電路板設計的各個方面，包括物理布局、電氣特性和模擬參數等。這樣的結構設計使得數據組織清晰，並支持軟件在解析和操作這些數據時，能夠根據預定的規則和標準進行。下面介紹這些頂層元素及其用途：
+
+1. **Stackup（堆疊）** ：此元素用於定義電路板的材料、層次和通孔（vias）。它對於確定電路板的物理和電氣屬性非常重要。 
+2. **Geometry（幾何）** ：此元素允許在轉換輸出中加入多邊形。這在設計中用於定義形狀和布局。 
+3. **Boundaries（邊界）** ：在GDS轉換中，此元素主要用於點位基礎的電路端口創建和定義HFSS的範圍。這對於電磁模擬尤其重要。 
+4. **Components（組件）** ：選擇組件的架構版本。這對於確保設計元件與設計工具兼容非常關鍵。 
+5. **CutoutSubdesign（切割子設計）** ：可以對多邊形執行幾何剪裁。這在需要對特定區域進行細節調整時非常有用。 
+6. **SimulationSetups（模擬設置）** ：定義HFSS模擬設置和掃描。這是進行電磁性能分析前的重要步驟。 
+7. **ImportOptions（導入選項）** ：指定各種導入選項，如文件格式和轉換規則，以確保數據正確載入。 
+8. **GDS_CELL_RULES（GDS單元規則）** ：控制導入哪些單元。這有助於管理大型設計中的元件和層次。 
+9. **GDS_NET_DEFINITIONS（GDS網絡定義）** ：允許您定義VDD（正電壓）、Ground（接地）和Signal（信號）網。這對於電路的電氣連接至關重要。 
+10. **GDS_COMPONENTS（GDS組件）** ：用於創建組件群組。可以通過GDS_AUTO_COMPONENT元素自動完成這一過程。
+
+以上各元素在XML控制文件中扮演著不同的角色，合理使用這些元素能夠有效地控制和優化電子設計和模擬過程。
+
+### 簡單XML範例
+以下是一個只包含 `Stackup` 標籤的簡單XML範例：
 
 ```xml
-<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
-<c:Control
-	xmlns:c="http://www.ansys.com/control" schemaVersion="1.0">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<c:Control xmlns:c="http://www.ansys.com/control" schemaVersion="1.0">
 	<Stackup schemaVersion="1.0">
 		<Materials>
 			<Material Name="m1_cond">
@@ -83,27 +99,41 @@ XML 中的註解可以使用 `<!-- 註解內容 -->` 來添加，註解的內容
 					<Double>43000000</Double>
 				</Conductivity>
 			</Material>
-			<Material Name="IMD">
+			<Material Name="IMD_A">
 				<Permittivity>
 					<Double>3.23</Double>
+				</Permittivity>
+			</Material>
+			<Material Name="IMD_B">
+				<Permittivity>
+					<Double>2.8</Double>
 				</Permittivity>
 			</Material>
 		</Materials>
 		<ELayers LengthUnit="um">
 			<Dielectrics>
-				<Layer Name="IMD" Material="IMD"  Thickness="5"/>
+				<Layer Name="IMD8" Material="IMD_B" Thickness="0.5"/>
+				<Layer Name="IMD7" Material="IMD_A" Thickness="0.1"/>
+				<Layer Name="IMD6" Material="IMD_B" Thickness="0.1"/>
+				<Layer Name="IMD5" Material="IMD_A" Thickness="0.1"/>
+				<Layer Name="IMD4" Material="IMD_B" Thickness="0.1"/>
+				<Layer Name="IMD3" Material="IMD_A" Thickness="0.1"/>
+				<Layer Name="IMD2" Material="IMD_B" Thickness="3"/>
+				<Layer Name="IMD1" Material="IMD_A" Thickness="1"/>
 			</Dielectrics>
 			<Layers>
-				<Layer Name="200" Material="m1_cond" GDSDataType="0" TargetLayer="metal1" Type="conductor" Thickness="0.5" Elevation="1"/>
-				<Layer Name="300" Material="m2_cond" GDSDataType="0" TargetLayer="metal2" Type="conductor" Thickness="0.5" Elevation="4"/>
+				<Layer Name="300" Material="m1_cond" GDSDataType="0" TargetLayer="metal1" Type="conductor" Thickness="0.5" Elevation="1"/>
+				<Layer Name="200" Material="m2_cond" GDSDataType="0" TargetLayer="metal2" Type="conductor" Thickness="0.5" Elevation="4"/>
 			</Layers>
 			<Vias>
-				<Layer Name="100" Material="via_cond" GDSDataType="0" TargetLayer="via12"  StartLayer="metal1" StopLayer="metal2"></Layer>
+				<Layer Name="100" Material="via_cond" GDSDataType="0" TargetLayer="via12" StartLayer="metal1" StopLayer="metal2">
+					<CreateViaGroups Method="proximity" Tolerance="5um" CheckContainment="true"/>
+					<SnapViaGroups Method="areaFactor" Tolerance="3" RemoveUnconnected="true"/>
+				</Layer>
 			</Vias>
 		</ELayers>
 	</Stackup>
 </c:Control>
-
 ```
 
 以上這個XML文件是一個控制文件，用於描述一個堆疊結構（Stackup）及其材料特性。來設定模型的不同層的物理和電氣參數。以下為逐段解釋：
