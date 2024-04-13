@@ -1,8 +1,13 @@
-Lab 0. 概要
+AEDT GDS導入與XML技術檔格式
 ---
-隨著人工智能技術的飛速發展，高性能計算需求亦急劇增加，這直接推動了CoWoS（Chip on Wafer on Substrate）和Interposer技術的崛起。CoWoS 是一種先進的封裝技術，能夠將多個矽晶片整合到一個中介層上，這種配置不僅提高了芯片之間的連接密度，還顯著改善了信號的傳輸效率和整體性能。
+**2024 Apr, ANSYS 台灣**
+### 範例檔案
 
-Interposer作為一種關鍵的中介材料，其功能是連接晶片與基板，為高密度的電路提供物理和電氣支持。AI加速器對計算速度和數據傳輸速度的極高要求，使得這些技術成為實現高效能AI處理不可或缺的一部分。因此，半導體業界對Interposer的設計與模擬需求急劇增加，工程師必須能夠掌握電子性能與熱管理準確模擬工具，以確保Interposer設計的可靠性與效能，滿足現代電子產品對空間與性能的雙重要求。
+> :link: **範例檔案下載**
+[example.gds](/assets/example.gds)
+[example.xml](/assets/example.xml)
+
+### 概要
 
 ANSYS作為物理工程模擬的領導者，旗下的AEDT (ANSYS Electronics Desktop) 集成了多物理計算引擎，包括HFSS、Icepak、RaptorX和Mechanical等，已在業界享有盛譽。這些工具提供了從高頻電磁場模擬到熱分析、結構分析以及信號完整性分析的全方位解決方案，極大地增強了設計師在進行集成電路（IC）級電子設計時的分析能力。
 
@@ -28,8 +33,8 @@ ANSYS作為物理工程模擬的領導者，旗下的AEDT (ANSYS Electronics Des
 
 總之，HFSS的IC模式是針對現代高速、高頻電子設計的需求而設計的，提供了一系列功能來滿足這些設計中的特定挑戰。
 
-#### IC Mode
-在HFSS 3D Layout中，預設「General」模式是指通用或者標準的操作模式，適合大多數的PCB及封裝設計模擬；而「IC」模式則是針對集成電路（Integrated Circuit）設計的特殊操作模式，提供了更為專業的工具集或參數設置。處理IC設計模型抽取時，要切換到`IC Mode`。
+#### Generak Mode vs. IC Mode
+在HFSS 3D Layout中，預設「General」模式是指通用或者標準的操作模式，適合大多數的PCB及封裝設計模擬；而「IC」模式則是針對集成電路（Integrated Circuit）設計的特殊操作模式，提供了更為專業的工具集或參數設置。處理IC設計模型抽取時，要切換到`IC Mode`。GDS匯入時會自動切換到`IC Mode`。
 
 ![2024-03-21_04-58-34](/assets/2024-03-21_04-58-34.png)
 
@@ -37,70 +42,23 @@ ANSYS作為物理工程模擬的領導者，旗下的AEDT (ANSYS Electronics Des
 
 ![2024-04-08_14-54-02](/assets/2024-04-08_14-54-02_770ebtbuz.png)
 
-### 範例檔案
-
-> :link: **範例檔案下載**
-[example.gds](/assets/example.gds)
-[example.xml](/assets/example.xml)
-
-生成example.gds的python程式碼：
-
-```python
-import gdspy
-
-# 定義單元大小和實例之間的間距
-unit_size = 0.05  # 方塊的大小
-spacing = 10   # 實例之間的間距
-
-# 創建一個新的庫（或GDSII文件）
-lib = gdspy.GdsLibrary()
-
-# 為方塊陣列創建一個cell
-cell = lib.new_cell('SQUARE_ARRAY')
-
-# 向cell中添加方塊
-for i in range(10):
-    for j in range(10):
-        square = gdspy.Rectangle((0.1*i, 0.1*j), 
-                                 (0.1*i+unit_size, 0.1*j+unit_size),
-                                 layer=100, 
-                                 datatype=0)
-        cell.add(square)
-
-# 創建主cell以放置陣列的實例
-main_cell = lib.new_cell('MAIN')
-
-# 創建兩個間隔一定距離的方塊陣列cell的實例
-instance1 = gdspy.CellReference(cell, (0, 0))
-instance2 = gdspy.CellReference(cell, (unit_size + spacing, 0))
-
-# 將實例添加到主cell
-main_cell.add(instance1)
-main_cell.add(instance2)
-
-# 添加外框以顯示實例的位置和邊界
-rectangle = gdspy.Rectangle((-0.05, -0.05), (1, 1), layer=200, datatype=0)
-main_cell.add(rectangle)
-rectangle = gdspy.Rectangle((10, -0.05), (11.05, 1), layer=200, datatype=0)
-main_cell.add(rectangle)
-
-# 添加更大的外框以顯示整個設計的邊界
-rectangle = gdspy.Rectangle((-0.1, -0.1), (11.1, 1.05), layer=300, datatype=0)
-main_cell.add(rectangle)
-
-# 將標籤添加到 cell
-label = gdspy.Label('s0', (0.5, 0.5), layer=200, texttype=20)
-main_cell.add(label)
-
-# 將設計保存到GDSII文件
-gds_filename = 'd:/demo/lab2.gds'
-lib.write_gds(gds_filename)
-```
-
-![2024-04-12_04-19-57](/assets/2024-04-12_04-19-57.png)
 
 
-### 輔助工具
+涉及到地理信息系統、設計、繪圖或其他專業領域。例如： 
+- `*.xml` 通常用於存儲結構化數據。 
+- `*.tech` 可能是某些技術或設計軟體的特定格式。 
+- `*.layermap` 可能指的是包含圖層信息的映射文件。 
+- `*.ircx` 和 `*.itf` 可能是特定行業或軟體的專用檔案格式。 
+- `*.vlc.tech` 這個擴展名不是很常見，可能是特定軟體的專有格式。
+
+
+
+
+
+
+
+
+### 輔助工具: KLayout
 
 KLayout 是一款功能強大的微電子版圖設計軟件，主要用於設計和檢視集成電路（IC）的版圖。它支援多種版圖格式，如GDSII、OASIS 等，並且能夠處理非常大的數據集。KLayout 不僅提供基本的版圖編輯功能，還包括複雜的版圖檢查和自動化處理功能，使其成為專業的半導體設計工程師和學術研究人員廣泛使用的工具。
 
@@ -114,3 +72,85 @@ KLayout 不僅用於商業環境，也因其開源和免費的特性，在學術
 
 > :link: **連結**
 [KLayout官方網站](https://www.klayout.de/)
+
+### 生成example.gds的python程式碼：
+
+```python
+import gdspy
+import random
+
+# 定義單元大小和實例之間的間距
+unit_size = 0.05  # 方塊的大小
+spacing = 10   # 實例之間的間距
+
+lib = gdspy.GdsLibrary()
+
+array_cell = lib.new_cell('SQUARE_ARRAY')
+
+for i in range(10):
+    for j in range(10):
+
+        square = gdspy.Rectangle((0.1*i, 0.1*j), 
+                                 (0.1*i+unit_size, 0.1*j+unit_size),
+                                 layer=100, 
+                                 datatype=0)
+        array_cell.add(square)
+
+
+line_cell = lib.new_cell('line')
+
+instance1 = gdspy.CellReference(array_cell, (0, 0))
+instance2 = gdspy.CellReference(array_cell, (unit_size + spacing, 0))
+
+line_cell.add(instance1)
+line_cell.add(instance2)
+
+rectangle = gdspy.Rectangle((-0.05, -0.05), (1, 1), layer=200, datatype=0)
+line_cell.add(rectangle)
+rectangle = gdspy.Rectangle((10, -0.05), (11.05, 1), layer=200, datatype=0)
+line_cell.add(rectangle)
+
+rectangle = gdspy.Rectangle((-0.1, -0.1), (11.1, 1.05), layer=300, datatype=0)
+line_cell.add(rectangle)
+
+
+main_cell = lib.new_cell('Main')
+
+labels = ['s1', 's2', '', 's4']
+
+for n, label in enumerate(labels):
+    instance1 = gdspy.CellReference(line_cell, (0, n*2))
+    main_cell.add(instance1)
+    
+    if label:
+        label = gdspy.Label(label, (0.5, 0.5+n*2), layer=200, texttype=20)
+        main_cell.add(label)
+
+for u in [1, 3, 5]:
+    for i in range(100):
+        for j in range(5):
+            square = gdspy.Rectangle((0.1*i+0.2, 0.1*j+u+0.2), 
+                                     (0.1*i+unit_size+0.2, 0.1*j+unit_size+u+0.2),
+                                     layer=300, 
+                                     datatype=0)
+            main_cell.add(square)
+
+
+for i in range(18):
+    dx = i*0.4 + 2
+    line = gdspy.Rectangle((dx, 0), 
+                             (dx+0.2, 7),
+                             layer=200, 
+                             datatype=0)
+    main_cell.add(line)
+    
+    dy = i*0.4 
+    line = gdspy.Rectangle((2, dy), 
+                             (9, dy+0.2),
+                             layer=200, 
+                             datatype=0)
+    main_cell.add(line)
+
+gds_filename = 'd:/demo5/example.gds'
+lib.write_gds(gds_filename)
+```
