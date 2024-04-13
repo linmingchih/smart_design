@@ -4,10 +4,10 @@ AEDT GDS導入與XML技術檔格式
 ### 範例檔案
 
 > :link: **範例檔案下載**
-> GDS圖檔
->[example.gds](/assets/example.gds)
-> 控制檔案
->[example.xml](/assets/example.xml)
+> GDS圖檔\n
+>[example.gds](/assets/example.gds)\n
+> 控制檔案\n
+>[example.xml](/assets/example.xml)\n
 
 ### 概要
 
