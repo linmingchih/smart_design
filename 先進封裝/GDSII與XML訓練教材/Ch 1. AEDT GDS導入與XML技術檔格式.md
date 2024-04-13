@@ -68,10 +68,9 @@ KLayout 是一款功能強大的微電子版圖設計軟件，主要用於設計
 
 KLayout 不僅用於商業環境，也因其開源和免費的特性，在學術界和研究領域得到了廣泛應用。它支持擴展和客製化，這使得用戶可以根據自己的需求修改和擴充軟件功能。
 
-> :link: **連結**
-[KLayout官方網站](https://www.klayout.de/)
+> :link: **連結**<br>[KLayout官方網站](https://www.klayout.de/)
 
-### 生成example.gds的python程式碼：
+### 生成example.gds的python程式碼
 
 ```python
 import gdspy
