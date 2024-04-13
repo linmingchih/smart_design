@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<c:Control xmlns:c="http://www.ansys.com/control" schemaVersion="1.0">
+	<Stackup schemaVersion="1.0">
+		<Materials>
+			<Material Name="m1_cond">
+				<Conductivity>
+					<Double>43000000</Double>
+				</Conductivity>
+			</Material>
+			<Material Name="m2_cond">
+				<Conductivity>
+					<Double>43000000</Double>
+				</Conductivity>
+			</Material>
+			<Material Name="via_cond">
+				<Conductivity>
+					<Double>43000000</Double>
+				</Conductivity>
+			</Material>
+			<Material Name="IMD_A">
+				<Permittivity>
+					<Double>3.23</Double>
+				</Permittivity>
+			</Material>
+			<Material Name="IMD_B">
+				<Permittivity>
+					<Double>2.8</Double>
+				</Permittivity>
+			</Material>
+		</Materials>
+		<ELayers LengthUnit="um">
+			<Dielectrics>
+				<Layer Name="IMD8" Material="IMD_B" Thickness="0.5"/>
+				<Layer Name="IMD7" Material="IMD_A" Thickness="0.1"/>
+				<Layer Name="IMD6" Material="IMD_B" Thickness="0.1"/>
+				<Layer Name="IMD5" Material="IMD_A" Thickness="0.1"/>
+				<Layer Name="IMD4" Material="IMD_B" Thickness="0.1"/>
+				<Layer Name="IMD3" Material="IMD_A" Thickness="0.1"/>
+				<Layer Name="IMD2" Material="IMD_B" Thickness="3"/>
+				<Layer Name="IMD1" Material="IMD_A" Thickness="1"/>
+			</Dielectrics>
+			<Layers>
+				<Layer Name="300" Material="m1_cond" GDSDataType="0" TargetLayer="metal1" Type="conductor" Thickness="0.5" Elevation="1"/>
+				<Layer Name="200" Material="m2_cond" GDSDataType="0" TargetLayer="metal2" Type="conductor" Thickness="0.5" Elevation="4"/>
+			</Layers>
+			<Vias>
+				<Layer Name="100" Material="via_cond" GDSDataType="0" TargetLayer="via12" StartLayer="metal1" StopLayer="metal2">
+					<CreateViaGroups Method="proximity" Tolerance="5um" CheckContainment="true"/>
+					<SnapViaGroups Method="areaFactor" Tolerance="3" RemoveUnconnected="true"/>
+				</Layer>
+			</Vias>
+		</ELayers>
+	</Stackup>
+	<ImportOptions Flatten="true" GDSIIConvertPolygonToCircles="false" ImportDummyNet="true"/>
+	<GDS_NET_DEFINITIONS NET_NAME_CASE_SENSITIVE="true" USE_TOP_LEVEL_TEXT_ONLY="false">
+		<VDD_NETS>
+vdd@metal1 0.5 0.5
+</VDD_NETS>
+		<GND_NETS>
+vss@metal1 0.5 6.5
+</GND_NETS>
+		<SIGNAL_NETS>
+sp@metal1 0.5 2.5
+sn@metal1 0.5 4.5
+</SIGNAL_NETS>
+	</GDS_NET_DEFINITIONS>
+	<SimulationSetups>
+		<HFSSSetup schemaVersion="1.0" Name="HFSS Setup New 444">
+			<HFSSSimulationSettings>
+				<SaveFields>False</SaveFields>
+				<SaveRadFieldsOnly>False</SaveRadFieldsOnly>
+				<HFSSAdaptiveSettings>
+					<MaxRefinePerPass>30</MaxRefinePerPass>
+					<MinPasses>1</MinPasses>
+					<MinConvergedPasses>1</MinConvergedPasses>
+					<AdaptiveSettings>
+						<SingleFrequencyDataList>
+							<AdaptiveFrequencyData>
+								<AdaptiveFrequency>5GHz</AdaptiveFrequency>
+								<MaxDelta>0.02</MaxDelta>
+								<MaxPasses>10</MaxPasses>
+							</AdaptiveFrequencyData>
+						</SingleFrequencyDataList>
+					</AdaptiveSettings>
+				</HFSSAdaptiveSettings>
+				<HFSSInitialMeshSettings>
+					<LambdaRefine>False</LambdaRefine>
+					<LambdaTarget>1.5</LambdaTarget>
+				</HFSSInitialMeshSettings>
+				<HFSSDefeatureSettings>
+					<UnionPolygons>True</UnionPolygons>
+					<SmallVoidArea>0</SmallVoidArea>
+					<RemoveFloatingGeometry>False</RemoveFloatingGeometry>
+					<GeneralUseDefeature>True</GeneralUseDefeature>
+					<GeneralUseDefeatureAbsLength>False</GeneralUseDefeatureAbsLength>
+					<GeneralDefeatureAbsLength>0</GeneralDefeatureAbsLength>
+					<GeneralDefeatureRatio>1e-06</GeneralDefeatureRatio>
+					<GeneralPtToEdgePtToPtSnapping>1</GeneralPtToEdgePtToPtSnapping>
+					<ModelType>General</ModelType>
+				</HFSSDefeatureSettings>
+				<HFSSViaSettings>
+					<ViaNumSides>7</ViaNumSides>
+					<ViaMaterial>copper</ViaMaterial>
+				</HFSSViaSettings>
+				<HFSSCurveApproxSettings>
+					<ArcAngle>30deg</ArcAngle>
+					<StartAzimuth>0deg</StartAzimuth>
+					<MaxArcPoints>8</MaxArcPoints>
+					<ArcToChordError>0meter</ArcToChordError>
+				</HFSSCurveApproxSettings>
+				<HFSSAdvancedMeshSettings>
+					<LayerSnapTol>0</LayerSnapTol>
+				</HFSSAdvancedMeshSettings>
+				<HFSSModellingSettings>
+					<ZeroMetalLayerThickness>0</ZeroMetalLayerThickness>
+					<ThinDielectric>0</ThinDielectric>
+					<IntraPlaneCoupling>true</IntraPlaneCoupling>
+				</HFSSModellingSettings>
+				<HFSSMeshOperations>
+					<MeshOperation>
+						<Name>Length 1</Name>
+						<Enabled>true</Enabled>
+						<RefineInside>true</RefineInside>
+						<Region/>
+						<Type>MeshOperationLength</Type>
+						<NetsLayers>
+							<NetLayer>
+								<Net>Blue</Net>
+								<Layer>top</Layer>
+							</NetLayer>
+							<NetLayer>
+								<Net>Green</Net>
+								<Layer>top</Layer>
+							</NetLayer>
+						</NetsLayers>
+						<RestrictElem>false</RestrictElem>
+						<NumMaxElem>1000</NumMaxElem>
+						<RestrictLength>true</RestrictLength>
+						<MaxLength>0.2mm</MaxLength>
+					</MeshOperation>
+					<MeshOperation>
+						<Name>Length 2</Name>
+						<Enabled>true</Enabled>
+						<RefineInside>false</RefineInside>
+						<Region>user1:seed_1</Region>
+						<Type>MeshOperationLength</Type>
+						<NetsLayers>
+							<NetLayer>
+								<Net>Blue </Net>
+								<Layer>middle</Layer>
+							</NetLayer>
+							<NetLayer>
+								<Net>Red </Net>
+								<Layer>middle</Layer>
+							</NetLayer>
+							<NetLayer>
+								<Net>Green</Net>
+								<Layer>middle</Layer>
+							</NetLayer>
+						</NetsLayers>
+						<RestrictElem>false</RestrictElem>
+						<NumMaxElem>1000</NumMaxElem>
+						<RestrictLength>true</RestrictLength>
+						<MaxLength>0.2mm</MaxLength>
+					</MeshOperation>
+					<MeshOperation>
+						<Name>Skin 1</Name>
+						<Enabled>false</Enabled>
+						<RefineInside>false</RefineInside>
+						<Region/>
+						<Type>MeshOperationSkinDepth</Type>
+						<NetsLayers>
+							<NetLayer>
+								<Net>Blue</Net>
+								<Layer>top</Layer>
+							</NetLayer>
+							<NetLayer>
+								<Net>Blue</Net>
+								<Layer>middle</Layer>
+							</NetLayer>
+							<NetLayer>
+								<Net>Blue</Net>
+								<Layer>bottom</Layer>
+							</NetLayer>
+						</NetsLayers>
+						<RestrictElem>true</RestrictElem>
+						<NumMaxElem>1000</NumMaxElem>
+						<SkinDepth>2um</SkinDepth>
+						<SurfTriLength>1mm</SurfTriLength>
+						<NumLayers>2</NumLayers>
+					</MeshOperation>
+				</HFSSMeshOperations>
+			</HFSSSimulationSettings>
+		</HFSSSetup>
+	</SimulationSetups>
+</c:Control>

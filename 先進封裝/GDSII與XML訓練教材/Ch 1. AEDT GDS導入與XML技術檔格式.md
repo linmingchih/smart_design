@@ -3,7 +3,7 @@ AEDT GDS導入與XML技術檔格式
 **2024 Apr, ANSYS 台灣**
 ### 範例檔案
 
-> :link: **範例檔案下載**<br>[example.gds](/assets/example.gds)<br>[example.xml](/assets/example.xml)
+> :link: **範例檔案下載**<br>[example.gds](/assets/example.gds)<br>[example.xml (只包含材料及堆疊)](/assets/example.xml)<br>[example_nets.xml (+nets資訊及Via Grouping)](/assets/example_nets.xml)<br>[example_nets_sim.xml (+模擬設定及掃頻資訊)](/assets/example_nets_sim.xml)
 
 ### 概要
 
