@@ -40,11 +40,11 @@
 				<Layer Name="IMD1" Material="IMD_A" Thickness="1"/>
 			</Dielectrics>
 			<Layers>
-				<Layer Name="300" Material="m1_cond" GDSDataType="0" TargetLayer="metal1" Type="conductor" Thickness="0.5" Elevation="1"/>
-				<Layer Name="200" Material="m2_cond" GDSDataType="0" TargetLayer="metal2" Type="conductor" Thickness="0.5" Elevation="4"/>
+				<Layer Name="300" Material="m1_cond" GDSDataType="0" TargetLayer="metal1" Type="conductor" Thickness="0.5" Elevation="1" SolveInside="true"/>
+				<Layer Name="200" Material="m2_cond" GDSDataType="0" TargetLayer="metal2" Type="conductor" Thickness="0.5" Elevation="4" SolveInside="true"/>
 			</Layers>
 			<Vias>
-				<Layer Name="100" Material="via_cond" GDSDataType="0" TargetLayer="via12" StartLayer="metal1" StopLayer="metal2">
+				<Layer Name="100" Material="via_cond" GDSDataType="0" TargetLayer="via12" StartLayer="metal1" StopLayer="metal2" SolveInside="true">
 					<CreateViaGroups Method="proximity" Tolerance="5um" CheckContainment="true"/>
 					<SnapViaGroups Method="areaFactor" Tolerance="3" RemoveUnconnected="true"/>
 				</Layer>
