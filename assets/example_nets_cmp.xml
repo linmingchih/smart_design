@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<c:Control xmlns:c="http://www.ansys.com/control" schemaVersion="1.0">
+	<Stackup schemaVersion="1.0">
+		<Materials>
+			<Material Name="m1_cond">
+				<Conductivity>
+					<Double>43000000</Double>
+				</Conductivity>
+			</Material>
+			<Material Name="m2_cond">
+				<Conductivity>
+					<Double>43000000</Double>
+				</Conductivity>
+			</Material>
+			<Material Name="via_cond">
+				<Conductivity>
+					<Double>43000000</Double>
+				</Conductivity>
+			</Material>
+			<Material Name="IMD_A">
+				<Permittivity>
+					<Double>3.23</Double>
+				</Permittivity>
+			</Material>
+			<Material Name="IMD_B">
+				<Permittivity>
+					<Double>2.8</Double>
+				</Permittivity>
+			</Material>
+		</Materials>
+		<ELayers LengthUnit="um">
+			<Dielectrics>
+				<Layer Name="IMD8" Material="IMD_B" Thickness="0.5"/>
+				<Layer Name="IMD7" Material="IMD_A" Thickness="0.1"/>
+				<Layer Name="IMD6" Material="IMD_B" Thickness="0.1"/>
+				<Layer Name="IMD5" Material="IMD_A" Thickness="0.1"/>
+				<Layer Name="IMD4" Material="IMD_B" Thickness="0.1"/>
+				<Layer Name="IMD3" Material="IMD_A" Thickness="0.1"/>
+				<Layer Name="IMD2" Material="IMD_B" Thickness="3"/>
+				<Layer Name="IMD1" Material="IMD_A" Thickness="1"/>
+			</Dielectrics>
+			<Layers>
+				<Layer Name="300" Material="m1_cond" GDSDataType="0" TargetLayer="metal1" Type="conductor" Thickness="0.5" Elevation="1" SolveInside="true"/>
+				<Layer Name="200" Material="m2_cond" GDSDataType="0" TargetLayer="metal2" Type="conductor" Thickness="0.5" Elevation="4" SolveInside="true"/>
+			</Layers>
+			<Vias>
+				<Layer Name="100" Material="via_cond" GDSDataType="0" TargetLayer="via12" StartLayer="metal1" StopLayer="metal2" SolveInside="true">
+					<CreateViaGroups Method="proximity" Tolerance="5um" CheckContainment="true"/>
+					<SnapViaGroups Method="areaFactor" Tolerance="3" RemoveUnconnected="true"/>
+				</Layer>
+			</Vias>
+		</ELayers>
+	</Stackup>
+	<ImportOptions Flatten="true" GDSIIConvertPolygonToCircles="false" ImportDummyNet="true"/>
+	<GDS_NET_DEFINITIONS NET_NAME_CASE_SENSITIVE="true" USE_TOP_LEVEL_TEXT_ONLY="false">
+		<VDD_NETS>
+vdd@metal1 0.5 0.5
+</VDD_NETS>
+		<GND_NETS>
+vss@metal1 0.5 6.5
+</GND_NETS>
+		<SIGNAL_NETS>
+sp@metal1 0.5 2.5
+sn@metal1 0.5 4.5
+</SIGNAL_NETS>
+	</GDS_NET_DEFINITIONS>
+	<GDS_COMPONENTS LengthUnit="um">
+		<GDS_COMPONENT>
+			<GDS_PIN Name="1" x="0.5" y="0.5" Layer="metal2"/>
+			<GDS_PIN Name="2" x="0.5" y="2.5" Layer="metal2"/>
+			<GDS_PIN Name="3" x="0.5" y="4.5" Layer="metal2"/>
+			<GDS_PIN Name="4" x="0.5" y="6.5" Layer="metal2"/>
+			<Component RefDes="B1" PartName="die1" PartType="IC">
+        </Component>
+		</GDS_COMPONENT>
+		<GDS_COMPONENT>
+			<GDS_PIN Name="1" x="11" y="0.5" Layer="metal2"/>
+			<GDS_PIN Name="2" x="11" y="2.5" Layer="metal2"/>
+			<GDS_PIN Name="3" x="11" y="4.5" Layer="metal2"/>
+			<GDS_PIN Name="4" x="11" y="6.5" Layer="metal2"/>
+			<Component RefDes="B2" PartName="die2" PartType="IC">
+        </Component>
+		</GDS_COMPONENT>
+	</GDS_COMPONENTS>
+</c:Control>
