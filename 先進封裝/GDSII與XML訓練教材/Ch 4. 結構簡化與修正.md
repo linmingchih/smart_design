@@ -1,11 +1,26 @@
 結構簡化與修正
 ---
+在使用GDSII檔案進行電磁模擬時，以下列出的這些挑戰是在需要特別留意的： 
+1. **小幾何體的大量存在** ：模擬中需要考慮到數以千計的小幾何體，這會對求解器的效能造成壓力，並增加網格創建的複雜性。 
+2. **相鄰層上的幾何體錯位** ：不同層上的幾何形狀錯位可能需要進行額外的計算，以處理這些差異。 
+3. **極薄且數量極多的介電層** ：這些層可能需要透過合併或簡化來降低模型複雜性，從而節省模擬所需的時間和計算資源。
 
-### 3.1 Via Grouping
+![2024-04-14_08-37-40](/assets/2024-04-14_08-37-40.png)
+
+對於幾何預處理的重要性，這意味著在模擬之前，工程師需要進行一系列的優化措施，包括但不限於： 
+- **模型簡化** ：減少小幾何體數量，對於不影響模擬結果的細節進行省略。 
+- **幾何體合併** ：將多個相鄰幾何體合併成一個較大的幾何體，減少總體幾何數量。 
+- **介電層合併** ：將多個極薄的介電層合併成少數幾個具有相似特性的較厚層。
+
+這樣的預處理不僅能提高模擬的速度，還有助於提高模擬的準確性。適當的預處理可以大大減少電磁求解器的負擔，使其能夠更快地達到收斂條件，同時保持模擬結果的可靠性。
+
+### Via Grouping
 
 在晶片製造過程中，常見的做法是使用數以千計的小通孔（vias）在信號層之間建立連接。在Ansys Electronics Desktop Layout Editor中，這些通孔通常以方形原始體（square primitives）來表示。這種表示對於製造來說很重要，但對於模擬時卻可能引入不適宜的網格密度，從而增加了計算的複雜性。
 
 通孔分組（Via Grouping）選項允許將這些方形原始體分組，並用單個原始體來代表整個組，這樣可以大大降低網格的複雜性，同時只會輕微降低精度。精度的保持是通過計算基於原始幾何形狀的等效材料來實現的。
+
+![2024-04-14_08-47-04](/assets/2024-04-14_08-47-04.png)
 
 當你有一組方形原始體時，通孔分組工具可以自動檢測出矩形原始體的集群，並相應地創建通孔分組。然後可以根據需要結合或分解這些通孔分組。進行通孔分組的步驟如下：
 
@@ -36,8 +51,22 @@
 
 這意味著當進行電路設計或佈局優化時，這個工具可以自動識別可能導致電氣連接問題的區域，並採取預防措施，保證設計的安全性和可靠性。這對於減少設計錯誤、避免後期修正所需的時間和成本是非常有幫助的。
 
+#### 等效導電率
+通孔陣列被簡化為一個單一的方塊用以減少計算模型時的網格複雜度，從而加快模擬速度並減少所需的計算資源。然而，由於導電面積變大，這種簡化會改變電流分佈和導電率特性，影響模擬結果的準確性。
 
-#### 採用Dielectric Merge
+為了等效原始通孔陣列的電流密度和導電特性，需要對該方塊的導電率進行調整。這通常需要按照以下步驟來執行： 
+1. **計算原始通孔陣列的總導電面積** ：這包括所有單獨通孔的總和。 
+2. **計算等效方塊的面積** ：確定等效方塊的尺寸。 
+3. **確定等效導電率** ：基於原始通孔陣列的總導電面積和等效方塊的面積，調整等效方塊的導電率，使得通過等效方塊的總電流與通過原始通孔陣列的總電流相匹配。
+
+這涉及到一個權衡，即在保持計算簡單性的同時，儘量保留原始物理現象的特性。這種方法是建立在假設電流密度均勻分佈在等效方塊上，而在實際情況中，通孔陣列中的電流密度可能會有不均勻分佈。因此，這種簡化可能會引入一些誤差，但如果網格複雜度造成的計算成本太高，這種簡化通常被認為是可接受的。
+
+![2024-04-14_08-49-14](/assets/2024-04-14_08-49-14.png)
+
+
+
+
+### Dielectric Merge
 半導體長有多個電性相近的薄薄膜層疊在一起，這些層的介電常數差異很小，導致單獨為每一層切網格會使得網格總數急劇增加，從而增加了計算資源的消耗。為了解決這個問題，HFSS提供了介電質簡化的方法。
 
 在這個過程中，可以選擇一個或多個連續的介電層，然後將每一組合併為一個介電層。合併後的介電層將有一個計算出的相對介電常數 \(\epsilon_{r\_merged}\)。計算 \(\epsilon_{r\_merged}\) 可以使用以下三種方法之一：
@@ -66,69 +95,3 @@
 ![2024-03-23_20-16-16](/assets/2024-03-23_20-16-16.png)
 
 
-```python
-import gdspy
-from itertools import product
-
-unit_size = 0.05  
-spacing = 2   
-
-lib = gdspy.GdsLibrary()
-
-
-cell = lib.new_cell('SQUARE_ARRAY')
-
-for i in range(10):
-    for j in range(10):
-        square = gdspy.Rectangle((0.1*i, 0.1*j), 
-                                 (0.1*i+unit_size, 0.1*j+unit_size),
-                                 layer=100, 
-                                 datatype=0)
-        cell.add(square)
-
-
-dummy = lib.new_cell('Dummy_ARRAY')
-
-for i in range(6):
-    for j in range(6):
-        square = gdspy.Rectangle((0.1*i, 0.1*j), 
-                                 (0.1*i+unit_size, 0.1*j+unit_size),
-                                 layer=300, 
-                                 datatype=0)
-        dummy.add(square)
-
-
-main_cell = lib.new_cell('MAIN')
-
-# 創建兩個間隔一定距離的方塊陣列cell的實例
-for i, j in product(range(6), range(6)):
-    dx = i*spacing
-    dy = j*spacing
-    instance = gdspy.CellReference(cell, (dx, dy))
-    main_cell.add(instance)
-    
-    if i < 5 and j < 5:
-        instance = gdspy.CellReference(dummy, (dx+1.2, dy+1.2))
-        main_cell.add(instance)
-
-    rectangle = gdspy.Rectangle((-0.05+dx, -0.05+dy), (1+dx, 1+dy), layer=200, datatype=0)
-    main_cell.add(rectangle)
-
-    rectangle = gdspy.Rectangle((-0.1, -0.1+dy), (11.05, 1.05+dy), layer=300, datatype=0)
-    main_cell.add(rectangle)
-
-    rectangle = gdspy.Rectangle((-0.1+dx, -0.1), (1.05+dx, 11.05), layer=300, datatype=0)
-    main_cell.add(rectangle)
-
-
-# 添加更大的外框以顯示整個設計的邊界
-
-# 將標籤添加到 cell
-label = gdspy.Label('s0', (0.5, 0.5), layer=200, texttype=20)
-main_cell.add(label)
-
-# 將設計保存到GDSII文件
-gds_filename = 'd:/demo5/lab3.gds'
-lib.write_gds(gds_filename)
-
-```
