@@ -1,4 +1,4 @@
-AEDT XML進階編寫技巧
+AEDT XML 進階觀念
 ---
 XML（Extensible Markup Language，可擴展標記語言）是一種廣泛使用的標記語言，它設計用來儲存和傳輸數據。XML 提供了一種結構化的數據格式，使得數據既可以由機器讀取，也便於人工閱讀。
 

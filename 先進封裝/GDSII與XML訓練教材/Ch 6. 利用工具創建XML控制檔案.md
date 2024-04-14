@@ -4,7 +4,7 @@
 ### GDS Import Wizard
 [GDS Import Wizard](https://github.com/YongshengGuo/GDSImportWizard) 是一款專為Ansys HFSS 3D Layout設計的工具，它能快速將GDS格式文件導入用於仿真建模和分析。此工具支持多種文件類型，包括未加密的IRCX文件和itf文件，並能夠處理自定義的工藝文件格式。對於尚未直接支持的文件，用戶可以通過CSV文件來定義導入。GDSImportWizard的應用範圍包括先進的2.5D/3D封裝技術、射頻晶片、通過硅孔（TSV）和矽基集成電路等。
 
-![277663987-2b777bee-9e76-494e-9009-f789b6ef7b42](/assets/277663987-2b777bee-9e76-494e-9009-f789b6ef7b42.png)
+![277663987-2b777bee-9e76-494e-9009-f789b6ef7b42](/assets/277663987-2b777bee-9e76-494e-9009-f789b6ef7b42_j2r30yq6p.png)
 
 此工具的核心功能包括從GDS檔案中提取網路並導入到EDB、從IRCX文件中提取精確的材料屬性和層厚度結構、自動生成用於AEDT GDSII導入的控制XML文件。從版本4.0開始，新增了四種介電材料合併導入功能，自動創建Via組並對Via組進行對齊，並在上下層自動生成組件以便於端口設定。
 
