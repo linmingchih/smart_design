@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            targetNamespace="http://www.ansys.com/component"
+            xmlns="http://www.ansys.com/component"
+            xmlns:stackup="http://www.ansys.com/stackup"
+            xmlns:geometry="http://www.ansys.com/geometry"
+            elementFormDefault="unqualified" >
+
+  <xsd:import schemaLocation="Stackup.xsd" namespace="http://www.ansys.com/stackup" />
+  <xsd:import schemaLocation="Geometry.xsd" namespace="http://www.ansys.com/geometry" />
+
+
+  <xsd:complexType name="Component">
+    <xsd:sequence>
+      <xsd:element name="DieProperties" type="DieProperties" minOccurs="0" maxOccurs="1" />
+      <xsd:element name="SolderballProperties" type="SolderballProperties" minOccurs="0" maxOccurs="1" />
+      <xsd:element name="PortProperties" type="PortProperties" minOccurs="0" maxOccurs="1" />
+      <xsd:choice>
+        <xsd:element name="RLCModel" type="RLCModel" minOccurs="0" maxOccurs="1" />
+        <xsd:element name="NPortModel" type="NPortModel" minOccurs="0" maxOccurs="1" />
+        <xsd:element name="NetlistModel" type="NetlistModel" minOccurs="0" maxOccurs="1" />
+        <xsd:element name="SpiceModel" type="SpiceModel" minOccurs="0" maxOccurs="1" />
+      </xsd:choice>
+      <xsd:element name="PinGroup" type="PinGroup" minOccurs="0" maxOccurs="unbounded" />
+      <xsd:element name="ComponentPort" type="ComponentPort" minOccurs="0" maxOccurs="unbounded" />
+    </xsd:sequence>
+    <xsd:attribute name="RefDes" use="required" />
+    <xsd:attribute name="PartType" type="PartType" use="required" />
+    <xsd:attribute name="PartName" use="optional" />
+    <xsd:attribute name="NumPins" type="xsd:positiveInteger" use="optional" />
+    <xsd:attribute name="Nets" use="optional" />
+    <xsd:attribute name="LengthUnit" type="stackup:LengthType" use="optional" />
+  </xsd:complexType>
+
+  <xsd:simpleType name="PartType">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="Resistor" />
+      <xsd:enumeration value="Inductor" />
+      <xsd:enumeration value="Capacitor" />
+      <xsd:enumeration value="IC" />
+      <xsd:enumeration value="IO" />
+      <xsd:enumeration value="Other" />
+    </xsd:restriction>
+  </xsd:simpleType>
+
+  <xsd:complexType name="DieProperties">
+    <xsd:attribute name="Type" type="DieType" use="required"/>
+    <xsd:attribute name="Orientation" type="DieOrientation" use="optional" />
+    <xsd:attribute name="Height" type="xsd:string" use="optional" />
+  </xsd:complexType>
+
+  <xsd:simpleType name="DieType">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="None" />
+      <xsd:enumeration value="Flip chip" />
+      <xsd:enumeration value="Wire bond" />
+    </xsd:restriction>
+  </xsd:simpleType>
+
+  <xsd:simpleType name="DieOrientation">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="None" />
+      <xsd:enumeration value="Chip down" />
+      <xsd:enumeration value="Chip up" />
+    </xsd:restriction>
+  </xsd:simpleType>
+
+  <xsd:complexType name="SolderballProperties">
+    <xsd:attribute name="Shape" type="SolderballShape" use="required"/>
+    <xsd:attribute name="Diameter" type="xsd:string" use="optional" />
+    <xsd:attribute name="MidDiameter" type="xsd:string" use="optional" />
+    <xsd:attribute name="Height" type="xsd:string" use="optional" />
+    <xsd:attribute name="Material" type="xsd:string" use="optional" />
+  </xsd:complexType>
+
+  <xsd:simpleType name="SolderballShape">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="None" />
+      <xsd:enumeration value="Cylinder" />
+      <xsd:enumeration value="Spheroid" />
+    </xsd:restriction>
+  </xsd:simpleType>
+
+  <xsd:complexType name="PortProperties">
+    <xsd:attribute name="ReferenceOffset" type="xsd:string" use="optional" />
+    <xsd:attribute name="ReferenceSizeAuto" type="geometry:Boolean" use="optional" />
+    <xsd:attribute name="ReferenceSizeX" type="xsd:string" use="optional" />
+    <xsd:attribute name="ReferenceSizeY" type="xsd:string" use="optional" />
+  </xsd:complexType>
+
+  <xsd:complexType name="PinPair">
+    <xsd:attribute name="p1" type="xsd:string" use="required" />
+    <xsd:attribute name="p2" type="xsd:string" use="required" />
+  </xsd:complexType>
+
+  <xsd:complexType name="RLCModel">
+    <xsd:sequence>
+      <xsd:element name="PinPair" type="PinPair" minOccurs="0" maxOccurs="unbounded" />
+    </xsd:sequence>
+    <xsd:attribute name="Type" type="RLCModelType" use="required" />
+    <xsd:attribute name="R" use="optional" />
+    <xsd:attribute name="L" use="optional" />
+    <xsd:attribute name="C" use="optional" />
+    <xsd:attribute name="SolveIndependent" type="geometry:Boolean" use="optional" />
+  </xsd:complexType>
+
+  <xsd:simpleType name="RLCModelType">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="Series" />
+      <xsd:enumeration value="Parallel" />
+      <xsd:enumeration value="Port" />
+    </xsd:restriction>
+  </xsd:simpleType>
+
+  <xsd:complexType name="NPortModel">
+    <xsd:sequence>
+      <!-- Connectivity for the NPortModel can optionally be described with PinPairs.
+           This can be used for XNet calculations, bypass configurations, etc.... -->
+      <xsd:element name="PinPair" type="PinPair" minOccurs="0" maxOccurs="unbounded" />
+    </xsd:sequence>    
+    <xsd:attribute name="Type" type="NPortModelType" use="required" />
+    <xsd:attribute name="FileName" type="xsd:string" use="required" />
+    <xsd:attribute name="SolveIndependent" type="geometry:Boolean" use="optional" />
+    <xsd:attribute name="ReferenceNet" type="xsd:string" use="optional" />
+  </xsd:complexType>
+
+  <xsd:simpleType name="NPortModelType">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="Touchstone" />
+    </xsd:restriction>
+  </xsd:simpleType>
+
+  <xsd:complexType name="NetlistModel">
+    <xsd:sequence>
+       <xsd:element name="Netlist" type="xsd:string" minOccurs="1" />
+    </xsd:sequence>
+    <xsd:attribute name="SolveIndependent" type="geometry:Boolean" use="optional" />
+  </xsd:complexType>
+
+  <xsd:complexType name="PGPin">
+    <xsd:attribute name="Name" type="xsd:string" use="required" />
+  </xsd:complexType>
+
+  <xsd:complexType name="PGNet">
+    <xsd:attribute name="Name" type="xsd:string" use="required" />
+  </xsd:complexType>
+
+  <xsd:complexType name="PinGroup">
+    <xsd:choice minOccurs="0">
+      <xsd:sequence>
+        <xsd:element name="Net" type="PGNet" minOccurs="1" maxOccurs="unbounded" />
+      </xsd:sequence>
+      <xsd:sequence>
+        <xsd:element name="Pin" type="PGPin" minOccurs="1" maxOccurs="unbounded" />
+      </xsd:sequence>
+    </xsd:choice>
+    <xsd:attribute name="Name" type="xsd:string" use="required" />
+  </xsd:complexType>
+
+  <xsd:complexType name ="ComponentPort">
+    <xsd:choice>
+      <xsd:sequence>
+        <xsd:element name="PosPin" type="NamedElement" minOccurs="1" maxOccurs="1" />
+        <xsd:choice minOccurs="0" maxOccurs="1">
+          <xsd:element name="RefPin" type="NamedElement" minOccurs="1" maxOccurs="1" />
+          <xsd:element name="RefPinGroup" type="NamedElement" minOccurs="1" maxOccurs="1" />
+          <xsd:element name="RefNet" type="NamedElement" minOccurs="1" maxOccurs="1" />
+        </xsd:choice>
+      </xsd:sequence>
+      <xsd:sequence>
+        <xsd:element name="PosPinGroup" type="NamedElement" minOccurs="1" maxOccurs="1" />
+        <xsd:choice minOccurs="1" maxOccurs="1">
+          <xsd:element name="RefPin" type="NamedElement" minOccurs="1" maxOccurs="1" />
+          <xsd:element name="RefPinGroup" type="NamedElement" minOccurs="1" maxOccurs="1" />
+          <xsd:element name="RefNet" type="NamedElement" minOccurs="1" maxOccurs="1" />
+        </xsd:choice>
+      </xsd:sequence>
+    </xsd:choice>
+    <xsd:attribute name="Name" type="xsd:string" use="required" />
+    <xsd:attribute name="Z0" type="stackup:PosDbl" default="50" />
+  </xsd:complexType>
+
+  <xsd:complexType name="ReferencePort">
+    <xsd:choice minOccurs="1" maxOccurs="1">
+      <xsd:element name="RefPin" type="NamedElement" minOccurs="1" maxOccurs="1" />
+      <xsd:element name="RefPinGroup" type="NamedElement" minOccurs="1" maxOccurs="1" />
+      <xsd:element name="RefNet" type="NamedElement" minOccurs="1" maxOccurs="1" />
+    </xsd:choice>
+  </xsd:complexType>
+  
+  <xsd:complexType name="NamedElement">
+    <xsd:attribute name="Name" use="required" />
+  </xsd:complexType>
+  
+  <xsd:complexType name="TerminalPinMapping">
+    <xsd:attribute name="term" type="xsd:string" use="required" />
+    <xsd:attribute name="pin" type="xsd:string" use="required" />
+  </xsd:complexType>
+
+  <xsd:complexType name="SpiceModel">
+    <xsd:sequence>
+      <xsd:element name="TerminalPinMapping" type="TerminalPinMapping" minOccurs="1" maxOccurs="unbounded" />
+    </xsd:sequence>
+    <xsd:attribute name="ModelName" type="xsd:string" use="required" />
+    <xsd:attribute name="FileName" type="xsd:string" use="required" />
+    <xsd:attribute name="SubCkt" type="xsd:string" use="required" />
+    <xsd:attribute name="SolveIndependent" type="geometry:Boolean" use="optional" />
+    <xsd:attribute name="ReferenceNet" type="xsd:string" use="optional" />
+  </xsd:complexType>
+
+</xsd:schema>

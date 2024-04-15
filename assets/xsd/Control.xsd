@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            targetNamespace="http://www.ansys.com/control"
+            xmlns="http://www.ansys.com/control"
+            xmlns:stackup="http://www.ansys.com/stackup"
+            xmlns:components="http://www.ansys.com/components"
+            xmlns:simulationsetups="http://www.ansys.com/simulationsetup"
+            xmlns:importoptions="http://www.ansys.com/importoptions"
+            xmlns:boundaries="http://www.ansys.com/boundary"
+            xmlns:geometry="http://www.ansys.com/geometry"
+            elementFormDefault="unqualified">
+
+  <xsd:import schemaLocation="Stackup.xsd"
+             namespace="http://www.ansys.com/stackup"/>
+  <xsd:import schemaLocation="Components.xsd"
+             namespace="http://www.ansys.com/components"/>
+  <xsd:import schemaLocation="SimulationSetup.xsd"
+             namespace="http://www.ansys.com/simulationsetup"/>
+  <xsd:import schemaLocation="ImportOptions.xsd"
+             namespace="http://www.ansys.com/importoptions"/>
+  <xsd:import schemaLocation="Boundary.xsd"
+             namespace="http://www.ansys.com/boundary"/>
+  <xsd:import schemaLocation="Geometry.xsd"
+             namespace="http://www.ansys.com/geometry"/>
+
+  <xsd:element name="Control">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="Design" type="Design" minOccurs="0" maxOccurs="1" />
+        <xsd:element name="Stackup" type="stackup:Stackup" minOccurs="0" maxOccurs="1" />
+        <xsd:element name="Geometry" type="geometry:Geometry" minOccurs="0" maxOccurs="1" />
+        <xsd:element name="Definitions" type="components:Definitions" minOccurs="0" maxOccurs="1" />
+        <xsd:element name="Boundaries" type="boundaries:BoundaryConditions" minOccurs="0" maxOccurs="1" />
+        <xsd:element name="Components" type="components:Components" minOccurs="0" maxOccurs="1" />
+        <xsd:element name="CutoutSubdesign" type="geometry:CutoutSubdesign" minOccurs="0" maxOccurs="1" />
+        <xsd:element name="RemoveHoles" type="geometry:RemoveHoles" minOccurs="0" maxOccurs="1" />
+        <xsd:element name="SimulationSetups" type="simulationsetups:SimulationSetups" minOccurs="0" maxOccurs="unbounded" />
+        <xsd:element name="ImportOptions" type="importoptions:ImportOptions" minOccurs="0" maxOccurs="1" />
+        <xsd:element name="GDS_CELL_RULES" type="importoptions:GDS_CELL_RULES" minOccurs="0" maxOccurs="1" />        
+        <xsd:choice>
+          <xsd:element name="Nets" type="importoptions:Nets" minOccurs="0" maxOccurs="1" />
+          <xsd:element name="GDS_NET_DEFINITIONS" type="importoptions:GDS_NET_DEFINITIONS" minOccurs="0" maxOccurs="1" />
+        </xsd:choice>
+        <xsd:element name="GDS_COMPONENTS" type="importoptions:GDS_COMPONENTS" minOccurs="0" maxOccurs="1" />
+      </xsd:sequence>
+      <xsd:attribute name="schemaVersion" type="xsd:decimal" use="required" fixed="1.0" />
+      <xsd:attribute name="source" type="xsd:string" use="optional" />
+    </xsd:complexType>
+  </xsd:element>
+
+  <!-- Type declarations -->
+  
+  <xsd:complexType name="Design">
+    <xsd:attribute name="AnalysisConfigurationFile" type="xsd:string" use="optional" />
+    <xsd:attribute name="UseCausalMaterials" type="xsd:boolean" use="optional" />
+  </xsd:complexType>
+
+</xsd:schema>

@@ -1,0 +1,236 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            targetNamespace="http://www.ansys.com/importoptions"
+            xmlns="http://www.ansys.com/importoptions"
+            xmlns:stackup="http://www.ansys.com/stackup"
+            xmlns:component="http://www.ansys.com/component"
+            elementFormDefault="unqualified">
+
+  <xsd:import schemaLocation="Stackup.xsd" namespace="http://www.ansys.com/stackup" />
+  <xsd:import schemaLocation="Component.xsd" namespace="http://www.ansys.com/component" />
+
+  <xsd:element name="ImportOptions" type="ImportOptions" />
+  <xsd:element name="Nets" type="Nets" />
+  <xsd:element name="GDS_NET_DEFINITIONS" type="GDS_NET_DEFINITIONS" />
+  <xsd:element name="GDS_CELL_RULES" type="GDS_CELL_RULES" />
+  <xsd:element name="GDS_COMPONENTS" type="GDS_COMPONENTS" />
+
+  <!-- Type Declarations -->
+  
+    <xsd:simpleType name="PosInt">
+      <xsd:restriction base="xsd:integer">
+        <xsd:minInclusive value="0" />
+      </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:complexType name="PortNamingConvention">
+        <xsd:attribute name="Value" type="xsd:string" use="required" />
+    </xsd:complexType>
+
+  <xsd:simpleType name="NC-Omit-Zeroes">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="Trailing"/>
+      <xsd:enumeration value="Leading"/>
+      <xsd:enumeration value="None"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  
+  <xsd:complexType name="NC-Drill-Settings">
+    <xsd:attribute name="Format" type ="xsd:string" use="required" />
+    <xsd:attribute name="OmitZeroes" type="NC-Omit-Zeroes" default="None" />
+  </xsd:complexType>
+
+  <xsd:simpleType name="MergeType">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="WeightedCapacitance" />
+      <xsd:enumeration value="KraszewskiMethod" />
+      <xsd:enumeration value="WeightedAverage" />
+    </xsd:restriction>
+  </xsd:simpleType>
+  
+  <xsd:complexType name="MergeDielectrics">
+    <xsd:attribute name="LayerThicknessThreshold" type="xsd:string" use="optional"/>
+    <xsd:attribute name="MergeType" type="MergeType" use="required"/>
+  </xsd:complexType>
+
+  <xsd:simpleType name="HoleImportOption">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="PadstackInst" />
+      <xsd:enumeration value="BoardHole" />
+      <xsd:enumeration value="Ignore" />
+    </xsd:restriction>
+  </xsd:simpleType>
+
+  <xsd:simpleType name="HoleType">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="BOARD"/>
+      <xsd:enumeration value="NPTH"/>
+      <xsd:enumeration value="Other"/>
+      <xsd:enumeration value="MTG"/>
+      <xsd:enumeration value="TOOL"/>
+      <xsd:enumeration value=""/>
+    </xsd:restriction>
+  </xsd:simpleType>
+
+  <xsd:complexType name="IDFHoleRule">
+    <xsd:attribute name="HoleType" type="HoleType"/>
+    <xsd:attribute name="HoleImportOption" type="HoleImportOption"/>
+  </xsd:complexType>
+  
+  <xsd:complexType name="IDFHoleImport">
+    <xsd:sequence>
+      <xsd:element name="IDFHoleRule" type="IDFHoleRule" minOccurs="0" maxOccurs="unbounded"/>
+    </xsd:sequence>
+    <xsd:attribute name="DefaultImport" type="HoleImportOption"/>
+  </xsd:complexType>
+    
+  <xsd:complexType name="ImportOptions">
+    <xsd:all>
+      <xsd:element name="PortNamingConvention" type="PortNamingConvention" minOccurs="0" maxOccurs="1" />
+      <xsd:element name="Stitching" minOccurs="0" maxOccurs="1">
+        <xsd:complexType>
+          <xsd:attribute name="Tolerance" type="stackup:PosDbl" use="optional" />
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="NC-Drill-Settings" type="NC-Drill-Settings" minOccurs="0" maxOccurs="1"/>
+      <xsd:element name="MergeDielectrics" type="MergeDielectrics" minOccurs="0" maxOccurs="1"/>
+      <xsd:element name="IDFHoleImport" type="IDFHoleImport" minOccurs="0" maxOccurs="1"/>
+    </xsd:all>
+    
+    <xsd:attribute name="UnitsOverride" type="stackup:LengthType" use="optional" />
+    <xsd:attribute name="AutoClose" type="xsd:boolean" use="optional" default="false" />
+    <xsd:attribute name="ConvertClosedWideLinesToPolys" type="xsd:boolean" use="optional" default="false" />
+    <xsd:attribute name="RoundTo" type="PosInt" use="optional" />
+    <xsd:attribute name="DefeatureTolerance" type="stackup:PosDbl" use="optional" />
+    <xsd:attribute name="Flatten" type="xsd:boolean" use="optional" default="true" />
+    <xsd:attribute name="EnableDefaultComponentValues" type="xsd:boolean" use="optional" default="true" />
+    <xsd:attribute name="ImportDummyNet" type="xsd:boolean" use="optional" default="false"/>
+    <xsd:attribute name="GDSIIConvertPolygonToCircles" type="xsd:boolean" use="optional" />
+    <xsd:attribute name="ImportCrossHatchShapesAsLines" type="xsd:boolean" use="optional" default="true"/>
+    <xsd:attribute name="ExtractaUsePinNames" type="xsd:boolean" use="optional" default="false" />
+    <xsd:attribute name="MaxAntiPadRadius" type="stackup:PosDbl" use="optional" />
+    <xsd:attribute name="AntiPadReplaceRadius" type="stackup:PosDbl" use="optional" />
+    <xsd:attribute name="MinBondwireWidth" type="stackup:PosDbl" use="optional" />
+    <xsd:attribute name="GDSIIScalingFactor" type="stackup:PosDbl" use="optional" />
+    <xsd:attribute name="DeleteEmptyNonLaminateSignalLayers" type="xsd:boolean" use="optional" />
+  </xsd:complexType>
+
+  <xsd:complexType name="Nets">
+    <xsd:sequence>
+      <xsd:element name="Net" type="Net" minOccurs="1" maxOccurs="unbounded" />
+    </xsd:sequence>
+  </xsd:complexType>
+    
+  <xsd:complexType name="NetClass">
+    <xsd:attribute name="Name" type="xsd:string" use="required" />
+  </xsd:complexType>
+
+  <xsd:complexType name="Net">
+      <xsd:sequence>
+          <xsd:element name="NetClass" type="NetClass" minOccurs="0" maxOccurs="unbounded" />
+      </xsd:sequence>
+      <xsd:attribute name="Name" type="xsd:string" use="required" />
+      <xsd:attribute name="PinsBecomePorts" type="xsd:boolean" use="optional" default="false" />
+      <xsd:attribute name="IsSignalNet" type="xsd:boolean" use="optional"/>
+  </xsd:complexType>
+
+    <xsd:simpleType name="GDSBool">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="false"/>
+            <xsd:enumeration value="true"/>
+            <xsd:enumeration value="0"/>
+            <xsd:enumeration value="1"/>
+            <xsd:enumeration value="no"/>
+            <xsd:enumeration value="yes"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:complexType name ="GDS_CELL_RULES">
+        <xsd:all>
+            <xsd:element name ="BLACK_BOX_CELLS" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name ="WHITE_BOX_CELLS" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name ="GRAY_BOX_CELLS" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+        </xsd:all>
+    </xsd:complexType>
+
+  <xsd:complexType name ="GDS_COMPONENTS">
+    <xsd:choice>
+        <xsd:element name="GDS_COMPONENT" type="GDS_COMPONENT" minOccurs="0" maxOccurs="unbounded" />
+        <xsd:element name="GDS_AUTO_COMPONENT" type="GDS_AUTO_COMPONENT" minOccurs="0" maxOccurs="unbounded" />
+    </xsd:choice>
+    <xsd:attribute name="LengthUnit" type="stackup:LengthType" use="optional" />
+  </xsd:complexType>
+
+  <xsd:complexType name ="GDS_COMPONENT">
+    <xsd:sequence>
+      <xsd:element name ="GDS_PIN" type="GDS_PIN" minOccurs="1" maxOccurs="unbounded" />
+      <xsd:element name="Component" type="component:Component" minOccurs="1" maxOccurs="1" />
+    </xsd:sequence>
+  </xsd:complexType>
+  
+  <xsd:complexType name ="GDS_AUTO_COMPONENT">
+    <xsd:sequence>
+      <xsd:element name="DieProperties" type="component:DieProperties" minOccurs="0" maxOccurs="1" />
+      <xsd:element name="SolderballProperties" type="component:SolderballProperties" minOccurs="0" maxOccurs="1" />
+      <xsd:element name="PortProperties" type="component:PortProperties" minOccurs="0" maxOccurs="1" />
+      <xsd:element name="AutoComponentPort" type="AutoComponentPort" minOccurs="0" maxOccurs="unbounded" />
+    </xsd:sequence>
+    <xsd:attribute name ="Layer" type="xsd:string" use="required"/>
+    <xsd:attribute name ="Tolerance" type="xsd:string" use="required"/> 
+  </xsd:complexType>
+
+  <xsd:complexType name ="AutoComponentPort">
+    <xsd:choice>
+      <xsd:sequence>
+        <xsd:element name="PosNet" type="component:NamedElement" minOccurs="1" maxOccurs="1" />
+        <xsd:choice minOccurs="0" maxOccurs="1">
+          <xsd:element name="RefNet" type="component:NamedElement" minOccurs="1" maxOccurs="1" />
+          <xsd:element name="RefPinGroupNet" type="component:NamedElement" minOccurs="1" maxOccurs="1" />         
+        </xsd:choice>
+      </xsd:sequence>
+      <xsd:sequence>
+        <xsd:element name="PosPinGroupNet" type="component:NamedElement" minOccurs="1" maxOccurs="1" />
+        <xsd:choice minOccurs="0" maxOccurs="1">
+          <xsd:element name="RefNet" type="component:NamedElement" minOccurs="1" maxOccurs="1" />
+          <xsd:element name="RefPinGroupNet" type="component:NamedElement" minOccurs="1" maxOccurs="1" />
+        </xsd:choice>              
+      </xsd:sequence>
+    </xsd:choice>
+    <xsd:attribute name="Z0" type="stackup:PosDbl" default="50" />
+  </xsd:complexType>
+
+  <xsd:complexType name ="PinGroupPort">
+    <xsd:attribute name="PosNet" type="xsd:string" use="required"/>
+    <xsd:attribute name="RefNet" type="xsd:string" use="required"/>
+    <xsd:attribute name="Z0" type="stackup:PosDbl" default="50" />
+  </xsd:complexType>
+
+  <xsd:complexType name ="PadPort">
+    <xsd:attribute name="PosNet" type="xsd:string" use="required"/>
+    <xsd:attribute name="RefNet" type="xsd:string" use="optional" />
+    <xsd:attribute name="RefIsPinGroup" type="xsd:boolean" default="false" />
+    <xsd:attribute name="Z0" type="stackup:PosDbl" default="50" />
+  </xsd:complexType>
+
+  <xsd:complexType name="GDS_PIN">
+    <xsd:attribute name="Name" type="xsd:string" use="required" />
+    <xsd:attribute name="x" type="xsd:string" use="required"/>
+    <xsd:attribute name="y" type="xsd:string" use="required"/>
+    <xsd:attribute name="Layer" type="xsd:string" use="required"/>
+  </xsd:complexType>
+        
+  <xsd:complexType name ="GDS_NET_DEFINITIONS">
+      <xsd:all>
+          <xsd:element name ="USE_TEXT_FROM_HIERARCHY_LEVEL" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+          <xsd:element name ="USE_TEXT_FROM_CELLS" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+          <xsd:element name ="USE_TEXT_FROM_HIERARCHY_BLOCK" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+          <xsd:element name ="VDD_NETS" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+          <xsd:element name ="GND_NETS" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+          <xsd:element name ="SIGNAL_NETS" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+      </xsd:all>
+      <xsd:attribute name="USE_TOP_LEVEL_TEXT_ONLY" type="GDSBool" use="optional" default="false"/>
+      <xsd:attribute name="NET_NAME_CASE_SENSITIVE" type="GDSBool" use="optional" default="true"/>
+  </xsd:complexType>
+
+
+</xsd:schema>

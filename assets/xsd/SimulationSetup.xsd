@@ -1,0 +1,359 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            targetNamespace="http://www.ansys.com/simulationsetup"
+            xmlns="http://www.ansys.com/simulationsetup"
+            xmlns:geometry="http://www.ansys.com/geometry"
+            elementFormDefault="unqualified" >
+
+    <xsd:import schemaLocation="Geometry.xsd" namespace="http://www.ansys.com/geometry" />
+    <!-- Use the 'schemaVersion' attribute for versioning within the namespace -->
+       
+    <xsd:complexType name="SimulationSetups">
+      <xsd:choice maxOccurs="unbounded">
+        <xsd:element name="HFSSSetup" type="HFSSSetup" minOccurs="0" maxOccurs="unbounded" />
+      </xsd:choice>
+    </xsd:complexType>
+
+  <xsd:complexType name="HFSSSetup">
+    <xsd:sequence>
+      <xsd:element name="HFSSSimulationSettings" type="HFSSSimulationSettings" minOccurs="0" maxOccurs="1" />      
+      <xsd:element name="HFSSSweepDataList" type="HFSSSweepDataList" minOccurs="0" maxOccurs="1" />
+    </xsd:sequence>
+    <xsd:attribute name="Name" type="xsd:string" />
+    <xsd:attribute name="schemaVersion" type="xsd:decimal" use="optional" fixed="1.0" />
+  </xsd:complexType>
+
+  <xsd:complexType name="HFSSSimulationSettings">
+        <xsd:sequence>
+           <xsd:element name="Enabled" type="geometry:Boolean" default="true" minOccurs="0" maxOccurs="1" />
+           <xsd:element name="SaveFields" type="geometry:Boolean" default="false" minOccurs="0" maxOccurs="1" />
+           <xsd:element name="SaveRadFieldsOnly" type="geometry:Boolean" default="false" minOccurs="0" maxOccurs="1" />
+           <xsd:element name="HFSSAdaptiveSettings" type="HFSSAdaptiveSettings"  minOccurs="0" maxOccurs="1" />
+           <xsd:element name="HFSSInitialMeshSettings" type="HFSSInitialMeshSettings" minOccurs="0" maxOccurs="1" />
+           <xsd:element name="HFSSDefeatureSettings" type="HFSSDefeatureSettings" minOccurs="0" maxOccurs="1" />
+           <xsd:element name="HFSSViaSettings" type="HFSSViaSettings" minOccurs="0" maxOccurs="1" />
+           <xsd:element name="HFSSCurveApproxSettings" type="HFSSCurveApproxSettings" minOccurs="0" maxOccurs="1" />
+           <xsd:element name="HFSSAdvancedMeshSettings" type="HFSSAdvancedMeshSettings" minOccurs="0" maxOccurs="1" />
+           <xsd:element name="HFSSModellingSettings" type="HFSSModellingSettings" minOccurs="0" maxOccurs="1" />
+           <xsd:element name="HFSSSetupOutputVariables" type="HFSSSetupOutputVariables" minOccurs="0" maxOccurs="1" />                      
+           <xsd:element name="HFSSPortSettings" type="HFSSPortSettings"  minOccurs="0" maxOccurs="1" />
+           <xsd:element name="HFSSSolverSettings" type="HFSSSolverSettings"  minOccurs="0" maxOccurs="1" />
+           <xsd:element name="HFSSDCRSettings" type="HFSSDCRSettings"  minOccurs="0" maxOccurs="1" />
+           <xsd:element name="HFSSMeshOperations" type="HFSSMeshOperations"  minOccurs="0" maxOccurs="1" />
+        </xsd:sequence>
+    </xsd:complexType>
+  
+
+  <xsd:complexType name="HFSSSweepDataList">
+    <xsd:choice maxOccurs="unbounded">      
+      <xsd:element name="FreqSweep" type="FreqSweep" minOccurs="0" maxOccurs="unbounded" />
+    </xsd:choice>
+  </xsd:complexType>
+
+  <xsd:simpleType name="PosDbl">
+        <xsd:restriction base="xsd:double">
+            <xsd:minInclusive value="0" />
+        </xsd:restriction>
+    </xsd:simpleType>
+
+
+  <xsd:complexType name="HFSSInitialMeshSettings">
+    <xsd:all>
+      <xsd:element name="LambdaRefine" type="geometry:Boolean" default="true" minOccurs="0" maxOccurs="1" />     
+      <xsd:element name="LambdaTarget" type="PosDbl" minOccurs="0" maxOccurs="1" />              
+    </xsd:all>
+  </xsd:complexType>
+    
+  <xsd:complexType name="HFSSDefeatureSettings">
+    <xsd:all>
+      <xsd:element name="UnionPolygons" type="geometry:Boolean" minOccurs="0" maxOccurs="1" />
+      <xsd:element name="SmallVoidArea" type="xsd:string" minOccurs="0" maxOccurs="1" />     
+      <xsd:element name="RemoveFloatingGeometry" type="geometry:Boolean" minOccurs="0" maxOccurs="1" />
+      <xsd:element name="ModelType"  type="ModelType" minOccurs="0" maxOccurs="1" />
+      <xsd:element name="GeneralUseDefeature" type="geometry:Boolean" minOccurs="0" maxOccurs="1" />
+      <xsd:element name="GeneralUseDefeatureAbsLength" type="geometry:Boolean" minOccurs="0" maxOccurs="1" />
+      <xsd:element name="GeneralDefeatureRatio" type="PosDbl" minOccurs="0" maxOccurs="1" />
+      <xsd:element name="GeneralDefeatureAbsLength" type="xsd:string" minOccurs="0" maxOccurs="1" />      
+      <xsd:element name="GeneralPtToEdgePtToPtSnapping" type="xsd:nonNegativeInteger" minOccurs="0" maxOccurs="1" />
+      <xsd:element name="ICModelResolutionType"  type="ICModelResolutionType" minOccurs="0" maxOccurs="1" />  
+      <xsd:element name="ICModelResolutionLength" type="xsd:string" minOccurs="0" maxOccurs="1" />
+    </xsd:all>
+  </xsd:complexType>
+
+  <xsd:simpleType name="ModelType">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="General"/>   
+      <xsd:enumeration value="IC"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+
+  <xsd:simpleType name="ICModelResolutionType">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="Auto"/>
+      <xsd:enumeration value="Length"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+
+
+  <xsd:simpleType name="AdaptType">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="Single" />
+      <xsd:enumeration value="MultiFrequencies" />
+      <xsd:enumeration value="Broadband" />
+    </xsd:restriction>
+  </xsd:simpleType>
+    
+  
+  <xsd:simpleType name="OrderBasisType">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="ZeroOrder" />
+      <xsd:enumeration value="FirstOrder" />
+      <xsd:enumeration value="SecondOrder" />
+      <xsd:enumeration value="MixedOrder" />
+    </xsd:restriction>
+  </xsd:simpleType>
+  
+  <xsd:simpleType name="SolverTypeOptions">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="Auto" />
+      <xsd:enumeration value="Direct" />
+      <xsd:enumeration value="Iterative" />      
+    </xsd:restriction>
+  </xsd:simpleType>
+  
+  <xsd:complexType name ="HFSSViaSettings">
+    <xsd:all>      
+      <xsd:element name="ViaNumSides" type="xsd:positiveInteger" minOccurs="0" maxOccurs="1" />      
+      <xsd:element name="ViaMaterial" type="xsd:string" minOccurs="0" maxOccurs="1" />
+    </xsd:all>
+  </xsd:complexType>
+
+
+  <xsd:complexType name="HFSSCurveApproxSettings">
+    <xsd:all>
+      <xsd:element name="ArcAngle" type="xsd:string" minOccurs="0" maxOccurs="1" />
+      <xsd:element name="StartAzimuth" type="xsd:string" minOccurs="0" maxOccurs="1" />
+      <xsd:element name="MaxArcPoints" type="xsd:positiveInteger" minOccurs="0" maxOccurs="1" />
+      <xsd:element name="ArcToChordError" type="xsd:string" minOccurs="0" maxOccurs="1" />
+    </xsd:all>
+  </xsd:complexType>
+
+  <xsd:complexType name="HFSSAdvancedMeshSettings">
+    <xsd:all>
+      <xsd:element name="LayerSnapTol" type="xsd:string" minOccurs="0" maxOccurs="1" />
+    </xsd:all>
+  </xsd:complexType>
+
+  <xsd:complexType name="HFSSModellingSettings">
+    <xsd:all>
+      <xsd:element name="ZeroMetalLayerThickness" type="xsd:string" minOccurs="0" maxOccurs="1" />
+      <xsd:element name="ThinDielectric" type="xsd:string" minOccurs="0" maxOccurs="1" />
+      <xsd:element name="IntraPlaneCoupling" type="geometry:Boolean" minOccurs="0" maxOccurs="1" />  
+    </xsd:all>
+  </xsd:complexType>
+
+  <xsd:complexType name="HFSSSetupOutputVariables">
+    <xsd:choice maxOccurs="unbounded">
+      <xsd:element name="SetupOutputVariable" type="SetupOutputVariable" minOccurs="0" maxOccurs="unbounded" />
+    </xsd:choice>
+  </xsd:complexType>
+
+  <xsd:complexType name="SetupOutputVariable">
+    <xsd:all>
+      <xsd:element name="Name" type="xsd:string"  />
+      <xsd:element name="Expression" type="xsd:string"  />
+      <xsd:element name="Domain" type="xsd:string"  />
+    </xsd:all>
+  </xsd:complexType>
+
+  <xsd:complexType name="AdaptiveFrequencyData" >
+    <xsd:all>
+      <xsd:element name="AdaptiveFrequency" type="xsd:string" default="5e9" minOccurs="0" maxOccurs="1" />
+      <xsd:element name="MaxDelta" type="xsd:string" default="0.02" minOccurs="0" maxOccurs="1" />
+      <xsd:element name="MaxPasses" type="xsd:positiveInteger" minOccurs="0" maxOccurs="1" />
+      <xsd:element name="Expressions" type="Expressions" minOccurs="0" maxOccurs="1" />      
+    </xsd:all>
+  </xsd:complexType>
+
+  <xsd:simpleType name="Expressions">
+    <xsd:list itemType="xsd:string"/>
+  </xsd:simpleType>
+
+  <xsd:complexType name="MultiFrequencyDataList" >
+    <xsd:choice maxOccurs="unbounded">
+      <xsd:element name="AdaptiveFrequencyData" type="AdaptiveFrequencyData" minOccurs="0" maxOccurs="unbounded" />
+    </xsd:choice>
+  </xsd:complexType>
+
+  <xsd:complexType name="SingleFrequencyDataList" >
+    <xsd:choice maxOccurs="unbounded">
+      <xsd:element name="AdaptiveFrequencyData" type="AdaptiveFrequencyData" minOccurs="0" maxOccurs="1" />
+    </xsd:choice>
+  </xsd:complexType>
+
+  <xsd:complexType name="HFSSAdaptiveSettings" >
+    <xsd:all>
+      <xsd:element name="MaxRefinePerPass" type="xsd:nonNegativeInteger" default="30" minOccurs="0" maxOccurs="1" />
+      <xsd:element name="MaxRefinement" type="xsd:nonNegativeInteger" default="1000000" minOccurs="0" maxOccurs="1" />
+      <xsd:element name="MinPasses" type="xsd:nonNegativeInteger" default="1" minOccurs="0" maxOccurs="1" />
+      <xsd:element name="MinConvergedPasses" type="xsd:nonNegativeInteger" default="1" minOccurs="0" maxOccurs="1" />
+      <xsd:element name="UseConvergenceMatrix" type="geometry:Boolean" default="false" minOccurs="0" maxOccurs="1" />
+      <xsd:element name="AdaptiveSettings" type="AdaptiveSettings" minOccurs="0" maxOccurs="1" />
+    </xsd:all>
+  </xsd:complexType>
+
+  <xsd:complexType name="AdaptiveSettings" >
+    <xsd:choice>            
+      <xsd:element name="SingleFrequencyDataList" type="SingleFrequencyDataList"  />
+      <xsd:element name="BroadbandFrequencyDataList" type="MultiFrequencyDataList" />
+      <xsd:element name="MultiFrequencyDataList" type="MultiFrequencyDataList"  />
+    </xsd:choice>
+  </xsd:complexType>
+  
+  <xsd:complexType name="HFSSPortSettings" >
+    <xsd:all>
+      <xsd:element name="MaxDeltaZ0" type="PosDbl" default="2" minOccurs="0" maxOccurs="1" />
+      <xsd:element name="SetTrianglesWavePort" type="geometry:Boolean" default="false" minOccurs="0" maxOccurs="1" />
+      <xsd:element name="MinTrianglesWavePort" type="xsd:positiveInteger" default="100" minOccurs="0" maxOccurs="1" />
+      <xsd:element name="MaxTrianglesWavePort" type="xsd:positiveInteger" default="500" minOccurs="0" maxOccurs="1" />
+    </xsd:all>
+  </xsd:complexType>
+
+  <xsd:complexType name="HFSSSolverSettings" >
+    <xsd:all>
+      <xsd:element name="OrderBasis" type="OrderBasisType" default="MixedOrder" minOccurs="0" maxOccurs="1" />           
+      <xsd:element name="SolverType" type="SolverTypeOptions" default="Direct" minOccurs="0" maxOccurs="1" />           
+      <xsd:element name="RelativeResidual" type="PosDbl" default="0.0001" minOccurs="0" maxOccurs="1" />                      
+      <xsd:element name="EnhancedLowFreqAccuracy" type="geometry:Boolean" default="false" minOccurs="0" maxOccurs="1" />
+    </xsd:all>
+  </xsd:complexType>
+
+  <xsd:complexType name="HFSSDCRSettings" >
+    <xsd:all>
+      <xsd:element name="ConductionMaxPasses" type="xsd:positiveInteger" default="10" minOccurs="0" maxOccurs="1" />
+      <xsd:element name="ConductionMinPasses" type="xsd:positiveInteger" default="1" minOccurs="0" maxOccurs="1" />
+      <xsd:element name="ConductionMinConvergedPasses" type="xsd:positiveInteger" default="1" minOccurs="0" maxOccurs="1" />
+      <xsd:element name="ConductionPerError" type="PosDbl" default="1" minOccurs="0" maxOccurs="1" />
+      <xsd:element name="ConductionPerRefine" type="PosDbl" default="30" minOccurs="0" maxOccurs="1" />
+    </xsd:all>
+  </xsd:complexType>
+
+  <xsd:complexType name="HFSSMeshOperations">
+    <xsd:choice maxOccurs="unbounded">
+      <xsd:element name="MeshOperation" type="MeshOperation" minOccurs="0" maxOccurs="unbounded" />
+    </xsd:choice>
+  </xsd:complexType>
+
+  <xsd:simpleType name="MeshOpType">
+    <xsd:restriction base="xsd:string">      
+      <xsd:enumeration value="MeshOperationLength" />
+      <xsd:enumeration value="MeshOperationSkinDepth" />
+    </xsd:restriction>
+  </xsd:simpleType>
+    
+  <xsd:complexType name="NetLayer">
+    <xsd:all>
+      <xsd:element name="Net" type="xsd:string"  />
+      <xsd:element name="Layer" type="xsd:string"  />      
+    </xsd:all>
+  </xsd:complexType>
+  
+  <xsd:complexType name="NetsLayers" >
+    <xsd:choice maxOccurs="unbounded">
+      <xsd:element name="NetLayer" type="NetLayer"  minOccurs="0" maxOccurs="1" />
+    </xsd:choice>
+  </xsd:complexType>
+  
+  <xsd:complexType name="MeshOperation">
+    <xsd:all>
+      <xsd:element name="Name" type="xsd:string"  minOccurs="1" />
+      <xsd:element name="Enabled" type="geometry:Boolean" default="true" minOccurs="0" maxOccurs="1" />
+      <xsd:element name="RefineInside" type="geometry:Boolean" default="false" minOccurs="0" maxOccurs="1" />
+      <xsd:element name="Region" type="xsd:string"  minOccurs="0" maxOccurs="1" />
+      <xsd:element name="Type" type="MeshOpType"  minOccurs="0" maxOccurs="1" default="MeshOperationLength" />
+      <xsd:element name="NetsLayers" type="NetsLayers"  minOccurs="0" maxOccurs="1" />
+      <xsd:element name="RestrictElem" type="geometry:Boolean" default="false" minOccurs="0" maxOccurs="1" />  <!-- LengthMeshOperation & SkinDepthMeshOperation -->
+      <xsd:element name="NumMaxElem" type="xsd:string"  minOccurs="0" maxOccurs="1" default="1000" />          <!-- LengthMeshOperation & SkinDepthMeshOperation -->
+      <xsd:element name="RestrictLength" type="geometry:Boolean" default="true" minOccurs="0" maxOccurs="1" /> <!-- LengthMeshOperation -->
+      <xsd:element name="MaxLength" type="xsd:string"  minOccurs="0" maxOccurs="1" default="1mm"/>             <!-- LengthMeshOperation -->
+      <xsd:element name="SkinDepth" type="xsd:string"  minOccurs="0" maxOccurs="1" default="1um"/>             <!-- SkinDepthMeshOperation -->
+      <xsd:element name="SurfTriLength" type="xsd:string"  minOccurs="0" maxOccurs="1" default="1mm"/>         <!-- SkinDepthMeshOperation -->
+      <xsd:element name="NumLayers" type="xsd:string"  minOccurs="0" maxOccurs="1" default="2" />              <!-- SkinDepthMeshOperation -->
+      <xsd:element name="RegionSolveInside" type="geometry:Boolean" default="false" minOccurs="0" maxOccurs="1" />
+    </xsd:all>
+  </xsd:complexType>
+
+  <xsd:complexType name="FreqSweep">
+    <xsd:sequence>
+      <xsd:element name="Name" type="xsd:string"  minOccurs="1"  maxOccurs="1" />
+      <xsd:element name="Enabled" type="geometry:Boolean" default="true" minOccurs="0" maxOccurs="1" />
+      <xsd:element name="UseQ3DForDC" type="geometry:Boolean" default="false" minOccurs="0" maxOccurs="1" />      
+      <xsd:choice>
+        <xsd:element name="Discrete" type="DiscreteSweep" />
+        <xsd:element name="Interpolating" type="InterpolatingSweep" />
+      </xsd:choice>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="DiscreteSweep">
+    <xsd:sequence>
+      <xsd:choice maxOccurs="unbounded">
+        <xsd:element name="Single" type="xsd:string" />
+        <xsd:element name="LinearStep" type="LinearStep" />
+        <xsd:element name="LinearCount" type="LinearCount" />
+        <xsd:element name="DecadeCount" type="DecadeCount" />
+      </xsd:choice>
+      <xsd:element name="SaveFields" type="geometry:Boolean" default="false" minOccurs="0" maxOccurs="1" />
+      <xsd:element name="SaveRadiatedFieldsOnly" type="geometry:Boolean" default="false" minOccurs="0" maxOccurs="1" />
+      <xsd:element name="SMatrixOnlySolveAuto" type="geometry:Boolean" default="true" minOccurs="0" maxOccurs="1" />
+      <xsd:element name="SMatrixOnlySolveMinFreq" type="xsd:string"  minOccurs="0" maxOccurs="1" />
+    </xsd:sequence>   
+  </xsd:complexType>
+
+  <xsd:complexType name="InterpolatingSweep">
+    <xsd:sequence>
+      <xsd:choice maxOccurs="unbounded">        
+        <xsd:element name="LinearStep" type="LinearStep" />
+        <xsd:element name="LinearCount" type="LinearCount" />
+        <xsd:element name="DecadeCount" type="DecadeCount" />
+      </xsd:choice>
+      <xsd:element name="SMatrixOnlySolveAuto" type="geometry:Boolean" default="true" minOccurs="0" maxOccurs="1" />
+      <xsd:element name="SMatrixOnlySolveMinFreq" type="xsd:string"  minOccurs="0" maxOccurs="1" />
+      <xsd:element name="MaxSolutions" type="xsd:positiveInteger" default="250" minOccurs="0" maxOccurs="1" />
+      <xsd:element name="ErrorTolerance" type="PosDbl" default="0.005" minOccurs="0" maxOccurs="1" />
+      
+      <xsd:element name="UseSMatrixForConvergence" type="geometry:Boolean" default="true" minOccurs="0" maxOccurs="1"/>
+      <xsd:element name="UsePortImpForConvergence" type="geometry:Boolean" default="true" minOccurs="0" maxOccurs="1"/>
+      <xsd:element name="UsePropConstForConvergence" type="geometry:Boolean" default="true" minOccurs="0" maxOccurs="1"/>
+      
+      <xsd:element name="EnforceCausality" type="geometry:Boolean" default="false" minOccurs="0" maxOccurs="1"/>
+      <xsd:element name="EnforcePassivity" type="geometry:Boolean" default="true" minOccurs="0" maxOccurs="1"/>
+      <xsd:element name="PassivityTolerance" type="PosDbl" default="0.0001" minOccurs="0" maxOccurs="1"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="LinearStep">
+    <xsd:all>
+      <xsd:element name="Start" type="xsd:string" />
+      <xsd:element name="Stop" type="xsd:string" />
+      <xsd:element name="Step" type="xsd:string" />
+    </xsd:all>
+  </xsd:complexType>
+
+  <xsd:complexType name="LinearCount">
+    <xsd:all>
+      <xsd:element name="Start" type="xsd:string" />
+      <xsd:element name="Stop" type="xsd:string" />
+      <xsd:element name="Count" type="xsd:positiveInteger" />
+    </xsd:all>
+  </xsd:complexType>
+
+  <xsd:complexType name="DecadeCount">
+    <xsd:all>
+      <xsd:element name="Start" type="xsd:string" />
+      <xsd:element name="Stop" type="xsd:string" />
+      <xsd:element name="Count" type="xsd:positiveInteger" />
+    </xsd:all>
+  </xsd:complexType>
+
+</xsd:schema>

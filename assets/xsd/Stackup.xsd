@@ -1,0 +1,352 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            targetNamespace="http://www.ansys.com/stackup"
+            xmlns="http://www.ansys.com/stackup"
+            elementFormDefault="unqualified" >
+
+
+  <!-- Use the 'schemaVersion' attribute for versioning within the namespace -->
+
+  <xsd:element name="Stackup" type="Stackup" />
+
+  <!-- Type declarations -->
+
+  <xsd:complexType name="Stackup">
+    <xsd:sequence>
+      <xsd:element name="Materials" type="Materials" minOccurs="0" maxOccurs="1" />
+      <xsd:choice>
+        <xsd:element name="Layers" type="Layers" />
+        <xsd:element name="ELayers" type="ELayers" />
+      </xsd:choice>
+    </xsd:sequence>
+    <xsd:attribute name="schemaVersion" type="xsd:decimal" use="required" fixed="1.0"/>
+  </xsd:complexType>
+
+  <xsd:simpleType name="FreqEquation">
+    <xsd:restriction base="xsd:token">
+      <xsd:pattern value="([0-9]|[ .()+*-/^e]|Freq|abs|exp|ln|log|sqrt|sin|cos|tan|asin|acos|atan|sinh|cosh|tanh)+" />
+    </xsd:restriction>
+  </xsd:simpleType>
+
+  <xsd:simpleType name="PosDbl">
+    <xsd:restriction base="xsd:double">
+      <xsd:minInclusive value="0" />
+    </xsd:restriction>
+  </xsd:simpleType>
+
+  <xsd:simpleType name="ZeroToOneHundred">
+    <xsd:restriction base="xsd:double">
+      <xsd:minInclusive value="0" />
+      <xsd:maxInclusive value="100" />
+    </xsd:restriction>
+  </xsd:simpleType>
+
+  <xsd:simpleType name="ZeroToOne">
+    <xsd:restriction base="xsd:double">
+      <xsd:minInclusive value="0" />
+      <xsd:maxInclusive value="1" />
+    </xsd:restriction>
+  </xsd:simpleType>
+
+  <xsd:complexType name="FreqPt">
+    <xsd:attribute name="F" type="PosDbl" />
+    <xsd:attribute name="Val" type="xsd:double" />
+  </xsd:complexType>
+  
+  <xsd:complexType name="FreqTbl">
+    <xsd:sequence>
+      <xsd:element name="Point" type="FreqPt" minOccurs="1" maxOccurs="unbounded" />
+    </xsd:sequence>
+  </xsd:complexType>
+  
+  <xsd:complexType name="TempPt">
+    <xsd:attribute name="T" type="xsd:double" />
+    <xsd:attribute name="Val" type="xsd:double" />
+  </xsd:complexType>
+
+  <xsd:complexType name="ThermalTbl">
+    <xsd:sequence>
+      <xsd:element name="Point" type="TempPt" minOccurs="1" maxOccurs="unbounded" />
+    </xsd:sequence>
+  </xsd:complexType>
+  
+  <xsd:complexType name="QuadraticAdvanced">
+    <xsd:attribute name ="TL" type="xsd:string"/>
+    <xsd:attribute name="TU" type="xsd:string"/>
+    <xsd:attribute name= "AutoCalculateLimits" type="xsd:boolean"/>
+    <xsd:attribute name="TML" type="xsd:double"/>
+    <xsd:attribute name="TMU" type="xsd:double"/>
+  </xsd:complexType>
+  
+  <xsd:complexType name="QuadraticThermalModifier">
+    <xsd:all>
+      <xsd:element name="QuadraticAdvanced" type="QuadraticAdvanced" minOccurs="0" maxOccurs="1"/>
+    </xsd:all>
+    <xsd:attribute name="TempRef" type ="xsd:string" />
+    <xsd:attribute name="C1" type="xsd:double" />
+    <xsd:attribute name="C2" type="xsd:double" />
+  </xsd:complexType>
+
+  <xsd:complexType name="MaterialProperty">
+    <xsd:sequence>
+    <xsd:choice>
+      <xsd:element name="Double" type="xsd:double" />
+      <xsd:element name="Equation" type="FreqEquation" />
+      <xsd:element name="Table" type="FreqTbl" />
+    </xsd:choice>
+      <xsd:choice minOccurs="0" maxOccurs="1">
+        <xsd:element name="QuadraticThermalModifier" type ="QuadraticThermalModifier"/>
+      </xsd:choice>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="Material">
+    <xsd:all>
+      <xsd:element name="Permittivity" type="MaterialProperty" minOccurs="0" />
+      <xsd:element name="Permeability" type="MaterialProperty" minOccurs="0" />
+      <xsd:element name="Conductivity" type="MaterialProperty" minOccurs="0" />
+      <xsd:element name="DielectricLossTangent" type="MaterialProperty" minOccurs="0" />
+      <xsd:element name="MagneticLossTangent" type="MaterialProperty" minOccurs="0" />
+      <xsd:element name="ThermalConductivity" type="MaterialProperty" minOccurs="0" />
+      <xsd:element name="SpecificHeat" type="MaterialProperty" minOccurs="0" />
+      <xsd:element name="ThermalExpansionCoefficient" type="MaterialProperty" minOccurs="0" />
+      <xsd:element name="MassDensity" type="MaterialProperty" minOccurs="0" />
+      <xsd:element name="YoungsModulus" type="MaterialProperty" minOccurs="0" />
+      <xsd:element name="PoissonsRatio" type="MaterialProperty" minOccurs="0" />
+    </xsd:all>
+    <xsd:attribute name="Name" type="xsd:string" />
+  </xsd:complexType>
+
+  <xsd:complexType name="Materials">
+    <xsd:sequence>
+      <xsd:element name="Material" type="Material" minOccurs="1" maxOccurs="unbounded" />
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:simpleType name="LayerType">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="conductor" />
+      <xsd:enumeration value="plane" />
+      <xsd:enumeration value="dielectric" />
+      <xsd:enumeration value="assembly" />
+      <xsd:enumeration value="soldermask" />
+      <xsd:enumeration value="solderpaste" />
+      <xsd:enumeration value="silkscreen" />
+      <xsd:enumeration value="wirebond" />
+      <xsd:enumeration value="user" />
+      <xsd:enumeration value="via" />
+      <xsd:enumeration value="outline" />
+    </xsd:restriction>
+  </xsd:simpleType>
+
+  <xsd:simpleType name="HexColor">
+    <xsd:restriction base="xsd:token">
+      <xsd:pattern value="#([0-9a-fA-F]{2}){3}" />
+    </xsd:restriction>
+  </xsd:simpleType>
+
+  <xsd:attributeGroup name ="LayerAttr">
+    <xsd:attribute name="Name" type="xsd:string" use="required" />
+    <xsd:attribute name="TargetLayer" type="xsd:string" use="optional" />
+    <xsd:attribute name="Color" type="HexColor" use="optional" />
+    <xsd:attribute name="Material" type="xsd:string" use="optional" />
+    <xsd:attribute name="ConvertPolygonToCircle" type="xsd:boolean" use="optional"/>
+    <xsd:attribute name="ConvertPolygonToCircleRatio" type="ZeroToOne" use="optional" />
+    <xsd:attribute name="ReconstructArcs" type="xsd:boolean" use="optional" />
+    <xsd:attribute name="ArcTolerance" type="xsd:string" use="optional" />
+    <xsd:attribute name="UnionPrimitives" type="xsd:boolean" use="optional" />
+    <xsd:attribute name="DefeatureMinTraceWidth" type="xsd:string" use="optional" />
+  </xsd:attributeGroup>
+  
+  <xsd:attributeGroup name="SignalLayerAttr">
+    <xsd:attribute name="Negative" type="xsd:boolean" use="optional" />
+    <xsd:attribute name="SolveInside" type="xsd:boolean" use="optional" />
+    <xsd:attribute name="EtchFactor" type="xsd:double" use="optional" />
+  </xsd:attributeGroup>
+ 
+  <!--Translator only options, applied post proccess, use TargetLayer names if they exist for start and stop.-->
+  <!--When converting a dxf or gerber geometry on the layer to a padstack or wirebond with the defined start and stop.-->
+  <!--IsDrillLayer will be set by the translator when generating a control file to indicate the file type.-->
+  <xsd:attributeGroup name ="ViaAndWirebondRangeAttr">
+    <xsd:attribute name="StartLayer" type="xsd:string" use="optional" />
+    <xsd:attribute name="StopLayer" type="xsd:string" use="optional" />
+    <xsd:attribute name="IsDrillLayer" type="xsd:boolean" use="optional" />
+  </xsd:attributeGroup>
+
+  <xsd:complexType name="GroissSurfaceRoughness">
+    <xsd:attribute name="Roughness" type="xsd:string" use="required" />
+  </xsd:complexType>
+
+  <xsd:complexType name="GroisseSurfaceRoughness">
+    <xsd:attribute name="Roughness" type="xsd:string" use="required" />
+  </xsd:complexType>
+
+  <xsd:complexType name="HuraySurfaceRoughness">
+    <xsd:attribute name="NoduleRadius" type="xsd:string" use="required" />
+    <xsd:attribute name="HallHuraySurfaceRatio" type="ZeroToOneHundred" use="required" />
+  </xsd:complexType>
+  
+  <xsd:complexType name="DCThickness">
+    <xsd:attribute name="Thickness" type="xsd:string" use="optional" />
+    <xsd:attribute name="Type" type="xsd:string" use="required" />
+  </xsd:complexType>
+
+  <xsd:complexType name="Layer">
+    <xsd:sequence>
+        <xsd:element name="DCThickness" type="DCThickness" minOccurs="0" maxOccurs="1" />
+        <xsd:choice minOccurs="0">
+          <xsd:element name="GroissSurfaceRoughness" type="GroissSurfaceRoughness" />
+          <xsd:element name="GroisseSurfaceRoughness" type="GroisseSurfaceRoughness" />
+          <xsd:element name="HuraySurfaceRoughness" type="HuraySurfaceRoughness" />
+        </xsd:choice>
+        <xsd:choice minOccurs="0">
+          <xsd:element name="GroissBottomSurfaceRoughness" type="GroissSurfaceRoughness" />
+          <xsd:element name="GroisseBottomSurfaceRoughness" type="GroisseSurfaceRoughness" />
+          <xsd:element name="HurayBottomSurfaceRoughness" type="HuraySurfaceRoughness" />
+        </xsd:choice>
+        <xsd:choice minOccurs="0">
+          <xsd:element name="GroissSideSurfaceRoughness" type="GroissSurfaceRoughness" />
+          <xsd:element name="GroisseSideSurfaceRoughness" type="GroisseSurfaceRoughness" />
+          <xsd:element name="HuraySideSurfaceRoughness" type="HuraySurfaceRoughness" />
+        </xsd:choice>
+    </xsd:sequence>
+    <xsd:attributeGroup ref="LayerAttr" />
+    <xsd:attributeGroup ref="SignalLayerAttr" />
+    <xsd:attributeGroup ref="ViaAndWirebondRangeAttr" />    
+    <xsd:attribute name="Type" type="LayerType" use="required" />
+    <xsd:attribute name="Thickness" type="PosDbl" use="optional" />    
+    <xsd:attribute name="FillMaterial" type="xsd:string" use="optional" />
+    <xsd:attribute name="GDSDataType" type="xsd:string" use="optional" />  <!--GDSDataType allows specificication of particular data types to be sent to individual layers.-->
+    <xsd:attribute name="GDSIIVia" type="xsd:boolean" use="optional" />    <!--GDSIIVia will convert the geometries on the layer to a hole while converting the layer to a dielectric.-->
+  </xsd:complexType>
+
+  <xsd:complexType name="ELayer">
+      <xsd:sequence>
+        <xsd:element name="DCThickness" type="DCThickness" minOccurs="0" maxOccurs="1" />
+        <xsd:choice minOccurs="0">
+          <xsd:element name="GroissSurfaceRoughness" type="GroissSurfaceRoughness" />
+          <xsd:element name="GroisseSurfaceRoughness" type="GroisseSurfaceRoughness" />
+          <xsd:element name="HuraySurfaceRoughness" type="HuraySurfaceRoughness" />
+        </xsd:choice>
+        <xsd:choice minOccurs="0">
+          <xsd:element name="GroissBottomSurfaceRoughness" type="GroissSurfaceRoughness" />
+          <xsd:element name="GroisseBottomSurfaceRoughness" type="GroisseSurfaceRoughness" />
+          <xsd:element name="HurayBottomSurfaceRoughness" type="HuraySurfaceRoughness" />
+        </xsd:choice>
+        <xsd:choice minOccurs="0">
+          <xsd:element name="GroissSideSurfaceRoughness" type="GroissSurfaceRoughness" />
+          <xsd:element name="GroisseSideSurfaceRoughness" type="GroisseSurfaceRoughness" />
+          <xsd:element name="HuraySideSurfaceRoughness" type="HuraySurfaceRoughness" />
+        </xsd:choice>
+    </xsd:sequence>
+    <xsd:attributeGroup ref="LayerAttr" />
+    <xsd:attributeGroup ref="SignalLayerAttr" />
+    <xsd:attributeGroup ref="ViaAndWirebondRangeAttr" />
+    <xsd:attribute name="Thickness" type="PosDbl" use="optional" />
+    <xsd:attribute name="Type" type="LayerType" use="required" />
+    <xsd:attribute name="Elevation" type="xsd:double" use="optional" />
+    <xsd:attribute name="GDSDataType" type="xsd:string" use="optional" />      <!--GDSDataType allows specificication of particular data types to be sent to individual layers.-->
+    <xsd:attribute name="GDSIIVia" type="xsd:boolean" use="optional" />        <!--GDSIIVia will convert the geometries on the layer to a hole while converting the layer to a dielectric.-->
+  </xsd:complexType>
+
+  <xsd:complexType name="DielLayer">
+    <xsd:attributeGroup ref="LayerAttr" />
+    <xsd:attribute name="Thickness" type="PosDbl" use="optional" />
+  </xsd:complexType>
+
+  <xsd:simpleType name="ViaGroupMethod">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="proximity" />
+      <xsd:enumeration value="range" />
+    </xsd:restriction>
+  </xsd:simpleType>  
+    
+  <xsd:complexType name="CreateViaGroups">
+    <xsd:attribute name="Method" type="ViaGroupMethod" use="optional" default="proximity"/>
+    <xsd:attribute name="Persistent" type="xsd:boolean" use="optional" default="false" />
+    <xsd:attribute name="Tolerance" type="xsd:string" use="required" />
+    <xsd:attribute name="CheckContainment" type="xsd:boolean" use="optional" default="true" />
+  </xsd:complexType>  
+  
+  <xsd:simpleType name="ViaSnapMethod">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="areaFactor" />
+      <xsd:enumeration value="distance" />
+    </xsd:restriction>
+  </xsd:simpleType>    
+    
+  <xsd:complexType name="SnapViaGroups">
+    <xsd:attribute name="Method" type="ViaSnapMethod" use="optional" default="areaFactor"/>
+    <xsd:attribute name="Tolerance" type="xsd:string" use="required" />  <!-- unitless for areaFactor snapping -->
+    <xsd:attribute name="RemoveUnconnected" type="xsd:boolean" use="optional" default="false" />
+  </xsd:complexType>
+  
+  <xsd:complexType name="TSVProperties">
+    <xsd:attribute name="Thickness" type="xsd:string" use="required" />
+    <xsd:attribute name="Material" type="xsd:string" use="required" />
+  </xsd:complexType>
+    
+  <xsd:complexType name="ViaLayer">
+    <xsd:sequence>
+      <xsd:element name="DCThickness" type="DCThickness" minOccurs="0" maxOccurs="1" />
+      <xsd:element name="CreateViaGroups" type="CreateViaGroups" minOccurs="0" maxOccurs="1" />
+      <xsd:element name="SnapViaGroups" type="SnapViaGroups" minOccurs="0" maxOccurs="1" />
+      <xsd:element name="TSVProperties" type="TSVProperties" minOccurs="0" maxOccurs="unbounded" />
+    </xsd:sequence>    
+    <xsd:attributeGroup ref="LayerAttr" />    
+    <xsd:attribute name="GDSDataType" type="xsd:string" use="optional" />
+    <xsd:attribute name="StartLayer" type="xsd:string" use="required" />
+    <xsd:attribute name="StopLayer" type="xsd:string" use="required" />
+    <xsd:attribute name="SolveInside" type="xsd:boolean" use="optional" />  
+  </xsd:complexType>
+    
+      
+  <xsd:simpleType name="LengthType">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="nm" />
+      <xsd:enumeration value="um" />
+      <xsd:enumeration value="mm" />
+      <xsd:enumeration value="cm" />
+      <xsd:enumeration value="meter" />
+      <xsd:enumeration value="mil" />
+      <xsd:enumeration value="in" />
+    </xsd:restriction>
+  </xsd:simpleType>
+
+  <xsd:complexType name="Layers">
+    <xsd:sequence>
+      <xsd:element name="Layer" type="Layer" minOccurs="1" maxOccurs="unbounded" />
+    </xsd:sequence>
+    <xsd:attribute name="LengthUnit" type="LengthType" use="optional" default="mm" />
+  </xsd:complexType>
+
+  <xsd:complexType name="Dielectrics">
+    <xsd:sequence>
+      <xsd:element name="Layer" type="DielLayer" minOccurs="1" maxOccurs="unbounded" />
+    </xsd:sequence>
+    <xsd:attribute name="BaseElevation" type="xsd:double" use="optional" default="0" />
+  </xsd:complexType>
+
+  <xsd:complexType name="LayersWithElevation">
+    <xsd:sequence>
+      <xsd:element name="Layer" type="ELayer" minOccurs="1" maxOccurs="unbounded" />
+    </xsd:sequence>
+  </xsd:complexType>
+  
+  <xsd:complexType name="ViaLayers">
+    <xsd:sequence>
+      <xsd:element name="Layer" type="ViaLayer" minOccurs="1" maxOccurs="unbounded" />
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="ELayers">
+    <xsd:sequence>
+      <xsd:element name="Dielectrics" type="Dielectrics" minOccurs="0" maxOccurs="1"  />
+      <xsd:element name="Layers" type="LayersWithElevation" minOccurs="1" maxOccurs="1" />
+      <xsd:element name="Vias" type="ViaLayers" minOccurs="0" maxOccurs="1" />
+    </xsd:sequence>
+    <xsd:attribute name="LengthUnit" type="LengthType" use="optional" default="mm" />
+    <xsd:attribute name="MetalLayerSnappingTolerance" type="xsd:string" use="optional" />
+  </xsd:complexType>
+
+</xsd:schema>

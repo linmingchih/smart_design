@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            targetNamespace="http://www.ansys.com/geometry"
+            xmlns="http://www.ansys.com/geometry"
+            xmlns:stackup="http://www.ansys.com/stackup"
+            elementFormDefault="unqualified" >
+  
+  <xsd:import schemaLocation="Stackup.xsd" namespace="http://www.ansys.com/stackup" />
+
+  <xsd:simpleType name="Boolean">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="True" />
+      <xsd:enumeration value="true" />
+      <xsd:enumeration value="False" />
+      <xsd:enumeration value="false" />
+      <xsd:enumeration value="1" />
+      <xsd:enumeration value="0" />
+    </xsd:restriction>
+  </xsd:simpleType>
+  
+  <xsd:complexType name="Point2D">
+    <xsd:attribute name="x" type="xsd:string"/>
+    <xsd:attribute name="y" type="xsd:string"/>
+  </xsd:complexType>
+
+  <xsd:complexType name="Arc">
+    <xsd:attribute name="x" type="xsd:string" use="required"/>
+    <xsd:attribute name="y" type="xsd:string" use ="required"/>
+    <xsd:attribute name="h" type="xsd:string" use="required"/>
+    <xsd:attribute name="isCW" type="Boolean" use="required"/>
+  </xsd:complexType>
+
+  <xsd:complexType name="Geometry">
+  <xsd:sequence>
+    <xsd:element name="Polygon" type="PolygonWithHoles" minOccurs="1" maxOccurs="unbounded" />
+  </xsd:sequence>
+  <xsd:attribute name="LengthUnit" type="stackup:LengthType" use="optional"/>
+  <xsd:attribute name="PreCutout" type="xsd:boolean" use="optional" />
+</xsd:complexType>
+
+<xsd:complexType name="PolygonWithHoles">
+  <xsd:sequence>
+    <xsd:choice maxOccurs="unbounded">
+      <xsd:element name="Point" type="Point2D" />
+      <xsd:element name="Arc" type="Arc" />
+    </xsd:choice>
+    <xsd:element name="Hole" type="Polygon" minOccurs="0" maxOccurs="unbounded" />
+  </xsd:sequence>
+  <xsd:attribute name="Layer" type="xsd:string" use="required" />
+  <xsd:attribute name="Net" type="xsd:string" use="optional" />
+  <xsd:attribute name="Name" type="xsd:string" use="optional" />
+  <xsd:attribute name="PreCutout" type="xsd:boolean" use="optional" />
+</xsd:complexType>
+
+<xsd:complexType name="Polygon">
+  <xsd:sequence>
+    <xsd:choice maxOccurs="unbounded">
+      <xsd:element name="Point" type="Point2D" />
+      <xsd:element name="Arc" type="Arc" />
+    </xsd:choice>
+  </xsd:sequence>
+</xsd:complexType>
+
+  <!-- Remove Holes -->
+  <xsd:complexType name="CriticalNet">
+    <xsd:attribute name="Name" />
+  </xsd:complexType>
+  
+  <xsd:complexType name="CriticalNetGroup">
+    <xsd:sequence>
+      <xsd:element name="CriticalNet" type="CriticalNet" minOccurs="1" maxOccurs="unbounded" />
+    </xsd:sequence>
+    <xsd:attribute name="Tolerance" type="xsd:string" />
+  </xsd:complexType>
+  
+  <xsd:complexType name="RemoveHoles">
+    <xsd:sequence>
+      <xsd:element name="CriticalNetGroup" type="CriticalNetGroup" minOccurs="0" maxOccurs="unbounded"/>     
+    </xsd:sequence>
+    <xsd:attribute name="HoleAreaMinimum" type="xsd:string" />
+    <xsd:attribute name="LengthUnit" type="stackup:LengthType" use="optional"/>
+  </xsd:complexType>
+
+  
+    <!-- CutoutSubdesign -->
+
+    <xsd:complexType name ="CutoutSubdesign">
+        <xsd:sequence>
+            <xsd:choice>
+                <xsd:element name="Auto" type="AutoCutout" />
+                <xsd:element name="Polygon" type="PolygonCutout" maxOccurs="unbounded"/>
+            </xsd:choice>
+            <xsd:element name="Clip" type ="Clip" minOccurs="0" maxOccurs="1"/>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="AutoCutout">
+        <xsd:sequence>
+            <xsd:choice>
+                <xsd:element name="Components" type="ComponentCutouts" minOccurs="0" maxOccurs="1" />
+            </xsd:choice>
+        </xsd:sequence>
+        <xsd:attribute name="Type" type="AutoType" use="required"/>
+        <xsd:attribute name="Expansion" type="xsd:string" use="required" />
+        <xsd:attribute name="RoundCorners" type="Boolean" use="required" />
+    </xsd:complexType>
+
+    <xsd:simpleType name="AutoType">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="Conformal" />
+            <xsd:enumeration value="BBox" />
+            <xsd:enumeration value="ConvexHull" />
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:complexType name="ComponentCutouts">
+        <xsd:attribute name="Expansion" type="xsd:string" use="optional" />
+    </xsd:complexType>
+
+    <xsd:complexType name="PolygonCutout">
+        <xsd:sequence>
+            <xsd:element name="Point" type="Point2D" minOccurs="3" maxOccurs="unbounded"/>
+        </xsd:sequence>
+        <xsd:attribute name="Name" use="optional" />
+    </xsd:complexType>
+  
+    <xsd:complexType name="Clip">
+      <xsd:attribute name="NetClass" type="xsd:string" use="optional" />
+      <xsd:attribute name="BdryFragmentCleanupThreshold" use="optional" />
+    </xsd:complexType>
+
+
+
+</xsd:schema>

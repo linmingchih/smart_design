@@ -1,0 +1,203 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            targetNamespace="http://www.ansys.com/components"
+            xmlns="http://www.ansys.com/components"
+            xmlns:component="http://www.ansys.com/component"
+            elementFormDefault="unqualified" >
+
+  <xsd:import schemaLocation="Component.xsd" namespace="http://www.ansys.com/component" />
+
+
+  <!-- Use the 'schemaVersion' attribute for versioning within the namespace -->
+  <xsd:element name="Components" type="Components" />
+
+  <!-- Type declarations -->
+
+  <xsd:complexType name="Components">
+    <xsd:sequence>
+      <xsd:element name="Component" type="component:Component" minOccurs="0" maxOccurs="unbounded" />
+      <xsd:element name="TypeMap" type="TypeMap" minOccurs="0" maxOccurs="1" />
+      <xsd:element name="ODBPropertyMap" type="ODBPropertyMap" minOccurs="0" maxOccurs="1" />
+      <xsd:element name="Part" type="Part" minOccurs="0" maxOccurs="unbounded" />
+      <xsd:element name="Instance" type="CompInst" minOccurs="0" maxOccurs="unbounded" />
+      <xsd:element name="BondwireGroup" type="BondwireGroup" minOccurs="0" maxOccurs="unbounded" />
+    </xsd:sequence>
+    <xsd:attribute name="schemaVersion" type="xsd:decimal" use="required" fixed="1.0"/>
+  </xsd:complexType>
+
+  <!-- Determination of Type and Value uses order precedence in PreferredField-->
+
+  <xsd:complexType name="ODBProperty">
+    <xsd:attribute name="Name" type="xsd:string" use="required"/>
+    <xsd:attribute name="TypeOnly" type="xsd:boolean" default="false" use ="optional"/>
+    <xsd:attribute name="FullUnitsOnly" type="xsd:boolean" default="false" use ="optional"/>
+    <xsd:attribute name="SeparationCharacters" type="xsd:string" use ="optional"/>
+  </xsd:complexType>
+  
+  <xsd:complexType name="ODBPropertyMap">
+    <xsd:choice minOccurs="0" maxOccurs="unbounded">
+      <xsd:element name="ODBProperty" type="ODBProperty" minOccurs="0" maxOccurs="unbounded" />
+    </xsd:choice>
+    <xsd:attribute name="PrioritizeOverTypeMap" type="xsd:boolean" default="false" use ="optional"/>
+  </xsd:complexType>
+  
+  
+  <!-- 
+    Determination of Type and Value uses order precedence in TypeMap.
+    Regular expressions use Perl syntax.
+    -->
+  <xsd:complexType name="TypeMap">
+    <xsd:choice minOccurs="0" maxOccurs="unbounded">
+      <xsd:element name="Part" type="RETypeMap" minOccurs="0" maxOccurs="unbounded" />
+      <xsd:element name="RefDes" type="RETypeMap" minOccurs="0" maxOccurs="unbounded" />
+    </xsd:choice>
+  </xsd:complexType>
+
+  <xsd:complexType name="RETypeMap">
+    <xsd:attribute name="RegEx" use="required" />
+    <xsd:attribute name="Type" type="PartType" use="required" />
+    <xsd:attribute name="SR_Value" use="optional" />
+    <xsd:attribute name="SL_Value" use="optional" />
+    <xsd:attribute name="SC_Value" use="optional" />
+    <xsd:attribute name="File" use="optional" />
+  </xsd:complexType>
+
+  <xsd:simpleType name="PartType">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="Discrete" />
+      <xsd:enumeration value="Resistor" />
+      <xsd:enumeration value="Capacitor" />
+      <xsd:enumeration value="Inductor" />
+    </xsd:restriction>
+  </xsd:simpleType>
+
+  <xsd:complexType name="Part">
+    <xsd:sequence>
+      <xsd:element name="Pin" type="Pin" minOccurs="0" maxOccurs="unbounded" />
+    </xsd:sequence>
+    <xsd:attribute name="Name" use="required" />
+    <xsd:attribute name="w" use="optional" />
+    <xsd:attribute name="h" use="optional" />
+  </xsd:complexType>
+
+  <xsd:complexType name="Pin">
+    <xsd:attribute name="Name" use="required" />
+
+    <!-- Pin position attributes are all relative to part (0,0) -->
+    <xsd:attribute name="x" use="optional" />
+    <xsd:attribute name="y" use="optional" />
+    <xsd:attribute name="rot" use="optional" />
+  </xsd:complexType>
+
+  <!-- TODO: dimensional attributes need to be number+unit? -->
+  <xsd:complexType name="CompInst">
+    <xsd:sequence>
+      <xsd:element name="PinInst" type="PinInst" minOccurs="0" maxOccurs="unbounded" />
+      <xsd:element name="Property" type="PropertyType" minOccurs="0" maxOccurs="unbounded" />
+    </xsd:sequence>
+    <xsd:attribute name="RefDes" use="required" />
+    <xsd:attribute name="PlacementLayer" use="optional" />
+    <xsd:attribute name="Part" use="optional" />
+    <xsd:attribute name="x" use="optional" default="0" />
+    <xsd:attribute name="y" use="optional" default="0" />
+    <xsd:attribute name="rot" use="optional" default="0" />
+    <xsd:attribute name="mirror" use="optional" type="xsd:boolean" default="false" />
+  </xsd:complexType>
+
+  <xsd:complexType name="PinInst">
+    <xsd:sequence>
+      <xsd:element name="Property" type="PropertyType" minOccurs="0" maxOccurs="unbounded" />
+    </xsd:sequence>
+    <xsd:attribute name="Name" use="required" />
+    <xsd:attribute name="Net"  use="optional" />
+    <xsd:attribute name="BndType" type="BndType" use="optional" />
+    <xsd:attribute name="BndName" use="optional" />
+  </xsd:complexType>
+
+  <xsd:simpleType name="BndType">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="Port" />
+      <xsd:enumeration value="PEC" />
+      <xsd:enumeration value="RLC" />
+      <xsd:enumeration value="None" />
+    </xsd:restriction>
+  </xsd:simpleType>
+
+  <xsd:attributeGroup name="LineAttrStr">
+    <xsd:attribute name="x1" use="required"/>
+    <xsd:attribute name="y1" use="required"/>
+    <xsd:attribute name="x2" use="required"/>
+    <xsd:attribute name="y2" use="required"/>
+  </xsd:attributeGroup>
+
+  <xsd:complexType name="WireInst">
+    <xsd:attributeGroup ref="LineAttrStr"/>
+  </xsd:complexType>
+  
+  <xsd:complexType name="BondwireGroup">
+    <xsd:sequence>
+      <xsd:element name="Inst" type="WireInst" minOccurs="0" maxOccurs="unbounded" />
+      <xsd:element name="Property" type="PropertyType" minOccurs="0" maxOccurs="unbounded" />
+    </xsd:sequence>
+    <xsd:attribute name="Name" use="required" />
+    <xsd:attribute name="Diam" use="required" />
+    <xsd:attribute name="StartLayer" use="required" />
+    <xsd:attribute name="EndLayer" use="required" />
+    <xsd:attribute name="Profile" use="optional" />
+    <xsd:attribute name="IsTopPlacement" type="xsd:boolean" use="optional" />
+    <xsd:attribute name="Material" use="optional" />
+  </xsd:complexType>
+
+  <xsd:complexType name="PropertyType">
+    <xsd:simpleContent>
+      <xsd:extension base="xsd:string">
+        <xsd:attribute name="Name" use="required" />
+      </xsd:extension>
+    </xsd:simpleContent>
+  </xsd:complexType>
+
+  <!-- Definitions -->
+
+  <xsd:complexType name ="CDNWirebond" >
+    <xsd:attribute name="File" type="xsd:string" use="required" />
+  </xsd:complexType>
+
+  <xsd:simpleType name="Percent">
+    <xsd:restriction base="xsd:integer">
+      <xsd:minInclusive value="0" />
+      <xsd:maxInclusive value="100" />
+    </xsd:restriction>
+  </xsd:simpleType>
+
+  <xsd:simpleType name="SBShapeType">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="cylinder" />
+      <xsd:enumeration value="spheroid" />
+    </xsd:restriction>
+  </xsd:simpleType> 
+  
+  <xsd:complexType name="Solderball" >
+    <xsd:attribute name="IsTopPlacement" type="xsd:boolean" use="required" />
+    <xsd:attribute name="Shape" type="SBShapeType" use="required" />
+    <xsd:attribute name="Diameter" type="xsd:string" use="required" />
+    <xsd:attribute name="Diameter2" type="xsd:string" use="optional" />
+    <xsd:attribute name="Material" type="xsd:string" use="optional" />
+  </xsd:complexType>
+
+  <xsd:complexType name="Padstack" >
+    <xsd:sequence minOccurs="0" maxOccurs="unbounded" >
+      <xsd:element name="Solderball" type="Solderball" minOccurs="0" maxOccurs="1" />
+    </xsd:sequence>
+    <xsd:attribute name="Name" use="required" />
+    <xsd:attribute name="ViaMaterial" type="xsd:string" use="optional" />
+    <xsd:attribute name="ViaPlatingPercent" type="Percent" use="optional" />
+  </xsd:complexType>
+
+  <xsd:complexType name="Definitions">
+    <xsd:sequence minOccurs="0" maxOccurs="unbounded">
+      <xsd:element name="CDNWirebond" type="CDNWirebond" minOccurs="0" maxOccurs="unbounded" />
+      <xsd:element name="Padstack" type="Padstack" minOccurs="0" maxOccurs="unbounded" />
+    </xsd:sequence>
+  </xsd:complexType>
+
+</xsd:schema>

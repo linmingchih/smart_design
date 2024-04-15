@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            targetNamespace="http://www.ansys.com/boundary"
+            xmlns="http://www.ansys.com/boundary"
+            xmlns:stackup="http://www.ansys.com/stackup"
+            xmlns:geometry="http://www.ansys.com/geometry"
+            elementFormDefault="unqualified" >
+
+  <xsd:import schemaLocation="Stackup.xsd" namespace="http://www.ansys.com/stackup" />
+  <xsd:import schemaLocation="Geometry.xsd" namespace="http://www.ansys.com/geometry" />
+
+<!-- Boundaries -->
+
+<xsd:complexType name="PropertyType">
+  <xsd:simpleContent>
+    <xsd:extension base="xsd:string">
+      <xsd:attribute name="Name" use="required" />
+    </xsd:extension>
+  </xsd:simpleContent>
+</xsd:complexType>
+
+<xsd:attributeGroup name="LineAttr">
+  <xsd:attribute name="x1" type="xsd:double" use="required"/>
+  <xsd:attribute name="y1" type="xsd:double" use="required"/>
+  <xsd:attribute name="x2" type="xsd:double" use="required"/>
+  <xsd:attribute name="y2" type="xsd:double" use="required"/>
+</xsd:attributeGroup>
+
+<xsd:attributeGroup name="EdgeAttr">
+  <xsd:attribute name="Layer" type="xsd:string" use="required"/>
+  <xsd:attributeGroup ref="LineAttr"/>
+</xsd:attributeGroup>
+
+<xsd:attributeGroup name="TwoPtAttr">
+  <xsd:attribute name="Layer1" type="xsd:string" use="required"/>
+  <xsd:attribute name="Layer2" type="xsd:string" use="required"/>
+  <xsd:attributeGroup ref="LineAttr"/>
+</xsd:attributeGroup>
+
+<xsd:complexType name="Vertical">
+  <xsd:attributeGroup ref="EdgeAttr"/>
+  <xsd:attribute name="ReferenceLayer" type="xsd:string" use="required"/>
+</xsd:complexType>
+
+<xsd:complexType name="Horizontal">
+  <xsd:attributeGroup ref="EdgeAttr"/>
+  <xsd:attribute name="Width" type="xsd:double" use="required"/>
+</xsd:complexType>
+
+<xsd:complexType name="Port">
+  <xsd:sequence>
+    <xsd:choice maxOccurs="1">
+      <xsd:element name="Vertical" type="Vertical"/>
+      <xsd:element name="Horizontal" type="Horizontal"/>
+    </xsd:choice>
+    <xsd:element name="Property" type="PropertyType" minOccurs="0" maxOccurs="unbounded" />
+  </xsd:sequence>
+  <xsd:attribute name="Name" use="required" />
+  <xsd:attribute name="Z0" type="xsd:double" use="optional" default="50" />
+</xsd:complexType>
+
+  <xsd:simpleType name="Orientation">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="Horizontal" />
+      <xsd:enumeration value="Vertical" />
+    </xsd:restriction>
+  </xsd:simpleType>
+
+  <xsd:complexType name="TerminalPortPt">
+    <xsd:attribute name="Layer" type="xsd:string" use="required"/>
+    <xsd:attribute name="x" type="xsd:double" use="required"/>
+    <xsd:attribute name="y" type="xsd:double" use="required"/>
+
+    <xsd:attribute name="Name" type="xsd:string" use="required" />
+    <xsd:attribute name="Z0" type="xsd:double" use="optional" default="50" />
+
+    <xsd:attribute name="EdgeLength" type=" xsd:double" use="optional"/>
+    <xsd:attribute name="AutoRefNet" type=" xsd:string" use="optional"/>
+    <xsd:attribute name="AutoRefRadius" type=" xsd:double" use="optional"/>
+    <xsd:attribute name="AutoRefOrientation" type="Orientation" use="optional"/>
+  </xsd:complexType>
+
+
+  <xsd:complexType name="PEC">
+  <xsd:sequence>
+    <xsd:choice maxOccurs="1">
+      <xsd:element name="Vertical" type="Vertical"/>
+      <xsd:element name="Horizontal" type="Horizontal"/>
+    </xsd:choice>
+    <xsd:element name="Property" type="PropertyType" minOccurs="0" maxOccurs="unbounded" />
+  </xsd:sequence>
+  <xsd:attribute name="Name" use="required" />
+</xsd:complexType>
+
+<xsd:complexType name="RLC">
+  <xsd:sequence>
+    <xsd:choice maxOccurs="1">
+      <xsd:element name="Vertical" type="Vertical"/>
+      <xsd:element name="Horizontal" type="Horizontal"/>
+    </xsd:choice>
+    <xsd:element name="Property" type="PropertyType" minOccurs="0" maxOccurs="unbounded" />
+  </xsd:sequence>
+  <xsd:attribute name="Name" use="required" />
+  <xsd:attribute name="R" type="xsd:double" use="optional" />
+  <xsd:attribute name="L" type="xsd:double" use="optional" />
+  <xsd:attribute name="C" type="xsd:double" use="optional" />
+</xsd:complexType>
+
+<xsd:complexType name="CircuitPortPt">
+  <xsd:sequence>
+    <xsd:element name="Property" type="PropertyType" minOccurs="0" maxOccurs="unbounded" />
+  </xsd:sequence>
+  <xsd:attributeGroup ref="TwoPtAttr" />
+  <xsd:attribute name="Name" use="required" />
+  <xsd:attribute name="Z0" type="xsd:double" use="optional" default="50" />
+</xsd:complexType>
+
+<xsd:complexType name="CircuitPortEdge">
+  <xsd:sequence>
+    <xsd:choice maxOccurs="1">
+      <xsd:element name="Vertical" type="Vertical"/>
+      <xsd:element name="Horizontal" type="Horizontal"/>
+    </xsd:choice>
+    <xsd:element name="Property" type="PropertyType" minOccurs="0" maxOccurs="unbounded" />
+  </xsd:sequence>
+  <xsd:attribute name="Name" use="required" />
+  <xsd:attribute name="Z0" type="xsd:double" use="optional" default="50" />
+</xsd:complexType>
+
+<xsd:simpleType name="ExtentsType">
+  <xsd:restriction base="xsd:string">
+    <xsd:enumeration value="bbox" />
+    <xsd:enumeration value="conformal" />
+    <xsd:enumeration value="convexhull" />
+    <xsd:enumeration value="outline" />
+  </xsd:restriction>
+</xsd:simpleType>
+
+<xsd:complexType name="Extents">
+  <xsd:attribute name="Type" type="ExtentsType" use="required" />
+  <xsd:attribute name="DielType" type="ExtentsType" use="required" />
+  <xsd:attribute name="DielHorizFactor" use="optional" />
+  <xsd:attribute name="AirboxHorizFactor" use="optional" />
+  <xsd:attribute name="AirboxVertFactorPos" use="optional" />
+  <xsd:attribute name="AirboxVertFactorNeg" use="optional" />
+  <xsd:attribute name="UseRadiationBoundary" type="geometry:Boolean" use="required" />
+  <!-- alias for UseOpenRegion setting (kept for backwards compatibility) -->
+  <xsd:attribute name="OpenRegionType" use="optional" />
+  <xsd:attribute name="DielHonorPrimitives" type="geometry:Boolean" use="optional" />
+  <xsd:attribute name="AirboxTruncateAtGround" type="geometry:Boolean" use="optional" />
+  <xsd:attribute name="OperatingFrequency" use="optional" />
+  <!-- For PML Calculation (Default value is 5Ghz)) -->
+  <xsd:attribute name="UseXYDataExtentForVerticalExpansion" type="geometry:Boolean" use="optional" />
+</xsd:complexType>
+
+<xsd:complexType name="BoundaryConditions">
+  <xsd:choice minOccurs="0" maxOccurs="unbounded">
+    <xsd:element name="Port" type="Port" minOccurs="0" maxOccurs="unbounded" />
+    <xsd:element name="TerminalPortPt" type="TerminalPortPt" minOccurs="0" maxOccurs="unbounded" />
+    <xsd:element name="CircuitPortPt" type="CircuitPortPt" minOccurs="0" maxOccurs="unbounded" />
+    <xsd:element name="CircuitPortEdge" type="CircuitPortEdge" minOccurs="0" maxOccurs="unbounded" />
+    <xsd:element name="PEC" type="PEC" minOccurs="0" maxOccurs="unbounded" />
+    <xsd:element name="RLC" type="RLC" minOccurs="0" maxOccurs="unbounded" />
+    <xsd:element name="Extents" type="Extents" minOccurs="0" maxOccurs="1" />
+  </xsd:choice>
+  <xsd:attribute name="LengthUnit" type="stackup:LengthType" use="optional"/>
+  <xsd:attribute name="PreCutout" type="xsd:boolean" use="optional" />
+</xsd:complexType>
+
+</xsd:schema>
