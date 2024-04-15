@@ -5,6 +5,9 @@ AEDT GDS導入與XML技術檔格式
 
 > :link: **範例檔案下載**<br>[example.gds](/assets/example.gds)<br>[example.xml (只包含材料及堆疊)](/assets/example.xml)<br>[example_nets.xml (+nets資訊及Via Grouping)](/assets/example_nets.xml)<br>[example_nets_sim.xml (+模擬設定及掃頻資訊)](/assets/example_nets_sim.xml)
 
+#### 範例GDS結構
+![2024-04-14_09-18-17](/assets/2024-04-14_09-18-17_3ydd7uty6.png)
+
 ### 概要
 
 ANSYS作為物理工程模擬的領導者，旗下的AEDT (ANSYS Electronics Desktop) 集成了多物理計算引擎，包括HFSS、Icepak、RaptorX和Mechanical等，已在業界享有盛譽。這些工具提供了從高頻電磁場模擬到熱分析、結構分析以及信號完整性分析的全方位解決方案，極大地增強了設計師在進行集成電路（IC）級電子設計時的分析能力。
