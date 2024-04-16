@@ -118,10 +118,13 @@ XML 解析器（parser）的工作流程。讓我更詳細地解釋一下這個�
 
 
 ### XML編寫輔助
-當您在Visual Studio Code中編寫XML時，如果配置了相對應的XML Schema定義（XSD），則XML (XML Language Support by Red Hat)插件可以提供智能感知（IntelliSense）功能，這樣您就可以獲得自動完成提示，並且避免了查找正確元素和屬性名稱的時間浪費。這不僅加快了開發速度，也降低了錯誤發生的機率。
+當您在Visual Studio Code中編寫XML時，如果配置了相對應的XML Schema定義（XSD），則==XML (XML Language Support by Red Hat)插件==可以提供智能感知（IntelliSense）功能，這樣您就可以獲得自動完成提示，並且避免了查找正確元素和屬性名稱的時間浪費。這不僅加快了開發速度，也降低了錯誤發生的機率。
+
+![2024-04-16_10-57-46](/assets/2024-04-16_10-57-46.png)
+
 
 要在VS Code中設置這些，您可以按照下面的步驟進行： 
-1. 確保您已經安裝了XML插件。這可以通過VS Code的擴展市場完成。 
+1. 確保您已經安裝`XML`插件。這可以通過VS Code的擴展市場完成。 
 2. 打開您的XML文件，在文件的頂部引用XSD Schema。這樣插件就可以根據XSD文件提供有效的元素和屬性的自動完成提示。如果您的XML文件沒有特定的命名空間，則使用`noNamespaceSchemaLocation`屬性指定XSD文件的路徑：
 
 ```xml
