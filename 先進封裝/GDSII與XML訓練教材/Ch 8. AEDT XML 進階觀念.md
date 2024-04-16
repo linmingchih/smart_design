@@ -117,48 +117,23 @@ XML 解析器（parser）的工作流程。讓我更詳細地解釋一下這個�
 因為 AEDT 複雜度，官方幫助文件或教材中無法詳細介紹完整的 XML 標籤及資料型別，但透過直接查閱相關的 XML Schema 定義，使用者可以清晰地瞭解 AEDT XML支援的完整範圍。這些 Schema 提供了豐富的細節，對於高階使用者來說是極為有用的，因為它們能夠根據這些信息更精確地設定和使用模擬軟件。
 
 
-### XSD Tree View：強大的XSD分析工具
-[XSD Tree View](https://myxml.in/xsd-treeview.html) 是一個非常有用的工具，特別是對於需要處理和瞭解 AEDT XML 結構的開發人員來說。它允許使用者輸入 XSD 檔案的內容，然後自動產生一個示例 XML 檔案。這個生成的 XML 檔案將包含 XSD 中定義的所有元素（標籤）和屬性，並以樹狀結構呈現，使得整個 XML 的結構層次一目了然。下面是根據 `Stack.xsd` 輸出的XML當中的一部分。可以完整看到每個標籤所支援的屬性：
+### XML編寫輔助
+當您在Visual Studio Code中編寫XML時，如果配置了相對應的XML Schema定義（XSD），則XML (XML Language Support by Red Hat)插件可以提供智能感知（IntelliSense）功能，這樣您就可以獲得自動完成提示，並且避免了查找正確元素和屬性名稱的時間浪費。這不僅加快了開發速度，也降低了錯誤發生的機率。
+
+要在VS Code中設置這些，您可以按照下面的步驟進行： 
+1. 確保您已經安裝了XML插件。這可以通過VS Code的擴展市場完成。 
+2. 打開您的XML文件，在文件的頂部引用XSD Schema。這樣插件就可以根據XSD文件提供有效的元素和屬性的自動完成提示。如果您的XML文件沒有特定的命名空間，則使用`noNamespaceSchemaLocation`屬性指定XSD文件的路徑：
 
 ```xml
-  <ELayers LengthUnit="mm" MetalLayerSnappingTolerance="string">
-    <!--Optional:-->
-    <Dielectrics BaseElevation="0">
-      <!--1 or more repetitions:-->
-      <Layer Name="string" TargetLayer="string" Color="token" Material="string" ConvertPolygonToCircle="true" ConvertPolygonToCircleRatio="1.051732E7" ReconstructArcs="true" ArcTolerance="string" UnionPrimitives="false" DefeatureMinTraceWidth="string" Thickness="1.051732E7"/>
-    </Dielectrics>
-    <Layers>
-      <!--1 or more repetitions:-->
-      <Layer Name="string" TargetLayer="string" Color="token" Material="string" ConvertPolygonToCircle="true" ConvertPolygonToCircleRatio="1.051732E7" ReconstructArcs="true" ArcTolerance="string" UnionPrimitives="true" DefeatureMinTraceWidth="string" Negative="true" SolveInside="false" EtchFactor="1.051732E7" StartLayer="string" StopLayer="string" IsDrillLayer="false" Thickness="1.051732E7" Type="conductor" Elevation="1.051732E7" GDSDataType="string" GDSIIVia="false">
-        <!--Optional:-->
-        <DCThickness Thickness="string" Type="string"/>
-        <!--You have a CHOICE of the next 3 items at this level-->
-        <GroissSurfaceRoughness Roughness="string"/>
-        <GroisseSurfaceRoughness Roughness="string"/>
-        <HuraySurfaceRoughness NoduleRadius="string" HallHuraySurfaceRatio="1.051732E7"/>
-        <!--You have a CHOICE of the next 3 items at this level-->
-        <GroissBottomSurfaceRoughness Roughness="string"/>
-        <GroisseBottomSurfaceRoughness Roughness="string"/>
-        <HurayBottomSurfaceRoughness NoduleRadius="string" HallHuraySurfaceRatio="1.051732E7"/>
-        <!--You have a CHOICE of the next 3 items at this level-->
-        <GroissSideSurfaceRoughness Roughness="string"/>
-        <GroisseSideSurfaceRoughness Roughness="string"/>
-        <HuraySideSurfaceRoughness NoduleRadius="string" HallHuraySurfaceRatio="1.051732E7"/>
-      </Layer>
-    </Layers>
-    <!--Optional:-->
-    <Vias>
-      <!--1 or more repetitions:-->
-      <Layer Name="string" TargetLayer="string" Color="token" Material="string" ConvertPolygonToCircle="false" ConvertPolygonToCircleRatio="1.051732E7" ReconstructArcs="false" ArcTolerance="string" UnionPrimitives="false" DefeatureMinTraceWidth="string" GDSDataType="string" StartLayer="string" StopLayer="string" SolveInside="true">
-        <!--Optional:-->
-        <DCThickness Thickness="string" Type="string"/>
-        <!--Optional:-->
-        <CreateViaGroups Method="proximity" Persistent="false" Tolerance="string" CheckContainment="true"/>
-        <!--Optional:-->
-        <SnapViaGroups Method="areaFactor" Tolerance="string" RemoveUnconnected="false"/>
-        <!--Zero or more repetitions:-->
-        <TSVProperties Thickness="string" Material="string"/>
-      </Layer>
-    </Vias>
-  </ELayers>
-```
+<?xml version="1.0" encoding="UTF-8"?>
+<c:Control  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:noNamespaceSchemaLocation="file:///C:/Program%20Files/AnsysEM/v241/Win64/Control.xsd">
+
+<c:Control>
+``` 
+3. 確保您的XML和XSD檔案路徑正確，並且您的開發環境有訪問這些文件的權限。 
+4. 在您開始輸入元素的時候，插件應該會提供自動完成的建議。例如，當您輸入`<`，插件會顯示所有可用的元素，當您開始輸入一個元素的名稱，它會根據XSD縮窄下來的建議。如下圖所示。
+
+![2024-04-16_08-41-48](/assets/2024-04-16_08-41-48.png)
+
+透過這些步驟，您就可以在編寫XML文檔時享受到便利的IntelliSense功能，從而提高效率並減少錯誤。
