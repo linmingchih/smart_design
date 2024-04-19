@@ -9,7 +9,8 @@
 
 ![2024-04-19_12-55-07](/assets/2024-04-19_12-55-07.png)
 
-### HFSS版本
+### HFSS 版本
+
 ```python
 import os
 
@@ -38,7 +39,8 @@ for solution in oModule_rs.GetAvailableSolutions('Standard'):
 ```
 
 
-### HFSS 3D Layout版本
+### HFSS 3D Layout 版本
+
 ```python
 
 import os
@@ -61,6 +63,44 @@ for solution in oModule.GetAllSolutionNames():
         AddWarningMessage(snp_path)
 ```
 
+### HFSS 版本2
 
+變數數量過多，會使得變數組合形成的檔名過長進而導致輸出失敗，以下版本用編號作為檔名，另外生成.csv檔案紀錄變數組合與檔名對應關係方便查找。
+
+```python
+# from win32com import client
+# oApp = client.Dispatch("Ansoft.ElectronicsDesktop.2024.1")
+# oDesktop = oApp.GetAppDesktop()
+# oDesktop.RestoreWindow()
+
+import os
+
+oDesktop.ClearMessages("", "", 2)
+oProject = oDesktop.GetActiveProject()
+directory = oProject.GetPath()
+
+oDesign = oProject.GetActiveDesign()
+design_name = oDesign.GetName()
+
+oModule = oDesign.GetModule("BoundarySetup")
+num = oModule.GetNumExcitations()
+
+oModule_rs = oDesign.GetModule("ReportSetup")
+oModule_sol = oDesign.GetModule("Solutions")
+
+with open(os.path.join(directory, '{}_statistics.csv'.format(design_name)), 'w') as f:
+    for solution in oModule_rs.GetAvailableSolutions('Standard'):
+        solution_name = solution.replace(':','_').replace(' ','')
+
+        for n, variable in enumerate(oModule_sol.GetAvailableVariations(solution)):
+            snp_path = os.path.join(directory,'{}_{}_{:03}.s{}p'.format(design_name, solution_name, n, num))
+            
+            try:
+                oModule_sol.ExportNetworkData(variable, [solution], 3, snp_path, ["All"], True, 50, "S", -1, 0, 15, True, True, False)
+                f.writelines('{:4}, {}\n'.format(variable, snp_path))
+                AddWarningMessage(snp_path)
+            except:
+                pass
+```
 
 
