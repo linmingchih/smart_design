@@ -28,7 +28,6 @@ for solution in oModule_rs.GetAvailableSolutions('Standard'):
     
     for i in oModule_sol.GetAvailableVariations(solution):
         snp_path = os.path.join(directory,'{}-{}.s{}p'.format(solution_name, i, num))
-        #oDesign.ExportNetworkData(i, [solution], 3, snp_path, ["All"], True, 50, "S", -1, 0, 15, True, True, False)
         
         try:
             oModule_sol.ExportNetworkData(i, [solution], 3, snp_path, ["All"], True, 50, "S", -1, 0, 15, True, True, False)
