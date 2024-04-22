@@ -6,8 +6,6 @@
 ![2024-04-22_14-39-05](/assets/2024-04-22_14-39-05_yi0d08m2y.png)
 
 ```python
-from win32com import client
-
 for project_name in oDesktop.GetProjectList():
     oProject = oDesktop.SetActiveProject(project_name)
     
