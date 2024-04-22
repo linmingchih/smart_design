@@ -1,5 +1,11 @@
 ANSYS AEDT程式開發
 ===
+
+歡迎加入AEDT自動化臉書社群，不定時更新最新活動消息或技術範例
+https://www.facebook.com/groups/304721550536923
+
+![Facebook_Group_QR](/assets/Facebook_Group_QR.png)
+
 > ### 目錄
 > - Chapter 1. 概要
 > - Chapter 2. Python語法介紹
