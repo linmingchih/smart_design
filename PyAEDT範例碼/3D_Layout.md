@@ -1,5 +1,7 @@
 ### 在匯入的Layout元件當中加上Ports
 
+
+```python
 oProject = oDesktop.GetActiveProject()
 oDesign = oProject.GetActiveDesign()
 oEditor = oDesign.GetActiveEditor()
@@ -14,6 +16,8 @@ port_list = ['{}:{}'.format(u1_id, i) for i in ports]
 
 oProject.SetActiveDesign(design_name)
 oEditor.CreatePortInstancePorts(["NAME:elements"] + port_list)
+
+```
 
 ![2024-04-23_04-34-51](/assets/2024-04-23_04-34-51.png)
 
