@@ -3,7 +3,9 @@
 
 PyAEDT允許使用者透過gRPC API在不同的電腦上遠端控制ANSYS Electronics Desktop（AEDT）進行模型建立、模擬和數據分析。這樣的設計使得近端電腦不需要安裝AEDT，只需通過網絡與遠端電腦上的AEDT進行通信。
 
->:link: **資訊連結**<br>[設定注意事項](https://aedt.docs.pyansys.com/version/0.8/Getting_started/ClientServer.html#client-server)
+> :memo: **附註**<br>gRPC是一種高性能、開源和通用的RPC框架，由Google主導開發。它使客戶端和服務器應用程序能夠透明地進行通信，並被設計用於運行在多種不同的環境中。它支持多種語言和平台，如C++, Java, Python, Go, Ruby等。
+
+>:link: **設定步驟**<br>[設定步驟](https://aedt.docs.pyansys.com/version/0.8/Getting_started/ClientServer.html#client-server)
 
 以下為關鍵步驟和設定，需要在近端和遠端電腦上完成，以確保兩者能夠順利連接： 
 1. **安裝需求** ：
@@ -21,7 +23,7 @@ PyAEDT允許使用者透過gRPC API在不同的電腦上遠端控制ANSYS Electr
 
 這種架構不僅提高了計算資源的利用效率，同時也使得用戶可以在不具備高性能計算能力的電腦上進行複雜的電子設計自動化（EDA）任務。此外，透過網絡分離計算任務，也增加了工作的彈性與可擴展性。
 
-> 啟動伺服器後，會顯示相關的IP地址和端口號。客戶端在執行時，必須連接到這指定的IP和端口，以確保能夠正確與伺服器進行通信。
+> :memo: **注意**<br>啟動伺服器後，會顯示相關的IP地址和端口號。客戶端在執行時，必須連接到這指定的IP和端口，以確保能夠正確與伺服器進行通信。
 
 
 ### 測試連結
