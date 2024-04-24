@@ -25,7 +25,7 @@ ansysedt.exe -grpcsrv 50051
 
 ```python
 import sys
-sys.path.append(r"/Linux64/PythonFiles/DesktopPlugin") #這裡需填寫正確完整路徑
+sys.path.append(r"..../v241/Linux64/PythonFiles/DesktopPlugin") #這裡需填寫正確完整路徑
 import ScriptEnv
 ScriptEnv.Initialize("", False, "", 50051)
 oDesktop.NewProject()
