@@ -136,7 +136,7 @@ AEDT 技術檔案 Schema的複雜度相當高，相關內容更是分散於多�
 <c:Control  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
             xsi:noNamespaceSchemaLocation="file:///C:/Program%20Files/AnsysEM/v241/Win64/Control.xsd">
 
-<c:Control>
+</c:Control>
 ``` 
 3. 確保您的XML和XSD檔案路徑正確，並且您的開發環境有訪問這些文件的權限。 
 4. 在您開始輸入元素的時候，插件應該會提供自動完成的建議。例如，當您輸入`<`，插件會顯示所有可用的元素，當您開始輸入一個元素的名稱，它會根據XSD縮窄下來的建議。如下圖所示。
