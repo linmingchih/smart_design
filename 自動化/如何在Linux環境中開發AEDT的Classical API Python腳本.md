@@ -11,7 +11,7 @@
 2. **啟動AEDT的gRPC服務** ：在Windows機器上，您可以通過命令行啟動AEDT的gRPC服務。打開命令提示符或PowerShell，輸入以下命令來啟動AEDT並開啟gRPC服務：
 
 ```bash
-ansysedt.exe -grpcsrv 50051
+./ansysedt -grpcsrv 50051
 ```
 
 
