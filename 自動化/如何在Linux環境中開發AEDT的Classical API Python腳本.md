@@ -2,7 +2,7 @@
 ---
 **Linux/Windows適用**
 
-由於Linux不支持win32com模組，您可以使用gRPC（Google Remote Procedure Call）技術。從AEDT 2023R1版本開始代替。AEDT2023R1之後支援了gRPC模式，這為Linux用戶提供了一種新的IDE連接AEDT進行程式開發的方式。
+由於Linux不支持win32com模組，開發人員可以使用gRPC（Google Remote Procedure Call）技術取代。AEDT 2023R1版本開始支援gRPC模式，這為Linux用戶提供了一種新的IDE連接AEDT進行程式開發的方式。
 
 > :link:**參考連結**<br>[Troubleshooting — PyAEDT (pyansys.com)](https://aedt.docs.pyansys.com/version/stable/Getting_started/Troubleshooting.html#run-pyaedt)
 
