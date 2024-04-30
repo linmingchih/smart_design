@@ -49,7 +49,7 @@ m3 drawing 300 203
 ### AEDT GDS檔案匯入與模擬前處理
 
 > :link: **範例檔下載**
-[gds_import_example.zip](assets/gds_import_example.zip)
+[gds_import_example.zip](/assets/gds_import_example.zip)
 
 在匯入GDS檔案時，可以點選Import control file。跳出視窗，當中設定技術檔案與層對應檔案路徑，完成之後便可以產生完整結構。
 
