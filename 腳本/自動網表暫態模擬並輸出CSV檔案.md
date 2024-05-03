@@ -63,5 +63,4 @@ for cir in os.listdir(directory):
     AddWarningMessage('save {}!'.format(csv_path))
     # 關閉專案
     oProject.Close()
-
 ```
