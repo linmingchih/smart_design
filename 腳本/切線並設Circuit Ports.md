@@ -5,7 +5,7 @@
 
 ![Untitled Project (Time 0_00_56;07)](/assets/Untitled%20Project%20(Time%200_00_56;07)_mt08w7w56.png)
 
-[操作影片播放](/assets/set_ports.mp4)
+[操作影片下載](/assets/set_ports.mp4)
 
 ```python
 import random
