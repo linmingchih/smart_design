@@ -11,9 +11,10 @@
 import random
 import string
 import sys
-sys.path.append(r"C:\Program Files\AnsysEM\v241\Win64\PythonFiles\DesktopPlugin")
-import ScriptEnv
-ScriptEnv.Initialize("", False, "", 50051)
+
+#sys.path.append(r"C:\Program Files\AnsysEM\v241\Win64\PythonFiles\DesktopPlugin")
+#import ScriptEnv
+#ScriptEnv.Initialize("", False, "", 50051)
 
 oProject = oDesktop.GetActiveProject()
 oDesign = oProject.GetActiveDesign()
