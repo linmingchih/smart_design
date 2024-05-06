@@ -11,10 +11,9 @@
 import random
 import string
 import sys
-
-#sys.path.append(r"C:\Program Files\AnsysEM\v241\Win64\PythonFiles\DesktopPlugin")
-#import ScriptEnv
-#ScriptEnv.Initialize("", False, "", 50051)
+sys.path.append(r"C:\Program Files\AnsysEM\v241\Win64\PythonFiles\DesktopPlugin")
+import ScriptEnv
+ScriptEnv.Initialize("", False, "", 50051)
 
 oProject = oDesktop.GetActiveProject()
 oDesign = oProject.GetActiveDesign()
@@ -114,13 +113,11 @@ class Geometry:
         
 
 class Line(Geometry):
-    def set_ports(self):
-        pass
+    pass
 
 
 class Void(Geometry):
-    def remove(self):
-        pass    
+    pass
 
 
 class Item:
@@ -156,11 +153,6 @@ for item in items:
     xv, yv = voids[0].pts[0]
 
     for line in item.lines:
-        x0, y0 = line.pts[0]
-        x1, y1 = line.pts[-1]
-        if ((x1 - xv)**2 + (y1 - yv)**2 ) > ((x0 - xv)**2 + (y0 - yv)**2 ):
-            oEditor.ReverseLine(["NAME:elements",line.name])
-            line.get_ptids()
         
         (xp, yp), pt_id_collision = line.get_intersection(voids[0])
         for void in voids:
