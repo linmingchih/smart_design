@@ -6,6 +6,10 @@ Dell 7680, Windows 11，搭配：
 
 - NVIDIA RTX 5000 Ada Generation Laptop GPU，配備了12,800個CUDA核心
 
+- CUDA 12 Toolkit
+
+> :memo: **附註**<br>NVIDIA® CUDA® Toolkit 是一套用於開發高性能 GPU 加速應用程式的開發環境。它允許開發者在各種硬體平台上開發、優化及部署應用程式，包括嵌入式系統、桌面工作站、企業數據中心、雲端平台及超級計算機。此工具包含了 GPU 加速庫、調試和優化工具、C/C++ 編譯器以及運行時庫。
+
 
 ### 測試代碼
 做大小為1024x1024的兩個矩陣相乘，用CPU以最簡單的迴圈對矩陣元素逐一計算需約400秒，用Numba Jit約2.8秒，用GPU CUDA計算僅需0.21秒。
