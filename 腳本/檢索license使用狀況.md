@@ -41,28 +41,29 @@ for line in text:
     
     
     if date:
-        m = re.search('(\d+:\d+:\d+).*(IN|OUT): "(.*)" (\S*)', line)
+        m = re.search('(\d+:\d+:\d+).*(IN|OUT): "(.*)" (\S*)  \[(\d*)\]', line)
         if m:
             time = m.group(1)
             status = m.group(2)
             increment = m.group(3)
             user = m.group(4)
+            license_id = m.group(5)
             
             time_object = datetime.strptime('{} {}'.format(date, time), '%m/%d/%Y %H:%M:%S')
-            information.append((time_object, status, increment, user))
+            information.append((time_object, status, increment, user, license_id))
 
 #%%
 result = []
 queue = []
 for info in information:
-    time_object, status, increment, user = info
+    time_object, status, increment, user, license_id = info
     
     if status == 'OUT':
-        queue.append((time_object, status, increment, user))
+        queue.append((time_object, status, increment, user, license_id))
     
     if status == 'IN':
-        for n, (time_object0, _, increment0, user0) in enumerate(queue):
-            if increment == increment0 and user == user0:
+        for n, (time_object0, _, increment0, user0, license_id0) in enumerate(queue):
+            if license_id0 == license_id and user0 == user and increment0 == increment:
                 out = queue.pop(n)
                 result.append((out, info))
                 break
@@ -71,8 +72,8 @@ for info in information:
 result.sort()
 with open('d:/demo/statistics.csv', 'w') as f:
     for item in result:
-        t0, _, increment, user = item[0]
-        t1, _, increment, user = item[1]
+        t0, _, increment, user, license_id = item[0]
+        t1, _, increment, user, license_id = item[1]
         line = ', '.join([str(t0), user, increment, str(t1-t0).replace(', ', '_').replace(' ','')])
         f.write(line + '\n')
     
