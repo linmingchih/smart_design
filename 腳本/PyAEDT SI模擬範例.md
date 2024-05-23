@@ -1,9 +1,9 @@
 PyAEDT SI模擬範例
 ---
 
-這段程式碼的目的和功能是自動化使用Ansys HFSS（High Frequency Structure Simulator）對一個指定的PB板（Printed Circuit Board）進行3D電磁模擬。以下是對這段程式碼的詳細說明：
+這段程式碼的目的和功能是自動化使用Ansys HFSS對一個指定的PCB板進行3D電磁模擬。以下是對這段程式碼的詳細說明：
 ### 程式碼的目的
-- 讀取一個指定的PCB板文件
+- 讀取一個指定的PCB板文件(.brd檔)
 - 定義並切割出特定信號和地網
 - 使用Ansys HFSS進行3D電磁模擬，設定模擬參數
 - 輸出模擬結果（Touchstone文件）
