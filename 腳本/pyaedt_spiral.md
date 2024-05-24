@@ -5,7 +5,7 @@ PyAEDT - SPIRAL
 ![2024-03-22_08-38-29](/assets/2024-03-22_08-38-29.png)
 
 ### 範例碼
-pyaedt 8.0
+pyaedt 0.8.0
 
 ```python
 from math import tan
@@ -111,7 +111,7 @@ print(Lopt, Qmax, fopt)
 
 ```
 
-pyaedt 9.1
+pyaedt 0.9.1
 ```python
 from math import tan
 from cmath import pi, exp

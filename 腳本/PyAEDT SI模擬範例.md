@@ -24,7 +24,7 @@ PyAEDT SI模擬範例
 
 ### 範例碼
 - AEDT2024.1
-- pyaedt 9.1
+- pyaedt 0.9.1
 
 ```python
 brd_path = r"D:\demo2\example.brd"
