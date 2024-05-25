@@ -43,4 +43,4 @@ if not OSL_REGULAR_EXECUTION:
     length = 3
 ```
 
-在 optiSLang 開始運行時， OSL_REGULAR_EXECUTION 變數狀態為 True，這意味著包含的變量初始設定會將被跳過，optisLang傳遞到程式碼的變數將控制pyAEDT的執行流程。如果沒有這一段設定，optisLang選擇的參數會被程式碼變量初始設定給覆蓋，導致同樣的模型結構或設定。
+在 optiSLang 開始運行時， OSL_REGULAR_EXECUTION 變數狀態為 True，這意味著if區段包含的變量初始設定會將被跳過，optisLang傳遞到程式碼的變數將控制pyAEDT的執行流程。如果沒有這一段設定，optisLang選擇的參數會被程式碼變量初始設定給覆蓋，導致同樣的模型結構或設定。
