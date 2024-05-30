@@ -81,5 +81,22 @@ with Optislang(project_path='d:/demo3/example.opf') as osl:
     osl.application.project.start()
 ```
 
-#### 完成並輸出MOP檔案
+### 完成並輸出AMOP檔案
 ![2024-05-30_12-35-12](/assets/2024-05-30_12-35-12.png)
+
+
+### 利用AMOP快速得到答案
+之後可以用程式碼輸入數值並快速得到計算結果，可以連結網頁伺服器來提供服務。
+
+``` python
+from mopsolver import MOPSolver
+osl_install_path = r'C:\Program Files\ANSYS Inc\v241\optiSLang'
+omdb_file = r"D:\demo3\example.opd\AMOP\AMOP.omdb"
+
+solver = MOPSolver(osl_install_path, omdb_file)
+
+print(solver)
+print(solver.run([[0, 0], [1, 1]]))
+```
+
+![2024-05-30_14-49-54](/assets/2024-05-30_14-49-54.png)
