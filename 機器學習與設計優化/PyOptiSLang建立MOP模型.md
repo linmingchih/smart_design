@@ -59,12 +59,12 @@ osl_server.register_location_as_response(python, 'y', 'y', 0.1)
 info = osl_server.get_actor_properties(para)
 
 container = info['ParameterManager']['parameter_container']
-container[0]['deterministic_property']['lower_bound'] = -1
-container[0]['deterministic_property']['upper_bound'] = 1
+container[0]['deterministic_property']['lower_bound'] = -5
+container[0]['deterministic_property']['upper_bound'] = 5
 
 container = info['ParameterManager']['parameter_container']
-container[1]['deterministic_property']['lower_bound'] = -1
-container[1]['deterministic_property']['upper_bound'] = 1
+container[1]['deterministic_property']['lower_bound'] = -5
+container[1]['deterministic_property']['upper_bound'] = 5
 
 osl_server.set_actor_property(para, 'ParameterManager', info['ParameterManager'])
 
@@ -79,8 +79,7 @@ osl_server.dispose()
 
 with Optislang(project_path='d:/demo3/example.opf') as osl:
     osl.application.project.start()
-
-
 ```
+
 #### 完成並輸出MOP檔案
 ![2024-05-30_12-35-12](/assets/2024-05-30_12-35-12.png)
