@@ -28,6 +28,7 @@ AEDT Classical API之物件導向腳本設計
     $y 2.0
     $xy 6.0
     ```
+
 2. **取得材料屬性**
     ```python
     oProject = oDesktop.GetActiveProject()
@@ -94,6 +95,18 @@ AEDT Classical API之物件導向腳本設計
     Solar Behavior : nan
     Solar Behavior/Choices : ['Opaque', 'Transparent']
     ```
+**舊的寫法**
+```python
+oProject = oDesktop.GetActiveProject()
+oDesign = oProject.GetActiveDesign()
+
+oDefinitionManager = oProject.GetDefinitionManager()
+for i in oDefinitionManager.GetProjectMaterialNames():
+    for p in oDefinitionManager.GetProperties("MaterialPropTab", "Materials:"+i):
+        v = oDefinitionManager.GetPropertyValue("MaterialPropTab", "Materials:"+i, p)
+        print(i, p, v)
+```
+
 
 3. **輸出所有模型及其對應之材料**
 
