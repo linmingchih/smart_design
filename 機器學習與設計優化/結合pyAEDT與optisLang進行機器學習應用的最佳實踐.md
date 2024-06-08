@@ -88,11 +88,17 @@ finally:
 
 ```
 
-3. 使用PyOptisLang腳本建立新的optisLang檔案(.opf)，該腳本可以讀取Python參數定義及響應定義並自動添加到python模塊及AMOP模塊當中，大大節省手動設置時間
+3. 使用PyOptisLang腳本建立新的optisLang檔案(.opf)，該腳本可以讀取Python參數定義及響應定義並自動添加到python模塊及AMOP模塊當中，大大節省手動設置時間。
+- `( )` 用於表示連續範圍，如 `ws = 28.5 # (15, 35)` 
+- `[ ]` 用於表示離散值選項，如 `ls = 10 # [10, 11, 12]` 
+- 無註解則表示為常數，如 `pcb_w = 30`
+- `response`代表響應，如 `s11_2p4 = y[14]  # response`
+- 使用上述註解標記，PyOptislang腳本可以自動識別參數類型並生成對應的範圍設置，減少手動配置的繁瑣步驟。
+
+![2024-06-08_19-12-16](/assets/2024-06-08_19-12-16.png)
 
 
-
-4. optisLang一旦完成機器模型訓練，會輸出omdb檔案。我們便可以用Python程式碼調用該機器模型，輸入參數並迅速得到結果。
+4. optisLang一旦完成機器模型訓練，會輸出omdb檔案。我們便可以用Python程式碼調用該機器模型，輸入參數並迅速得到結果。欲取得mopsolver模組請與ANSYS聯繫。
 
 ```python
 from mopsolver import MOPSolver
@@ -104,4 +110,233 @@ solver = MOPSolver(osl_install_path, omdb_file)
 print(solver)
 print(solver.run([[15.1, 10.0, 1.01, 1.015, 1.015, 1.0199999999999998, 1.01, 2.01, 13.015], 
                   [34.9, 12.0, 2.99, 3.9850000000000003, 3.985, 4.98, 2.99, 3.99, 15.985]]))
+```
+
+### pyOptisLang轉換腳本
+```python
+import os, re, time
+from numpy import arange, linspace
+from ansys.optislang.core import Optislang
+from ansys.optislang.core import node_types
+from ansys.optislang.core.project_parametric import ObjectiveCriterion
+from ansys.optislang.core.tcp.osl_server import TcpOslServer
+
+script_path = 'D:/OneDrive - ANSYS, Inc/GitHub/generate_opf/dual_band_antenna.py'
+
+opf_path = os.path.join(os.path.dirname(script_path),
+                        'assets',
+                        os.path.basename(script_path).replace('.py', '.opf'))
+
+
+osl_server = TcpOslServer(ini_timeout=120)
+
+osl_server.new()
+para_node = osl_server.create_node(node_types.AMOP.id)
+python_node = osl_server.create_node(node_types.Python2.id, parent_uid=para_node)
+
+osl_server.set_actor_property(python_node, 'AllowSpaceInFilePath', True)
+prop = osl_server.get_actor_properties(python_node)
+prop['Path']['path']['split_path']['head'] = os.path.dirname(script_path)
+prop['Path']['path']['split_path']['tail'] = os.path.basename(script_path)
+
+osl_server.set_actor_property(python_node, 'Path', prop['Path'])
+x = osl_server.get_actor_properties(python_node)
+
+osl_server.connect_nodes(para_node, "IODesign", python_node, "IDesign")
+osl_server.connect_nodes(python_node, "ODesign", para_node, "IIDesign")
+
+def get_inout(script_path):
+    with open(script_path) as f:
+        text = f.readlines()
+    
+    parameters = []
+    responses = []
+    flag = False
+    
+    for line in text:
+        if len(line.strip()) == 0:
+            continue
+        
+        if 'OSL_REGULAR_EXECUTION:' in line:
+            flag = True
+            continue
+        
+        elif flag and line[0:4] == '    ':
+            try:
+                assignment = line.strip().split('#')[0]
+                _range = eval(line.strip().split('#')[1])
+            except:
+                _range = None
+                
+            parameter, initial_value = [i.strip() for i in assignment.split('=')]
+            initial_value = eval(initial_value)
+            
+            match _range:
+                case None:
+                    parameters.append((parameter, initial_value, 'Constant' , initial_value))
+                case (x, y):
+                    parameters.append((parameter, initial_value, 'Continuous' , (x, y)))
+                case list():
+                    parameters.append((parameter, initial_value, 'Discrete' , _range))
+        
+        elif flag and line[0] != '':
+            flag = False
+            
+            
+        elif re.search('#(\s+?|)response', line):
+            assignment, comment = line.strip().split('#')
+            response, _ = assignment.split('=')
+            responses.append(response.strip())
+        
+    return parameters, responses
+        
+        
+#%%     
+parameters, responses = get_inout(script_path)
+
+for key, initial_value, *_ in parameters:
+    osl_server.register_location_as_parameter(python_node, key, key, initial_value)
+
+for response in responses:
+    osl_server.register_location_as_response(python_node, response, response, 0.1)
+
+
+info = osl_server.get_actor_properties(para_node)
+container = info['ParameterManager']['parameter_container']
+info['AMopSettings']['num_designs_max'] = 300
+
+for (key, initial_value, _type, _range), item in zip(parameters, container):
+    if _type == 'Constant':
+        item['const'] = True
+    
+    elif _type == 'Continuous':
+        lower_bound, upper_bound = _range
+        item['const'] = False
+        item['deterministic_property']['domain_type'] = 'real'
+        item['deterministic_property']['kind'] = 'continuous'        
+        item['deterministic_property']['lower_bound'] = lower_bound
+        item['deterministic_property']['upper_bound'] = upper_bound
+    
+    elif _type == 'Discrete':
+        item['const'] = False
+        item['deterministic_property']['domain_type'] = 'real'
+        item['deterministic_property']['kind'] = 'ordinaldiscrete_value'
+        item['deterministic_property']['discrete_states'] = _range      
+
+
+osl_server.set_actor_property(para_node, 'ParameterManager', info['ParameterManager'])
+osl_server.set_actor_property(para_node, 'AMopSettings', info['AMopSettings'])
+
+
+osl_server.save_as(opf_path)
+osl_server.dispose()
+```
+
+### 雙頻天線範例
+```python
+import pyaedt
+from pyaedt import Hfss
+import time
+import sys
+pyaedt.settings.enable_error_handler = False
+
+
+if not 'OSL_REGULAR_EXECUTION' in locals(): 
+    OSL_REGULAR_EXECUTION = False
+
+
+if not OSL_REGULAR_EXECUTION:
+    pcb_w = 30
+    pcb_l = 30
+    ws = 28.5 # (15, 35)
+    ls = 10 # [10, 11, 12]
+    dd = 1.5 # (1, 3)
+    w1 = 2.5 # (1, 4)
+    w2 = 1.5 # (1, 4)
+    gap1 = 2 # (1, 5)
+    gap2 = 1 # (1, 3)
+    wf = 3 # (-4, 4)
+    lf = 13 # (13, 16)
+    t = 1
+
+
+try:
+    hfss = Hfss(specified_version='2024.1', non_graphical=False)
+    hfss.modeler.model_units = 'mm'
+       
+    hfss.modeler.create_rectangle(2, (-pcb_w/2, -pcb_l/2, 0), (pcb_w, pcb_l), matname='FR4_epoxy', name='pcb')
+    hfss.modeler.sweep_along_vector('pcb', (0, 0, -t))
+    
+    hfss.modeler.create_rectangle(2, (-pcb_w/2, -pcb_l/2, 0), (pcb_w, pcb_l), matname='PEC', name='gnd')
+    hfss.modeler.create_rectangle(2, (-ws/2, -ls/2, 0), (ws, ls), name='void')
+    
+    hfss.modeler.subtract('gnd', 'void', False)
+    hfss.assign_perfecte_to_sheets('gnd')
+    
+    pts = [(-dd/2, -ls/2+gap2),
+           (-ws/2+gap1, -ls/2+gap2),
+           (-ws/2+gap1, ls/2-gap2),
+           (-dd/2, ls/2-gap2),
+           (-dd/2, ls/2-gap2-w2),
+           (-ws/2+gap1+w1, ls/2-gap2-w2),
+           (-ws/2+gap1+w1, -ls/2+gap2+w2),
+           (-dd/2, -ls/2+gap2+w2),]
+    
+    
+    hfss.modeler.create_polyline([(x, y, 0) for x, y in pts],
+                                           cover_surface=True,
+                                           close_surface=True,
+                                           name='antenna')
+    
+    hfss.assign_perfecte_to_sheets('antenna')
+    
+    hfss.modeler.duplicate_and_mirror('antenna', (0,0,0), (1,0,0))
+    
+    hfss.modeler.create_polyline([(0, pcb_l/2, -t), (0, pcb_l/2-lf, -t)],
+                                        xsection_type='Rectangle',
+                                        xsection_height=0,
+                                        xsection_width=wf,
+                                        matname='PEC', name='feed')
+    
+    hfss.assign_perfecte_to_sheets('feed')
+    
+    hfss.modeler.create_polyline([(-wf/2, pcb_l/2, 0),
+                                             (wf/2, pcb_l/2, 0),
+                                             (wf/2, pcb_l/2, -t),
+                                             (-wf/2, pcb_l/2, -t)],
+                                            close_surface=True,
+                                            cover_surface=True,
+                                            name='sheet')
+    
+    hfss.create_lumped_port_to_sheet('sheet', axisdir=2)
+    hfss.create_open_region('3GHz')
+    hfss.oeditor.FitAll()
+
+    setup = hfss.create_setup()
+    setup.props['MaximumPasses'] = 10
+    sweep = setup.create_frequency_sweep(unit='GHz', freqstart=1, freqstop=7, num_of_freq_points=61)
+    sweep.props['Type'] = 'Interpolating'
+    sweep.props['SaveFields'] = False
+    sweep.update()
+    
+
+    if not hfss.validate_full_design()[-1]:
+        raise ValueError("Failed Validation.")
+
+    hfss.analyze_nominal(num_cores=20)
+    
+    
+    data = hfss.post.get_solution_data('dB(S11)')
+    x = data.primary_sweep_values
+    y = data.data_real()
+    
+    s11_2p4 = y[14]  # response
+    s11_5p8 = y[48]  # response
+
+except:
+    pass
+
+finally:
+    hfss.close_project(save_project=False)
+    time.sleep(5)
 ```
