@@ -2,7 +2,7 @@
 ---
 隨著機器學習技術的快速發展，越來越多的工具和軟件被開發出來，以幫助研究者和工程師在不同領域進行應用。本文旨在探討如何有效結合pyAEDT與optisLang，並在機器學習項目中實施這些工具，以提高效率和結果的準確性。本文將介紹這兩款工具的基本功能、結合使用的優勢以及在實際應用中的最佳實踐。
 
-### 流程說明
+### 1. 流程說明
 
 在optisLang建模中，主要使用AMOP模塊，並連接Python模塊。該Python模塊可以透過pyAEDT連接AEDT進行建模、設置、模擬並抓取數據。以下是具體操作和注意事項：
 
@@ -20,7 +20,7 @@
 
 ![2024-06-08_11-47-52](/assets/2024-06-08_11-47-52.png)
 
-### 注意事項
+### 2. 注意事項
 1. 在pyAEDT腳本中，參數定義通常放在以下模塊當中：
 
 ```python
@@ -112,7 +112,7 @@ print(solver.run([[15.1, 10.0, 1.01, 1.015, 1.015, 1.0199999999999998, 1.01, 2.0
                   [34.9, 12.0, 2.99, 3.9850000000000003, 3.985, 4.98, 2.99, 3.99, 15.985]]))
 ```
 
-### pyOptisLang轉換腳本
+### 3. pyOptisLang轉換腳本(gen_optislang.py)
 ```python
 import os, re, time
 from numpy import arange, linspace
@@ -232,7 +232,7 @@ osl_server.save_as(opf_path)
 osl_server.dispose()
 ```
 
-### 雙頻天線範例
+### 4. 雙頻天線範例代碼(dual_band_antenna.py)
 ```python
 import pyaedt
 from pyaedt import Hfss
@@ -243,7 +243,6 @@ pyaedt.settings.enable_error_handler = False
 
 if not 'OSL_REGULAR_EXECUTION' in locals(): 
     OSL_REGULAR_EXECUTION = False
-
 
 if not OSL_REGULAR_EXECUTION:
     pcb_w = 30
@@ -258,7 +257,6 @@ if not OSL_REGULAR_EXECUTION:
     wf = 3 # (-4, 4)
     lf = 13 # (13, 16)
     t = 1
-
 
 try:
     hfss = Hfss(specified_version='2024.1', non_graphical=False)
