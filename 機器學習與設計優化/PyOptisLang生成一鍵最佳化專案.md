@@ -155,3 +155,6 @@ osl.application.project.start()啟動優化計算並儲存結果：
 ### 結論
 
 透過結合 PyOptiSLang、PyAEDT（ANSYS Electronics Desktop 的 Python 接口），以及 SPICE 模擬工具，開發者可以搭建一個強大的自動化優化框架，用於電子設計和分析。這種整合使得從電子設計的初步階段到最終的性能優化可以在一個連貫的流程中完成，大大提高效率和精確度。
+
+> OCO.opf框架下載
+[oco.opf](/assets/oco.opf)
