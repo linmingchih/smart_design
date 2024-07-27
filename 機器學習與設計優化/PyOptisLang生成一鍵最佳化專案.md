@@ -66,6 +66,12 @@ PyOptiSLang 是一個針對 ANSYS OptiSLang 設計的 Python 接口，它允許�
 6. **啟動優化** ： 
   - 使用`Optislang`類開啟和啟動項目。
 
+>  :memo: 附註：add_criterion()的**criterion_type**
+>- **Variable**：ignore 
+>- **Objective**：min / max
+>- **Constraint**：lessequal / equal / greaterequal
+>- **Limit State**：lesslimitstate / greaterlimitstate
+
 #### 範例代碼
 ```python
 template_opf_path = 'd:/demo/oco.opf'
