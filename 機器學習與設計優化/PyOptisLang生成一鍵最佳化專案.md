@@ -68,7 +68,7 @@ PyOptiSLang 是一個針對 ANSYS OptiSLang 設計的 Python 接口，它允許�
 
 > :memo: 附註：關於add_criterion()
 > <br>add_criterion(uid: str, criterion_type: str, expression: str, name: str, limit: str | None = None)
-**criterion_type：**
+<br>**criterion_type：**
 >- **Variable**：ignore 
 >- **Objective**：min / max
 >- **Constraint**：lessequal / equal / greaterequal
