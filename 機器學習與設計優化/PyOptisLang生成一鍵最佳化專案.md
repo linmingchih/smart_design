@@ -66,8 +66,8 @@ PyOptiSLang 是一個針對 ANSYS OptiSLang 設計的 Python 接口，它允許�
 6. **啟動優化** ： 
   - 使用`Optislang`類開啟和啟動項目。
 
->  :memo: 附註：關於add_criterion()
->add_criterion(uid: str, criterion_type: str, expression: str, name: str, limit: str | None = None)
+> :memo: 附註：關於add_criterion()
+> add_criterion(uid: str, criterion_type: str, expression: str, name: str, limit: str | None = None)
 **criterion_type：**
 >- **Variable**：ignore 
 >- **Objective**：min / max
