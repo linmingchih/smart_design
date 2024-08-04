@@ -3,7 +3,7 @@ PyAEDT的訊息管理
 
 當程式發生錯誤時，合理的輸出訊息可以迅速指出問題發生的位置和原因，尤其是在複雜的系統中。例如，使用print來顯示變數的當前狀態或者執行到某個特定步驟的標記，可以幫助開發者理解錯誤發生的上下文。此外，進階的日誌管理工具如Python中的logging模組，允許開發者設定日誌的嚴重性等級（如INFO、WARNING、ERROR等），以及決定輸出到控制台或文件，這樣便於後期分析和長期存儲。
 
-當執行 pyaedt 時，所有呼叫 API 的相關訊息都會記錄到 pyaedt.aedt_logger.pyaedt_logger 中。這些訊息會同時輸出到兩個地方：一個是位於 "C:\Users\mlin\AppData\Local\Temp\pyaedt_username.log"（username 是電腦帳號）的日誌文件，另一個是 IDE 的控制台，方便即時查看和診斷。
+當執行 pyaedt 時，所有呼叫 API 的相關訊息都會記錄到 pyaedt.aedt_logger.pyaedt_logger 中。這些訊息會同時輸出到兩個地方：一個是位於 "C:\Users\username\AppData\Local\Temp\pyaedt_username.log"（username 是電腦帳號）的日誌文件，另一個是 IDE 的控制台，方便即時查看和診斷。
 
 
 ![2024-08-04_09-42-12](/assets/2024-08-04_09-42-12.png)
