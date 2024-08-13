@@ -24,7 +24,7 @@ siwave模擬
 
 - 將修改後的資料庫另存為新的AEDB檔案並關閉數據庫。
  
-- 利用`Hfss3dLayout`類（來自`pyaedt`）打開這個AEDB檔案，進行非圖形化模式的高頻結構模擬器（HFSS）布局模擬。
+- 利用`Hfss3dLayout`類（來自`pyaedt`）打開這個AEDB檔案，進行非圖形化模式的SIwave模擬器（SIwave Solver）布局模擬。
 
 - 執行所有設定的分析，並將結果導出為Touchstone檔案格式，這是一種常用於描述電子元件頻率特性的文件格式。
 
