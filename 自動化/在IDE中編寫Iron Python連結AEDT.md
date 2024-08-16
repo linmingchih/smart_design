@@ -1,4 +1,4 @@
-在IDE中編寫Iron Python連結AEDT/SIwave
+IDE Iron Python連結AEDT/SIwave
 ---
 
 在使用VS Code、PyCharm或Spyder等Python集成開發環境（IDE）編寫PyAEDT程式碼時，IDE所提供的自動完成、語法檢查和偵錯等功能極大地優化了開發體驗。然而，當在IDE內直接運行針對AEDT API所編寫的Python程式碼時，會遭遇無法與AEDT建立連接的問題，導致程式碼無法成功執行。
