@@ -1,12 +1,10 @@
-License伺服器
+License伺服器運行檔案簡介
 ---
 當中包含幾個程式
 - ansyslmcenter.exe
 - lmgrd.exe
 - ansyslmd.exe
 - tomcat10.exe
-
-
 
 ### ansyslmcenter.exe
 ANSYS License Management Center 是 ANSYS 軟體的一個圖形化界面工具，用於管理和監控 ANSYS 許可證的分配和使用。透過這個工具，你可以方便地管理許可證伺服器、查看許可證使用狀況、配置許可證選項等。以下是一些常見的功能和使用方式：
