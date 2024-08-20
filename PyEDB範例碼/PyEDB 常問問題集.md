@@ -108,7 +108,7 @@ print(edb.materials.materials)
  'PWR_FILL': <pyedb.dotnet.edb_core.materials.Material at 0x26d833807c0>,
  'TOP_FILL': <pyedb.dotnet.edb_core.materials.Material at 0x26d83380820>}
 ```
-> :memo: 探討\n
+> :memo: 探討<br>
 對於 `edb.materials.materials` 的寫法，在初看時可能會令人感到混淆，然而這種命名慣例在程式設計中是相當常見的。具體來說，第一個 `materials` 代表一個功能組別的名稱，專門用於存放與材料相關的操作，如添加新材料。而第二個 `materials` 則是該功能組內的一個字典容器，存放著各個材料實例。每個實例代表一種具體的材料，並包含該材料的詳細資訊與屬性。
 
 ### Q. 如何讀取材料屬性值
@@ -132,7 +132,7 @@ permittivity_value = edb.materials.materials['FR-4'].permittivity
 print(permittivity_value)  # 輸出為 3.86
 ```
 
-> :memo: 常見材料屬性解釋\n
+> :memo: 常見材料屬性解釋<br>
 在EDB系統中，材料物件可能包括以下一些常見的物理和化學屬性： 
     - **permittivity** （介電常數）: 描述材料對電場的反應能力，影響信號的傳播速度。
     - **conductivity** （導電性）: 表示材料允許電流流動的能力。
