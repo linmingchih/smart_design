@@ -1,4 +1,4 @@
-如何探索pyedb功能
+PyEDB 常問問題集
 ---
 ### Q. 何謂EDB？
 Ansys EDB（Electronics Database，電子數據庫）是一種專為電子設計自動化（EDA）領域設計的數據格式，它存儲有關電子元件和電路板設計的詳細信息。Ansys EDB 文件通常被用於在多種設計和仿真工具之間進行數據交換，特別是在 Ansys 的電子設計套件中，例如 Ansys HFSS 3D Layout、Ansys SIwave 等。主要以.aedb目錄儲存。
