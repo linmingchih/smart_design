@@ -1,4 +1,4 @@
-optisLang與PyAEDT連結
+在optisLang安裝pyaedt
 ---
 
 在進行高階工程模擬和數據分析時，將 pyAEDT 與 optiSLang 結合使用可以在特定參數範圍內建立數學模型。本文將介紹如何在 optiSLang Python環境中安裝pyAEDT套件，以確保兩者的無縫對接和高效運行。
