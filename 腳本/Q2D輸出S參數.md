@@ -6,6 +6,9 @@ UDO的應用，使用者可以在Q2D畫面當中檢視特定長度S參數。限�
 
 ![2024-08-27_09-00-47](/assets/2024-08-27_09-00-47_cu415iawg.png)
 
+>範例下載
+[aedtz下載](/assets/Q2DS_test_bench.aedtz)
+
 ```python
 from Ansys.Ansoft.ModulePluginDotNet.Common.API import *
 from Ansys.Ansoft.ModulePluginDotNet.Common.API.Interfaces import *
