@@ -14,8 +14,8 @@
 
 ### 保護程式碼
 
-這段程式碼中的保護機制主要包含以下三個部分：`subprocess.run`、`try-except` 錯誤處理機制以及 `timeout` 與 `proc-kill` 機制。 
-1. **`subprocess.run`** ：
+這段程式碼中的保護機制主要包含以下三個部分：`subprocess.Popen`、`try-except` 錯誤處理機制以及 `timeout` 與 `proc-kill` 機制。 
+1. **`subprocess.Popen`** ：
 這個方法用來啟動一個外部程序並且在Python中進行互動。在這裡，它被用來執行一個獨立的Python腳本，該腳本以PyAEDT進行模擬運算。這種做法使得模擬運算可以在主程式之外進行，並允許主程式捕捉和處理腳本的標準輸出（stdout）和錯誤信息（stderr）。這樣可以防止主程式因腳本錯誤而崩潰。
  
 2. **`try-except`** ：
@@ -37,47 +37,46 @@ from pyvariant import list_2_variant_xy_data
 if 'OSL_REGULAR_EXECUTION' not in locals(): 
     OSL_REGULAR_EXECUTION = False
 
+
 if not OSL_REGULAR_EXECUTION:
     length = 8.0
     width = 2.0
     thickness = 0.2
     gap = 1.0
 
+process = subprocess.Popen(
+    [r'C:\Users\mlin\.ansys_python_venvs\2024_8_14\Scripts\python.exe', 
+    'd:/demo7/test.py', 
+    str(length), 
+    str(width),
+    str(thickness),
+    str(gap)],
+    text=True,
+    stdout=subprocess.PIPE,
+    stderr=subprocess.PIPE
+)
+
 try:
-    result = subprocess.run(
-        [r'C:\Users\mlin\.ansys_python_venvs\2024_8_14\Scripts\python.exe', 
-        'd:/demo7/test.py', 
-        str(length), 
-        str(width),
-        str(thickness),
-        str(gap)],
-        text=True,
-        capture_output=True,
-        timeout=120
-    )
-    
-    if result.returncode == 0:
-        print("Success:", result.stdout)
+    stdout, stderr = process.communicate(timeout=120)
+    if process.returncode == 0:
+        print("Success:", stdout)
         try:
             with open('d:/demo7/data.json') as f:
                 x, y = json.load(f)
+
             variant_y = list_2_variant_xy_data(y, x)
         except Exception as e:
             print(f"Error parsing output: {e}")
     else:
-        print(f"Error running script: {result.stderr}")
-
+        print(f"Error running script: {stderr}")
 except subprocess.TimeoutExpired:
     print("Process timed out")
-    
+    process.terminate()
+
     for proc in psutil.process_iter(['pid', 'name']):
         if proc.info['name'] == "ansysedt.exe":
             proc.kill()
             print(f"Terminated {proc.info['name']} with PID {proc.info['pid']}")
-
-except Exception as e:
-    print("An error occurred:", e)
-
 ```
 
 #### pyaedt程式碼
@@ -115,4 +114,3 @@ with open('d:/demo7/data.json', 'w') as f:
 #### 輸出數據集
 當失敗時(紅色標籤)，會繼續其他樣本點模擬(綠色標籤)，不會卡住。
 ![2024-09-01_04-42-48](/assets/2024-09-01_04-42-48.png)
-
