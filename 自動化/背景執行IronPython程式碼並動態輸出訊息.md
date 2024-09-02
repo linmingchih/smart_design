@@ -15,6 +15,8 @@ import threading
 import time
 import os
 
+ironpython_path = 'd:/demo2/example.py'
+
 def run_command(command):
     """執行外部指令的函數，並等待完成。"""
     process = subprocess.Popen(command, shell=True)
@@ -36,22 +38,21 @@ def follow_log(file):
 command_done_event = threading.Event()
 
 # 執行指令的部分
-command = "ansysedt -feature=beta -ng -runscriptandexit d:/demo2/example.py"
+command = f"ansysedt -feature=beta -ng -runscriptandexit {ironpython_path}"
 command_thread = threading.Thread(target=run_command, args=(command,))
 command_thread.start()
 
 # 監控log文件的部分
-log_file = "d:/demo2/example.log"
+log_file = ironpython_path.replace('.py', '.log')
 log_thread = threading.Thread(target=follow_log, args=(log_file,))
 log_thread.start()
 
 # 等待所有線程結束
 command_thread.join()
 log_thread.join()
-
 ```
 
-#### example.py
+#### Iron Python 腳本： `example.py`
 ```python
 import time
 import ScriptEnv
