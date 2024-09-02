@@ -1,6 +1,6 @@
 背景執行IronPython程式碼並動態輸出訊息
 ---
-這個程式主要用ansysedt背景模式執行AEDT IronPython腳本並同時監控一個IronPython執行輸出日誌文件的變化並輸出到console當中。程式透過多執行緒的方式來實現這兩個操作的並行處理。
+通常在 AEDT GUI 中執行 IronPython 腳本，但若需在無 GUI 的情況下運行，可使用 ansysedt -feature=beta -ng runscriptandexit example.py，該指令會將執行過程中的訊息輸出到 example.log。為了實現動態訊息監控，以下程式使用多執行緒方式，在背景模式下執行 AEDT IronPython 腳本的同時，監控日誌文件的變化，並將其即時輸出到控制台，從而實現兩個操作的並行處理。
 
 首先，run_command 函數使用 subprocess.Popen 執行外部指令並等待其完成。當指令執行結束後，會設置一個事件 command_done_event，表示命令已完成執行。
 
