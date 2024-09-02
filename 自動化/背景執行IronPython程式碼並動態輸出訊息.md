@@ -65,4 +65,4 @@ for i in range(10):
 
 ```
 ### 訊息逐段輸出
-![2024-09-02_15-20-09](/assets/2024-09-02_15-20-09.png)
+![log_follower](/assets/log_follower.gif)
