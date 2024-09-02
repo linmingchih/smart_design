@@ -38,22 +38,25 @@ siwave模擬
 controller_name = 'U2A5'
 dram_name = 'U1B5'
 nets = [f'M_DQ<{i}>' for i in range(8)]
-aedb_path = 'd:/demo4/test17.aedb'
+aedb_path = 'd:/demo4/test5.aedb'
 
+import pyaedt
+
+assert pyaedt.version == '0.9.11', f'{pyaedt.version} != 0.9.11' 
 from pyaedt import Hfss3dLayout
 from pyedb import Edb
 
-edb = Edb('d:/demo4/Galileo_G87173_204162.aedb', edbversion='2024.1')
+edb = Edb(r"D:\OneDrive - ANSYS, Inc\Models\EDB\Galileo_G87173_20454.aedb", edbversion='2024.1')
 
 controller = edb.components[controller_name]
 gnd_pins = [j for i, j in controller.pins.items() if j.net.name=='GND']
 pg_gnd = edb.core_components.create_pingroup_from_pins(gnd_pins)
-edb.core_components.create_port_on_component(controller_name, nets)
+edb.core_components.create_port_on_component(controller_name, nets, reference_net='GND')
 
 dram = edb.components[dram_name]
 gnd_pins = [j for i, j in dram.pins.items() if j.net.name=='GND']
 dram_gnd = edb.core_components.create_pingroup_from_pins(gnd_pins)
-edb.core_components.create_port_on_component(dram_name, nets)
+edb.core_components.create_port_on_component(dram_name, nets, reference_net='GND')
 
 setup1 = edb.create_siwave_syz_setup()
 
@@ -61,8 +64,11 @@ setup1.add_frequency_sweep()
 edb.save_as(aedb_path)
 edb.close_edb()
 
-hfss = Hfss3dLayout(specified_version='2024.1', non_graphical=True, projectname=aedb_path)
-hfss.analyze_all()
+hfss = Hfss3dLayout(specified_version='2024.1', 
+                    non_graphical=True, 
+                    projectname=aedb_path, 
+                    remove_lock=True)
+hfss.analyze()
 hfss.export_touchstone()
 hfss.close_project()
 ```
