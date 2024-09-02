@@ -8,7 +8,7 @@ follow_log 函數則持續打開並監控指定的日誌文件，通過移動文
 
 程式使用兩個執行緒來同時進行命令執行和日誌文件監控，並透過事件 command_done_event 來協調這兩者的結束。主程式會在兩個執行緒都結束後才退出，確保所有任務都已完成。這個設計適合在需要監控長時間運行的命令時使用，確保不會錯過任何日誌輸出。
 
-#### 主程式
+### 主程式
 ```python
 import subprocess
 import threading
@@ -52,7 +52,7 @@ command_thread.join()
 log_thread.join()
 ```
 
-#### Iron Python 腳本： `example.py`
+### Iron Python 腳本： `example.py`
 ```python
 import time
 import ScriptEnv
@@ -64,5 +64,5 @@ for i in range(10):
     time.sleep(1)
 
 ```
-#### 訊息逐段輸出
+### 訊息逐段輸出
 ![2024-09-02_15-20-09](/assets/2024-09-02_15-20-09.png)
