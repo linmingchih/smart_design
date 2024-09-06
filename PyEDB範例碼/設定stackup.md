@@ -18,48 +18,61 @@
 
 
 ```python
-aedb_path = 'd:/demo4/test27.aedb'
-
+import pyedb
 from pyedb import Edb
+assert pyedb.version == '0.23.0', f'version:{pyedb.version} is not "0.23.0"'
 
-edb = Edb('d:/demo4/Galileo_G87173_204162.aedb', edbversion='2024.1')
 
 
-for layer_name, layer in edb.stackup.stackup_layers.items():
-    print('---' ,layer_name)
-    print(layer.type)
-    print(layer.thickness)
-    print(layer.material)
-    print(layer.etch_factor)
-    print(layer.dielectric_fill)
+edb = Edb(edbversion='2024.1')
+
+material_info = {('metal1', 'conductor'): 5e8,
+                 ('metal2', 'conductor'): 5e8,
+                 ('epoxy1', 'ds'):(4, 0.02, 1),
+                 ('epoxy2', 'ds'):(3.8, 0.015, 1)}
+
+
+
+layers_info = {('layer1', 'signal'):('0.05mm', 'metal1', 1.6, '0.6um', '3.1'),
+               ('dielectric12', 'dielectric'):('0.28mm', 'epoxy1'),
+               ('layer2', 'signal'):('0.05mm', 'metal2', 1.7, '0.8um', '3.4'),
+               ('dielectric23', 'dielectric'):('0.43mm', 'epoxy2'),
+               ('layer3', 'signal'):('0.05mm', 'metal2', 1.7, '0.8um', '3.4'),
+               ('dielectric34', 'dielectric'):('0.28mm', 'epoxy1'),
+               ('layer4', 'signal'):('0.05mm', 'metal1', 1.6, '0.6um', '3.1')}
+
+
+for (name, _type), prop in material_info.items():
+    if _type == 'conductor':
+        conductivity = prop
+        edb.materials.add_conductor_material(name, conductivity)
+    elif _type == 'ds':
+        permittivity, loss_tangent, test_frequency = prop
+        edb.materials.add_djordjevicsarkar_dielectric(name, permittivity, loss_tangent, test_frequency)
+
+for (name, _type), prop in layers_info.items():
+    if _type == 'signal':
+        thickness, material, etch_factor, radius, ratio = prop
+        layer = edb.stackup.add_layer(name, 
+                                      layer_type=_type, 
+                                      material=material, 
+                                      thickness=thickness,
+                                      enable_roughness=True,
+                                      method='add_on_bottom')
+        layer.etch_factor=etch_factor
+        layer.assign_roughness_model("huray", radius, ratio, apply_on_surface="all")
     
-    print(layer.roughness_enabled)
-    print(layer.top_hallhuray_nodule_radius)
-    print(layer.top_hallhuray_surface_ratio)
-    print(layer.bottom_hallhuray_nodule_radius)
-    print(layer.bottom_hallhuray_surface_ratio)    
-    print(layer.side_hallhuray_nodule_radius)
-    print(layer.side_hallhuray_surface_ratio)
+    elif _type == 'dielectric':
+        thickness, material = prop
+        edb.stackup.add_layer(name, 
+                              layer_type=_type, 
+                              material=material, 
+                              thickness=thickness,
+                              method='add_on_bottom')
 
 
-for layer_name, layer in edb.stackup.stackup_layers.items():
-    print('---' ,layer_name)
-    print(layer.type)
-    layer.thickness = 1e-5
-    
-    if layer.type == 'dielectric':
-        layer.material = 'FR4_epoxy'
-    
-    elif layer.type == 'signal':
-        layer.material = 'Aluminum'
-        layer.dielectric_fill = 'FR4_epoxy'
-        layer.etch_factor = 1.2    
-        
-        layer.roughness_enabled = True 
-        layer.assign_roughness_model("huray", "0.6um", "3.1", apply_on_surface="all")
-        
-
-edb.save_as(aedb_path)
+edb_path = 'd:/demo/example2.aedb'
+edb.save_as(edb_path)
 edb.close_edb()
 ```
 
