@@ -100,7 +100,7 @@ if not OSL_REGULAR_EXECUTION:
 
 process = subprocess.Popen(
     [r'C:\Users\mlin\.ansys_python_venvs\2024_8_14\Scripts\python.exe', 
-    'c:/demo/serpentine.py', 
+    'c:/demo/serpentine_2.py', 
     str(w), 
     str(dw),
     str(t),
@@ -138,7 +138,7 @@ except subprocess.TimeoutExpired:
 
 ```
 
-#### serpentine.py
+#### serpentine_2.py
 ```python
 import sys, json
 w, dw, t, gap, h, sw, sl, n = map(float, sys.argv[1:])
@@ -282,3 +282,75 @@ with Optislang(project_path='c:/demo/example.opf') as osl:
 ```
 
 ### Lab 5. PyOptisLang生成一鍵最佳化專案
+> OCO.opf框架下載
+[oco.opf](/assets/oco.opf)
+
+```python
+template_opf_path = 'c:/demo/oco.opf'
+opf_path = 'c:/demo/oco_finished.opf'
+
+text = '''
+if not 'OSL_REGULAR_EXECUTION' in locals(): 
+    OSL_REGULAR_EXECUTION = False
+
+if not OSL_REGULAR_EXECUTION:
+    x1 = 0.1
+    x2 = 0.1
+
+y = (x1 -1)**2 + (x2 -3)**2
+
+'''
+
+with open('c:/demo/test.py', 'w') as f:
+    f.write(text)
+
+from ansys.optislang.core import Optislang
+from ansys.optislang.core.tcp.osl_server import TcpOslServer
+osl_server = TcpOslServer()
+osl_server.open(template_opf_path)
+
+tree_props = osl_server.get_full_project_tree_with_properties()
+
+oco = tree_props['projects'][0]['system']['nodes'][0]['uid']
+python = tree_props['projects'][0]['system']['nodes'][0]['nodes'][0]['uid']
+
+osl_server.set_actor_property(python, 'AllowSpaceInFilePath', True)
+prop = osl_server.get_actor_properties(python)
+prop['Path']['path']['split_path']['head'] = 'd:/demo'
+prop['Path']['path']['split_path']['tail'] = 'test.py'
+
+osl_server.set_actor_property(python, 'Path', prop['Path'])
+x = osl_server.get_actor_properties(python)
+
+
+osl_server.register_location_as_parameter(python, 'x1', 'x1', 0.1)
+osl_server.register_location_as_parameter(python, 'x2', 'x2', 0.1)
+
+osl_server.register_location_as_response(python, 'y', 'y', 0.1)
+info = osl_server.get_actor_properties(oco)
+
+container = info['ParameterManager']['parameter_container']
+container[0]['deterministic_property']['lower_bound'] = -5
+container[0]['deterministic_property']['upper_bound'] = 5
+
+container = info['ParameterManager']['parameter_container']
+container[1]['deterministic_property']['lower_bound'] = -5
+container[1]['deterministic_property']['upper_bound'] = 5
+
+osl_server.add_criterion(oco, 'min', 'y', 'obj_0')
+
+osl_server.set_actor_property(oco, 'ParameterManager', info['ParameterManager'])
+
+osl_server.save_as(opf_path)
+osl_server.dispose()
+
+#%%
+with Optislang(project_path=opf_path) as osl:
+    osl.application.project.start()
+
+
+```
+
+
+
+
