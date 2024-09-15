@@ -1,6 +1,19 @@
 Workshop Lab Example Code
 ---
 
+### Lab 0. 環境安裝
+
+``` bash
+rmdir /S /Q c:\myvenv
+cd C:\Program Files\AnsysEM\v241\Win64\commonfiles\CPython\3_10\winx64\Release\python
+.\python -m venv c:\myvenv
+cd c:\myvenv\Scripts
+activate
+pip install pyaedt
+pip install ansys-optislang-core
+```
+
+
 ### Lab 1. Python Node 設定
 ```python
 if not 'OSL_REGULAR_EXECUTION' in locals(): 
