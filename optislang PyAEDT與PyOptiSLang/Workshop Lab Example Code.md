@@ -12,8 +12,9 @@ activate
 pip install pyaedt
 pip install ansys-optislang-core
 pip install spyder
-pip list
+
 .\spyder
+echo 安裝完成
 ```
 
 
@@ -290,12 +291,29 @@ osl_server.add_criterion(para, 'min', 'y', 'obj_0')
 
 osl_server.dispose()
 
-#%%
-
 with Optislang(project_path='c:/demo/example.opf') as osl:
     osl.application.project.start()
 
 ```
+
+#### Lab 4b. 讀取MOP模型
+![mopsolver模組](/assets/mopsolver.cp310-win_amd64.pyd)
+
+```python
+import sys
+sys.path.append(r"C:\demo")
+
+from mopsolver import MOPSolver
+osl_install_path = r'C:\Program Files\ANSYS Inc\v241\optiSLang'
+omdb_file = r"c:\demo\example.opd\AMOP\AMOP.omdb"
+
+solver = MOPSolver(osl_install_path, omdb_file)
+
+print(solver)
+print(solver.run([[4,-4],[-4,4]]))
+
+```
+
 
 ### Lab 5. PyOptisLang生成一鍵最佳化專案
 > OCO.opf框架下載
