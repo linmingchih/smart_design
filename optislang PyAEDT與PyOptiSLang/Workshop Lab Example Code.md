@@ -112,7 +112,7 @@ if not OSL_REGULAR_EXECUTION:
     n = 10
 
 process = subprocess.Popen(
-    [r'C:\myvenv\python.exe', 
+    [r'C:\myvenv\Scripts\python.exe', 
     'c:\demo\serpentine_2.py', 
     str(w), 
     str(dw),
