@@ -12,6 +12,8 @@ activate
 pip install pyaedt
 pip install ansys-optislang-core
 pip install spyder
+pip list
+echo 'Installation Finished'
 ```
 
 
