@@ -13,7 +13,7 @@ pip install pyaedt
 pip install ansys-optislang-core
 pip install spyder
 pip list
-spyder
+.\spyder
 ```
 
 
