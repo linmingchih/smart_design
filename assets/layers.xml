@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<c:Control xmlns:c="http://www.ansys.com/control" schemaVersion="1.0">
+
+  <Stackup schemaVersion="1.0">
+    <Materials>
+      <Material Name="AIR">
+        <Permittivity>
+          <Double>1</Double>
+        </Permittivity>
+        <Permeability>
+          <Double>1</Double>
+        </Permeability>
+        <DielectricLossTangent>
+          <Double>0</Double>
+        </DielectricLossTangent>
+      </Material>
+      <Material Name="BOTTOM_FILL">
+        <Permittivity>
+          <Double>1</Double>
+        </Permittivity>
+        <Permeability>
+          <Double>1</Double>
+        </Permeability>
+        <DielectricLossTangent>
+          <Double>0</Double>
+        </DielectricLossTangent>
+      </Material>
+      <Material Name="COPPER">
+        <Conductivity>
+          <Double>59590000</Double>
+        </Conductivity>
+      </Material>
+      <Material Name="FR-4">
+        <Permittivity>
+          <Double>4.5</Double>
+        </Permittivity>
+        <Permeability>
+          <Double>1</Double>
+        </Permeability>
+        <DielectricLossTangent>
+          <Double>0.035</Double>
+        </DielectricLossTangent>
+      </Material>
+      <Material Name="L10_FILL">
+        <Permittivity>
+          <Double>1</Double>
+        </Permittivity>
+        <Permeability>
+          <Double>1</Double>
+        </Permeability>
+        <DielectricLossTangent>
+          <Double>0</Double>
+        </DielectricLossTangent>
+      </Material>
+      <Material Name="L11GND_FILL">
+        <Permittivity>
+          <Double>1</Double>
+        </Permittivity>
+        <Permeability>
+          <Double>1</Double>
+        </Permeability>
+        <DielectricLossTangent>
+          <Double>0</Double>
+        </DielectricLossTangent>
+      </Material>
+      <Material Name="L2GND_FILL">
+        <Permittivity>
+          <Double>1</Double>
+        </Permittivity>
+        <Permeability>
+          <Double>1</Double>
+        </Permeability>
+        <DielectricLossTangent>
+          <Double>0</Double>
+        </DielectricLossTangent>
+      </Material>
+      <Material Name="L3_FILL">
+        <Permittivity>
+          <Double>1</Double>
+        </Permittivity>
+        <Permeability>
+          <Double>1</Double>
+        </Permeability>
+        <DielectricLossTangent>
+          <Double>0</Double>
+        </DielectricLossTangent>
+      </Material>
+      <Material Name="L4GND_FILL">
+        <Permittivity>
+          <Double>1</Double>
+        </Permittivity>
+        <Permeability>
+          <Double>1</Double>
+        </Permeability>
+        <DielectricLossTangent>
+          <Double>0</Double>
+        </DielectricLossTangent>
+      </Material>
+      <Material Name="L5_FILL">
+        <Permittivity>
+          <Double>1</Double>
+        </Permittivity>
+        <Permeability>
+          <Double>1</Double>
+        </Permeability>
+        <DielectricLossTangent>
+          <Double>0</Double>
+        </DielectricLossTangent>
+      </Material>
+      <Material Name="L6VCC_FILL">
+        <Permittivity>
+          <Double>1</Double>
+        </Permittivity>
+        <Permeability>
+          <Double>1</Double>
+        </Permeability>
+        <DielectricLossTangent>
+          <Double>0</Double>
+        </DielectricLossTangent>
+      </Material>
+      <Material Name="L7VCC_FILL">
+        <Permittivity>
+          <Double>1</Double>
+        </Permittivity>
+        <Permeability>
+          <Double>1</Double>
+        </Permeability>
+        <DielectricLossTangent>
+          <Double>0</Double>
+        </DielectricLossTangent>
+      </Material>
+      <Material Name="L8_FILL">
+        <Permittivity>
+          <Double>1</Double>
+        </Permittivity>
+        <Permeability>
+          <Double>1</Double>
+        </Permeability>
+        <DielectricLossTangent>
+          <Double>0</Double>
+        </DielectricLossTangent>
+      </Material>
+      <Material Name="L9GND_FILL">
+        <Permittivity>
+          <Double>1</Double>
+        </Permittivity>
+        <Permeability>
+          <Double>1</Double>
+        </Permeability>
+        <DielectricLossTangent>
+          <Double>0</Double>
+        </DielectricLossTangent>
+      </Material>
+      <Material Name="TOP_FILL">
+        <Permittivity>
+          <Double>1</Double>
+        </Permittivity>
+        <Permeability>
+          <Double>1</Double>
+        </Permeability>
+        <DielectricLossTangent>
+          <Double>0</Double>
+        </DielectricLossTangent>
+      </Material>
+    </Materials>
+    <Layers LengthUnit="mil">
+      <Layer Color="#264a33" Material="AIR" Name="UNNAMED_000" Thickness="0" Type="dielectric"/>
+      <Layer Color="#1a291f" Material="FR-4" Name="UNNAMED_001" Thickness="0.5" Type="dielectric"/>
+      <Layer Color="#fb3451" FillMaterial="TOP_FILL" Material="COPPER" Name="TOP" Thickness="2.1" Type="conductor"/>
+      <Layer Color="#44614c" Material="FR-4" Name="UNNAMED_003" Thickness="4" Type="dielectric"/>
+      <Layer Color="#5e6f10" FillMaterial="L2GND_FILL" Material="COPPER" Name="L2GND" Thickness="1.3" Type="conductor"/>
+      <Layer Color="#264a33" Material="FR-4" Name="UNNAMED_005" Thickness="5" Type="dielectric"/>
+      <Layer Color="#09517b" FillMaterial="L3_FILL" Material="COPPER" Name="L3" Thickness="1.3" Type="conductor"/>
+      <Layer Color="#1a291f" Material="FR-4" Name="UNNAMED_007" Thickness="9" Type="dielectric"/>
+      <Layer Color="#d198b1" FillMaterial="L4GND_FILL" Material="COPPER" Name="L4GND" Thickness="1.3" Type="conductor"/>
+      <Layer Color="#44614c" Material="FR-4" Name="UNNAMED_009" Thickness="4" Type="dielectric"/>
+      <Layer Color="#553755" FillMaterial="L5_FILL" Material="COPPER" Name="L5" Thickness="1.3" Type="conductor"/>
+      <Layer Color="#264a33" Material="FR-4" Name="UNNAMED_011" Thickness="12" Type="dielectric"/>
+      <Layer Color="#289889" FillMaterial="L6VCC_FILL" Material="COPPER" Name="L6VCC" Thickness="2.6" Type="conductor"/>
+      <Layer Color="#1a291f" Material="FR-4" Name="UNNAMED_013" Thickness="4" Type="dielectric"/>
+      <Layer Color="#868feb" FillMaterial="L7VCC_FILL" Material="COPPER" Name="L7VCC" Thickness="2.6" Type="conductor"/>
+      <Layer Color="#44614c" Material="FR-4" Name="UNNAMED_015" Thickness="12" Type="dielectric"/>
+      <Layer Color="#efa15d" FillMaterial="L8_FILL" Material="COPPER" Name="L8" Thickness="1.3" Type="conductor"/>
+      <Layer Color="#264a33" Material="FR-4" Name="UNNAMED_017" Thickness="4" Type="dielectric"/>
+      <Layer Color="#f67fc1" FillMaterial="L9GND_FILL" Material="COPPER" Name="L9GND" Thickness="1.3" Type="conductor"/>
+      <Layer Color="#1a291f" Material="FR-4" Name="UNNAMED_019" Thickness="9" Type="dielectric"/>
+      <Layer Color="#fd777a" FillMaterial="L10_FILL" Material="COPPER" Name="L10" Thickness="1.3" Type="conductor"/>
+      <Layer Color="#44614c" Material="FR-4" Name="UNNAMED_021" Thickness="5" Type="dielectric"/>
+      <Layer Color="#8db7ca" FillMaterial="L11GND_FILL" Material="COPPER" Name="L11GND" Thickness="1.3" Type="conductor"/>
+      <Layer Color="#264a33" Material="FR-4" Name="UNNAMED_023" Thickness="4" Type="dielectric"/>
+      <Layer Color="#5c4300" FillMaterial="BOTTOM_FILL" Material="COPPER" Name="BOTTOM" Thickness="2.1" Type="conductor"/>
+      <Layer Color="#1a291f" Material="FR-4" Name="UNNAMED_025" Thickness="0.5" Type="dielectric"/>
+      <Layer Color="#44614c" Material="AIR" Name="UNNAMED_026" Thickness="0" Type="dielectric"/>
+      <Layer Color="#d091ef" Name="Outline" Type="outline"/>
+    </Layers>
+  </Stackup>
+
+</c:Control>
