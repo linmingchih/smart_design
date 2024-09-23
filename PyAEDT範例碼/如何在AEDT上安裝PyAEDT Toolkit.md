@@ -10,7 +10,7 @@ ANSYS AEDT 提供內建的腳本錄製與撥放功能(圖一紅框)，讓使用�
 
 >:memo:**附註** 於 2024R2 版本中，PyAEDT 模組尚未整合至 AEDT 安裝包內，下一個版本或許將支援此功能。
 
-現階段若要執行 PyAEDT 腳本，則需先安裝 PyAEDT 工具包。首先，按下圖中的 "Install PyAEDT" 按鈕，該按鈕將導引至官方網站。在網站上可以下載名為 pyaedt_installer_from_aedt.py 的腳本。
+現階段若要執行 PyAEDT 腳本，則需先安裝 PyAEDT 工具包。首先，在AEDT找到上圖黃色框線中的 "Install PyAEDT" 按鈕並點擊，該按鈕將導引至官方網站。在網站上可以下載名為 pyaedt_installer_from_aedt.py 的腳本。
 
 ![2024-09-21_11-34-53](/assets/2024-09-21_11-34-53.png)
 
