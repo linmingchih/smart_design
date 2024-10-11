@@ -1,7 +1,7 @@
 PyEDB Workshop Labs
 ---
 >:link: **範例edb下載**
-[example_edb.aedb](assets/example_edb.aedb.zip)
+[example_edb.aedb](/assets/example_edb.aedb.zip)
 
 ### Lab 1. 以阻值分類所有電阻
 ```python
