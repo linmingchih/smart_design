@@ -7,7 +7,7 @@ PyEDB Workshop Labs
 在Windows開啟Command視窗並將下面程式碼一次複製貼上完成開發環境安裝。這個程序首先檢查並移除 C:\demo 目錄，然後重新建立一個新的 C:\demo 資料夾。接著，它使用指定的 Python 執行檔創建一個虛擬環境，進入該環境後啟動虛擬環境並安裝 pyedb、matplotlib 和 spyder 等 Python 套件。完成後，程序會回傳「安裝完成」訊息，表示所需環境和套件已設置成功，並可開始使用。
 ```powershell
 powershell -Command "if (Test-Path 'C:\demo') { Remove-Item 'C:\demo' -Recurse -Force }"
-powershell -Command "if (Test-Path 'C:\myvenv') { Remove-Item 'C:\demo' -Recurse -Force }"
+powershell -Command "if (Test-Path 'C:\myvenv') { Remove-Item 'C:\myvenv' -Recurse -Force }"
 
 powershell -Command "New-Item -Path 'C:\demo' -ItemType Directory"
 
@@ -20,6 +20,7 @@ pip install pyedb
 pip install matplotlib
 pip install spyder
 .\spyder
+
 ```
 
 
