@@ -1,5 +1,6 @@
-CreateCircuitPortOnComponent.py
+CreateCircuitPortOnComponent
 ---
+
 **Linux/Windows AEDT 3D Layout 適用**
 
 ![2024-03-22_04-45-01](/assets/2024-03-22_04-45-01.png)
