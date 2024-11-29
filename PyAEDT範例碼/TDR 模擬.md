@@ -1,6 +1,5 @@
-### Circuit範例
+### TDR 模擬
 
-#### TDR 模擬
 這個範例中使用了電路模擬器（Circuit）來設計和分析一個差分時域反射計（TDR）的設置。以下是這段代碼各部分的功能說明：
 
 > [pcie.s4p下載](https://github.com/linmingchih/smart_design/blob/main/assets/pcie.s4p)
