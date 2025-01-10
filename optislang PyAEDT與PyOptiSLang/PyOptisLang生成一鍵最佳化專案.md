@@ -94,6 +94,7 @@ y = (x1 -1)**2 + (x2 -3)**2
 with open('d:/demo/test.py', 'w') as f:
     f.write(text)
 
+import os
 from ansys.optislang.core import Optislang
 from ansys.optislang.core.tcp.osl_server import TcpOslServer
 osl_server = TcpOslServer()
@@ -101,35 +102,39 @@ osl_server.open(template_opf_path)
 
 tree_props = osl_server.get_full_project_tree_with_properties()
 
-oco = tree_props['projects'][0]['system']['nodes'][0]['uid']
-python = tree_props['projects'][0]['system']['nodes'][0]['nodes'][0]['uid']
+oco_node = tree_props['projects'][0]['system']['nodes'][0]['uid']
+python_node = tree_props['projects'][0]['system']['nodes'][0]['nodes'][0]['uid']
+post_node = tree_props['projects'][0]['system']['nodes'][0]['uid']
 
-osl_server.set_actor_property(python, 'AllowSpaceInFilePath', True)
-prop = osl_server.get_actor_properties(python)
+prop = osl_server.get_actor_properties(post_node)
+
+
+osl_server.set_actor_property(python_node, 'AllowSpaceInFilePath', True)
+prop = osl_server.get_actor_properties(python_node)
 prop['Path']['path']['split_path']['head'] = 'd:/demo'
 prop['Path']['path']['split_path']['tail'] = 'test.py'
 
-osl_server.set_actor_property(python, 'Path', prop['Path'])
-x = osl_server.get_actor_properties(python)
+osl_server.set_actor_property(python_node, 'Path', prop['Path'])
+x = osl_server.get_actor_properties(python_node)
 
 
-osl_server.register_location_as_parameter(python, 'x1', 'x1', 0.1)
-osl_server.register_location_as_parameter(python, 'x2', 'x2', 0.1)
+osl_server.register_location_as_parameter(python_node, 'x1', 'x1', 0.1)
+osl_server.register_location_as_parameter(python_node, 'x2', 'x2', 0.1)
 
-osl_server.register_location_as_response(python, 'y', 'y', 0.1)
-info = osl_server.get_actor_properties(oco)
+osl_server.register_location_as_response(python_node, 'y', 'y', 0.1)
+info = osl_server.get_actor_properties(oco_node)
 
 container = info['ParameterManager']['parameter_container']
 container[0]['deterministic_property']['lower_bound'] = -5
 container[0]['deterministic_property']['upper_bound'] = 5
 
-container = info['ParameterManager']['parameter_container']
-container[1]['deterministic_property']['lower_bound'] = -5
-container[1]['deterministic_property']['upper_bound'] = 5
+container[1]['deterministic_property']['kind'] = 'ordinaldiscrete_value'
+container[1]['deterministic_property']['discrete_states'] = [-4.0, -3.0, -2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0]
 
-osl_server.add_criterion(oco, 'min', 'y', 'obj_0')
 
-osl_server.set_actor_property(oco, 'ParameterManager', info['ParameterManager'])
+osl_server.add_criterion(oco_node, 'min', 'y', 'obj_0')
+
+osl_server.set_actor_property(oco_node, 'ParameterManager', info['ParameterManager'])
 
 osl_server.save_as(opf_path)
 osl_server.dispose()
@@ -137,6 +142,9 @@ osl_server.dispose()
 #%%
 with Optislang(project_path=opf_path) as osl:
     osl.application.project.start()
+    
+os.system('notepad D:\demo\oco_finished.opd\out.csv')
+
 ```
 
 ### oco_finished.opf輸出
