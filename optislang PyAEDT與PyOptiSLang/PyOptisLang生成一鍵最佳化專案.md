@@ -90,6 +90,23 @@ if not OSL_REGULAR_EXECUTION:
 y = (x1 -1)**2 + (x2 -3)**2
 
 '''
+template_opf_path = 'd:/demo/oco.opf'
+opf_path = 'd:/demo/oco_finished.opf'
+
+text = '''
+if not 'OSL_REGULAR_EXECUTION' in locals(): 
+    OSL_REGULAR_EXECUTION = False
+
+if not OSL_REGULAR_EXECUTION:
+    x1 = 0.1  #para
+    x2 = 0.1  #para
+
+y = (x1 -1)**2 + (x2 -3)**2
+
+'''
+
+import re
+paras = re.findall('(\S+).*?=.*?(\S+).*#para', text)
 
 with open('d:/demo/test.py', 'w') as f:
     f.write(text)
@@ -117,9 +134,8 @@ prop['Path']['path']['split_path']['tail'] = 'test.py'
 osl_server.set_actor_property(python_node, 'Path', prop['Path'])
 x = osl_server.get_actor_properties(python_node)
 
-
-osl_server.register_location_as_parameter(python_node, 'x1', 'x1', 0.1)
-osl_server.register_location_as_parameter(python_node, 'x2', 'x2', 0.1)
+for p, v in paras:
+    osl_server.register_location_as_parameter(python_node, p, p, float(v))
 
 osl_server.register_location_as_response(python_node, 'y', 'y', 0.1)
 info = osl_server.get_actor_properties(oco_node)
@@ -130,7 +146,6 @@ container[0]['deterministic_property']['upper_bound'] = 5
 
 container[1]['deterministic_property']['kind'] = 'ordinaldiscrete_value'
 container[1]['deterministic_property']['discrete_states'] = [-4.0, -3.0, -2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0]
-
 
 osl_server.add_criterion(oco_node, 'min', 'y', 'obj_0')
 
@@ -144,7 +159,6 @@ with Optislang(project_path=opf_path) as osl:
     osl.application.project.start()
     
 os.system('notepad D:\demo\oco_finished.opd\out.csv')
-
 ```
 
 ### oco_finished.opf輸出
