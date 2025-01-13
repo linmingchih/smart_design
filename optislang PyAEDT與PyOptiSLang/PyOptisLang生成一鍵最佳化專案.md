@@ -164,7 +164,7 @@ os.system('notepad D:\demo\oco_finished.opd\out.csv')
 ### oco_finished.opf輸出
 當執行Python檔案，Python會自動將程式碼與相關設定填入框架節點、存檔並完成計算。完成計算的optisLang專案節點出現打勾，代表完成計算：
 
-![2024-07-27_04-01-06](/assets/2024-07-27_04-01-06.png)
+![2025-01-13_14-02-43](/assets/2025-01-13_14-02-43.png)
 
 #### Python內容、參數與響應
 箭頭處標示程式碼所加入的內容：
