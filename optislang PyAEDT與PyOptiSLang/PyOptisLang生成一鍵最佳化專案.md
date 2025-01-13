@@ -32,7 +32,7 @@ PyOptiSLang 是一個針對 ANSYS OptiSLang 設計的 Python 接口，它允許�
 
 這個框架當中Python節點，OCO設定皆為空白。
 
-![2024-07-27_03-46-53](/assets/2024-07-27_03-46-53.png)
+![2025-01-13_14-08-39](/assets/2025-01-13_14-08-39.png)
 
 ### 透過PyOptisLang增添框架內容
 
