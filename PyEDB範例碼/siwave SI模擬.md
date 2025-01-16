@@ -38,29 +38,40 @@ siwave模擬
 controller_name = 'U2A5'
 dram_name = 'U1B5'
 nets = [f'M_DQ<{i}>' for i in range(8)]
-aedb_path = 'd:/demo4/test5.aedb'
+aedb_path = 'd:/demo4/test37.aedb'
 
 import pyaedt
 
-assert pyaedt.version == '0.9.11', f'{pyaedt.version} != 0.9.11' 
 from pyaedt import Hfss3dLayout
 from pyedb import Edb
+import random
+import string
+
 
 edb = Edb(r"D:\OneDrive - ANSYS, Inc\Models\EDB\Galileo_G87173_20454.aedb", edbversion='2024.1')
 
-controller = edb.components[controller_name]
-gnd_pins = [j for i, j in controller.pins.items() if j.net.name=='GND']
-pg_gnd = edb.core_components.create_pingroup_from_pins(gnd_pins)
-edb.core_components.create_port_on_component(controller_name, nets, reference_net='GND')
+for comp_name in [controller_name, dram_name]:
+    comp = edb.components[comp_name]
+    gnd_pins = [pin_name for pin_name, pin_obj in comp.pins.items() if pin_obj.net.name=='GND']
+    
+    _, pg_gnd = edb.siwave.create_pin_group(comp_name, gnd_pins, comp_name+'_ref')
+    termial_gnd = pg_gnd.create_port_terminal(50)
+    for i, j in comp.pins.items():
+        if j.net.name in nets:
+            _, pg_sig = edb.siwave.create_pin_group(comp_name, [i], f'p_{i}')
+            termial_sig = pg_sig.create_port_terminal(50)
+            termial_sig.SetReferenceTerminal(termial_gnd)
 
-dram = edb.components[dram_name]
-gnd_pins = [j for i, j in dram.pins.items() if j.net.name=='GND']
-dram_gnd = edb.core_components.create_pingroup_from_pins(gnd_pins)
-edb.core_components.create_port_on_component(dram_name, nets, reference_net='GND')
 
 setup1 = edb.create_siwave_syz_setup()
 
-setup1.add_frequency_sweep()
+sweep = setup1.add_frequency_sweep()
+frequency_list = [
+    ["linear count", "0", "1kHz", 1],
+    ["log scale", "1kHz", "0.1GHz", 10],
+    ["linear scale", "0.1GHz", "10GHz", "0.1GHz"],]
+sweep.set_frequencies(frequency_list)
+
 edb.save_as(aedb_path)
 edb.close_edb()
 
@@ -68,6 +79,7 @@ hfss = Hfss3dLayout(specified_version='2024.1',
                     non_graphical=True, 
                     projectname=aedb_path, 
                     remove_lock=True)
+
 hfss.analyze()
 hfss.export_touchstone()
 hfss.close_project()
