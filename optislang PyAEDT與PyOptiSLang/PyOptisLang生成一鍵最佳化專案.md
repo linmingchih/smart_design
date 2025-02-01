@@ -77,7 +77,6 @@ PyOptiSLang 是一個針對 ANSYS OptiSLang 設計的 Python 接口，它允許�
 #### 範例代碼
 ```python
 
-'''
 template_opf_path = 'd:/demo/oco.opf'
 opf_path = 'd:/demo/oco_finished.opf'
 
