@@ -66,86 +66,67 @@ PyOptiSLang 是一個針對 ANSYS OptiSLang 設計的 Python 接口，它允許�
 6. **啟動優化** ： 
   - 使用`Optislang`類開啟和啟動項目。
 
-> :memo: 附註：關於add_criterion()
-> <br>add_criterion(uid: str, criterion_type: str, expression: str, name: str, limit: str | None = None)
-<br>**criterion_type：**
->- **Variable**：ignore 
->- **Objective**：min / max
->- **Constraint**：lessequal / equal / greaterequal
->- **Limit State**：lesslimitstate / greaterlimitstate
-
 #### 範例代碼
 ```python
+script_path = 'd:/demo/script.py'
+oco_path = "d:/demo/oco.opf"
+finished_path = "d:/demo/finished.opf"
 
-template_opf_path = 'd:/demo/oco.opf'
-opf_path = 'd:/demo/oco_finished.opf'
+from ansys.optislang.core import Optislang
+import ansys.optislang.core.node_types as node_types
+from ansys.optislang.core.nodes import DesignFlow
+from ansys.optislang.core.project_parametric import (
+    ComparisonType,
+    ConstraintCriterion,
+    ObjectiveCriterion,
+    OptimizationParameter,
+)
 
-text = '''
+script = '''
 if not 'OSL_REGULAR_EXECUTION' in locals(): 
     OSL_REGULAR_EXECUTION = False
 
+
 if not OSL_REGULAR_EXECUTION:
-    x1 = 0.1  #para
-    x2 = 0.1  #para
+    x1 = 0.1
+    x2 = 0.1
 
 y = (x1 -1)**2 + (x2 -3)**2
-
 '''
 
-import re
-paras = re.findall('(\S+).*?=.*?(\S+).*#para', text)
+with open(script_path, 'w') as f:
+    f.write(script)
 
-with open('d:/demo/test.py', 'w') as f:
-    f.write(text)
+osl = Optislang(project_path=oco_path)
+root_system = osl.application.project.root_system
 
-import os
-from ansys.optislang.core import Optislang
-from ansys.optislang.core.tcp.osl_server import TcpOslServer
-osl_server = TcpOslServer()
-osl_server.open(template_opf_path)
+nodes = {i.get_name():i for i in root_system.get_nodes()}
 
-tree_props = osl_server.get_full_project_tree_with_properties()
+oco = nodes['One-Click Optimization (OCO)']
+python_node = oco.get_nodes()[0]
 
-oco_node = tree_props['projects'][0]['system']['nodes'][0]['uid']
-python_node = tree_props['projects'][0]['system']['nodes'][0]['nodes'][0]['uid']
-post_node = tree_props['projects'][0]['system']['nodes'][0]['uid']
+prop = python_node.get_property('Path')
+prop['path']['split_path']['tail'] = script_path
+python_node.set_property('Path', prop)
 
-prop = osl_server.get_actor_properties(post_node)
+python_node.register_location_as_parameter('x1', 'x1', 0.1)
+python_node.register_location_as_parameter('x2', 'x2', 0.1)
+python_node.register_location_as_response('y', 'y', 0.1)
 
+parameters = oco.parameter_manager.get_parameters()
+parameters[0].range = [-5.0, 5.0]
+parameters[1].range = [-5.0, 5.0]
 
-osl_server.set_actor_property(python_node, 'AllowSpaceInFilePath', True)
-prop = osl_server.get_actor_properties(python_node)
-prop['Path']['path']['split_path']['head'] = 'd:/demo'
-prop['Path']['path']['split_path']['tail'] = 'test.py'
+oco.parameter_manager.modify_parameter(parameters[0])
+oco.parameter_manager.modify_parameter(parameters[1])
 
-osl_server.set_actor_property(python_node, 'Path', prop['Path'])
-x = osl_server.get_actor_properties(python_node)
+criterion = ObjectiveCriterion(name="obj", expression="y", criterion=ComparisonType.MIN)
+oco.criteria_manager.add_criterion(criterion)
 
-for p, v in paras:
-    osl_server.register_location_as_parameter(python_node, p, p, float(v))
+osl.application.save_as(finished_path)
+osl.application.project.start()
+osl.dispose()
 
-osl_server.register_location_as_response(python_node, 'y', 'y', 0.1)
-info = osl_server.get_actor_properties(oco_node)
-
-container = info['ParameterManager']['parameter_container']
-container[0]['deterministic_property']['lower_bound'] = -5
-container[0]['deterministic_property']['upper_bound'] = 5
-
-container[1]['deterministic_property']['kind'] = 'ordinaldiscrete_value'
-container[1]['deterministic_property']['discrete_states'] = [-4.0, -3.0, -2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0]
-
-osl_server.add_criterion(oco_node, 'min', 'y', 'obj_0')
-
-osl_server.set_actor_property(oco_node, 'ParameterManager', info['ParameterManager'])
-
-osl_server.save_as(opf_path)
-osl_server.dispose()
-
-#%%
-with Optislang(project_path=opf_path) as osl:
-    osl.application.project.start()
-    
-os.system('notepad D:\demo\oco_finished.opd\out.csv')
 ```
 
 ### oco_finished.opf輸出
