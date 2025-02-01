@@ -53,37 +53,37 @@ y = (x1 -1)**2 + (x2 -3)**2
 with open(script_path, 'w') as f:
     f.write(script)
 
-osl = Optislang(ini_timeout=60)
-root_system = osl.application.project.root_system
-amop = root_system.create_node(node_types.AMOP)
-design_export = root_system.create_node(node_types.DesignExport)
+with Optislang(ini_timeout=60) as osl:
+    root_system = osl.application.project.root_system
+    amop = root_system.create_node(node_types.AMOP)
+    design_export = root_system.create_node(node_types.DesignExport)
+    
+    amop_slot = amop.get_output_slots(name='ODesigns')[0]
+    design_export_slot = design_export.get_input_slots(name='IDesigns')[0]
+    amop_slot.connect_to(design_export_slot)
+    
+    python_node = amop.create_node(node_types.Python2, design_flow=DesignFlow.RECEIVE_SEND)
+    prop = python_node.get_property('Path')
+    prop['path']['split_path']['tail'] = script_path
+    python_node.set_property('Path', prop)
+    
+    python_node.register_location_as_parameter('x1', 'x1', 0.1)
+    python_node.register_location_as_parameter('x2', 'x2', 0.1)
+    python_node.register_location_as_response('y', 'y', 0.1)
+    
+    parameters = amop.parameter_manager.get_parameters()
+    parameters[0].range = [-5.0, 5.0]
+    parameters[1].range = [-5.0, 5.0]
+    
+    amop.parameter_manager.modify_parameter(parameters[0])
+    amop.parameter_manager.modify_parameter(parameters[1])
+    
+    criterion = ObjectiveCriterion(name="obj", expression="y", criterion=ComparisonType.MIN)
+    amop.criteria_manager.add_criterion(criterion)
+    
+    osl.application.save_as(opf_path)
+    osl.application.project.start()
 
-amop_slot = amop.get_output_slots(name='ODesigns')[0]
-design_export_slot = design_export.get_input_slots(name='IDesigns')[0]
-amop_slot.connect_to(design_export_slot)
-
-python_node = amop.create_node(node_types.Python2, design_flow=DesignFlow.RECEIVE_SEND)
-prop = python_node.get_property('Path')
-prop['path']['split_path']['tail'] = script_path
-python_node.set_property('Path', prop)
-
-python_node.register_location_as_parameter('x1', 'x1', 0.1)
-python_node.register_location_as_parameter('x2', 'x2', 0.1)
-python_node.register_location_as_response('y', 'y', 0.1)
-
-parameters = amop.parameter_manager.get_parameters()
-parameters[0].range = [-5.0, 5.0]
-parameters[1].range = [-5.0, 5.0]
-
-amop.parameter_manager.modify_parameter(parameters[0])
-amop.parameter_manager.modify_parameter(parameters[1])
-
-criterion = ObjectiveCriterion(name="obj", expression="y", criterion=ComparisonType.MIN)
-amop.criteria_manager.add_criterion(criterion)
-
-osl.application.save_as(opf_path)
-osl.application.project.start()
-osl.dispose()
 ```
 
 ### 完成並輸出AMOP檔案
