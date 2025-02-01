@@ -3,20 +3,42 @@ PyOptiSLang建立MOP模型
 
 為了提升使用 PyAEDT 與 optiSLang 的整合效率，我們可以利用 PyOptiSLang 模組自動化一些過程。在過去，將 Python 代碼手動添加到 optiSLang 的 schematic 中並設置相關參數及其範圍，若參數眾多，這一步驟將會變得相當繁重。但現在，通過使用 PyOptiSLang 模組，我們可以編寫程式碼來自動化這些設置，從而大大減輕手動操作的負擔。這不僅提高了工作效率，還有助於減少因手動設置錯誤而導致的問題。
 
-以下這段代碼主要展示了如何使用 PyOptiSLang API 在 optiSLang 中自動化設定一個基本的參數化模型和優化過程。重點摘要如下： 
-1. **初始化並設定變數** ：首先檢查是否已定義 `OSL_REGULAR_EXECUTION` 變數，若未定義則將其設為 `False`。當此變數為 `False` 時，設定兩個參數 `x1` 和 `x2` 的初始值。 
-2. **計算目標函數** ：計算目標函數 `y`，這是一個典型的二次函數，用於後續的優化。 
-3. **寫入 Python 腳本** ：將包含變數初始化和目標函數計算的 Python 代碼寫入到文件 `test.py`。 
-4. **設定與連接節點** ：在 optiSLang 服務器上創建節點，並設定 Python 節點的路徑屬性，使其指向剛才創建的腳本文件。 
-5. **註冊參數與響應** ：將 `x1` 和 `x2` 註冊為優化參數，並將 `y` 註冊為響應函數。 
-6. **設定參數範圍** ：設定參數 `x1` 和 `x2` 的範圍，此範圍將用於優化過程。 
-7. **保存並執行MOP建模** ：保存設定並啟動優化過程，最終目的是找到最小化 `y` 的參數值。
-
-這樣的自動化過程能夠有效地提升模型設置的效率和準確性，適用於需要進行參數優化的各種工程和科研領域。
-
+這份程式碼示範如何透過 Ansys Optislang API 建立一個簡單的優化流程。整個流程可以分為以下幾個步驟：
+ 
+1. **定義並儲存 Python 腳本** 
+程式首先定義了一段 Python 腳本，此腳本執行簡單的數學運算：根據輸入變數 x1 和 x2 計算 y，其計算公式為 y = (x1 - 1)² + (x2 - 3)²。程式將這段腳本存入指定的檔案路徑，供後續節點讀取與執行。
+ 
+2. **初始化 Optislang 專案與節點建立** 
+利用 Optislang 物件初始化專案，取得專案的根系統後建立兩個主要節點： 
+  - **AMOP 節點** ：負責管理設計樣本與參數設定。
+ 
+  - **DesignExport 節點** ：用來匯出設計資料。
+程式透過連接 AMOP 節點的輸出插槽與 DesignExport 節點的輸入插槽，確保設計資料能在流程中正確傳遞。
+ 
+3. **建立 Python 節點與參數註冊** 
+在 AMOP 節點內新增一個 Python 節點，並設定其屬性，使其能夠讀取先前儲存的腳本。接著，利用方法 register_location_as_parameter 將腳本中的變數 x1 與 x2 註冊為優化參數，同時將變數 y 註冊為響應結果，這樣在執行優化時便能正確讀取與傳遞各變數的數值。
+ 
+4. **設定參數範圍與目標準則** 
+從參數管理器中取得已註冊的參數，並將每個參數的搜尋範圍設定在 -5 到 5 之間。這樣可限制優化過程中參數的可能取值範圍。接著，定義一個目標準則，其目標為使 y 的數值最小化，並將此目標加入 Criteria 管理器中，供優化演算法參考。
+ 
+5. **儲存專案與執行優化流程** 
+程式最後將整個專案存檔成指定的 .opf 檔案，再啟動優化流程。流程結束後，系統會自動釋放相關資源。
 
 ```python
-text = '''
+script_path = 'd:/demo/script.py'
+opf_path = 'd:/demo/example5.opf'
+
+from ansys.optislang.core import Optislang
+import ansys.optislang.core.node_types as node_types
+from ansys.optislang.core.nodes import DesignFlow
+from ansys.optislang.core.project_parametric import (
+    ComparisonType,
+    ConstraintCriterion,
+    ObjectiveCriterion,
+    OptimizationParameter,
+)
+
+script = '''
 if not 'OSL_REGULAR_EXECUTION' in locals(): 
     OSL_REGULAR_EXECUTION = False
 
@@ -26,64 +48,46 @@ if not OSL_REGULAR_EXECUTION:
     x2 = 0.1
 
 y = (x1 -1)**2 + (x2 -3)**2
-
 '''
 
-with open('d:/demo3/test.py', 'w') as f:
-    f.write(text)
+with open(script_path, 'w') as f:
+    f.write(script)
 
-from ansys.optislang.core import Optislang
-from ansys.optislang.core import node_types
-from ansys.optislang.core.project_parametric import ObjectiveCriterion
-from ansys.optislang.core.tcp.osl_server import TcpOslServer
-osl_server = TcpOslServer()
-osl_server.new()
-para = osl_server.create_node(node_types.AMOP.id)
-python = osl_server.create_node(node_types.Python2.id, parent_uid=para)
+osl = Optislang(ini_timeout=60)
+root_system = osl.application.project.root_system
+amop = root_system.create_node(node_types.AMOP)
+design_export = root_system.create_node(node_types.DesignExport)
 
-osl_server.set_actor_property(python, 'AllowSpaceInFilePath', True)
-prop = osl_server.get_actor_properties(python)
-prop['Path']['path']['split_path']['head'] = 'd:/demo3'
-prop['Path']['path']['split_path']['tail'] = 'test.py'
+amop_slot = amop.get_output_slots(name='ODesigns')[0]
+design_export_slot = design_export.get_input_slots(name='IDesigns')[0]
+amop_slot.connect_to(design_export_slot)
 
-osl_server.set_actor_property(python, 'Path', prop['Path'])
-x = osl_server.get_actor_properties(python)
+python_node = amop.create_node(node_types.Python2, design_flow=DesignFlow.RECEIVE_SEND)
+prop = python_node.get_property('Path')
+prop['path']['split_path']['tail'] = script_path
+python_node.set_property('Path', prop)
 
-osl_server.connect_nodes(para, "IODesign", python, "IDesign")
-osl_server.connect_nodes(python, "ODesign", para, "IIDesign")
+python_node.register_location_as_parameter('x1', 'x1', 0.1)
+python_node.register_location_as_parameter('x2', 'x2', 0.1)
+python_node.register_location_as_response('y', 'y', 0.1)
 
-osl_server.register_location_as_parameter(python, 'x1', 'x1', 0.1)
-osl_server.register_location_as_parameter(python, 'x2', 'x2', 0.1)
+parameters = amop.parameter_manager.get_parameters()
+parameters[0].range = [-5.0, 5.0]
+parameters[1].range = [-5.0, 5.0]
 
-osl_server.register_location_as_response(python, 'y', 'y', 0.1)
-info = osl_server.get_actor_properties(para)
+amop.parameter_manager.modify_parameter(parameters[0])
+amop.parameter_manager.modify_parameter(parameters[1])
 
-container = info['ParameterManager']['parameter_container']
-container[0]['deterministic_property']['lower_bound'] = -5
-container[0]['deterministic_property']['upper_bound'] = 5
+criterion = ObjectiveCriterion(name="obj", expression="y", criterion=ComparisonType.MIN)
+amop.criteria_manager.add_criterion(criterion)
 
-container = info['ParameterManager']['parameter_container']
-container[1]['deterministic_property']['lower_bound'] = -5
-container[1]['deterministic_property']['upper_bound'] = 5
-
-osl_server.set_actor_property(para, 'ParameterManager', info['ParameterManager'])
-
-osl_server.save_as('d:/demo3/example.opf')
-
-osl_server.add_criterion(para, 'min', 'y', 'obj_0')
-
-
-osl_server.dispose()
-
-#%%
-
-with Optislang(project_path='d:/demo3/example.opf') as osl:
-    osl.application.project.start()
+osl.application.save_as(opf_path)
+osl.application.project.start()
+osl.dispose()
 ```
 
 ### 完成並輸出AMOP檔案
-![2024-05-30_12-35-12](/assets/2024-05-30_12-35-12.png)
-
+![2025-02-01_12-41-58](/assets/2025-02-01_12-41-58.png)
 
 ### 利用AMOP快速得到答案
 之後可以用程式碼輸入數值並快速得到計算結果，可以連結網頁伺服器來提供服務。
@@ -91,7 +95,7 @@ with Optislang(project_path='d:/demo3/example.opf') as osl:
 ``` python
 from mopsolver import MOPSolver
 osl_install_path = r'C:\Program Files\ANSYS Inc\v241\optiSLang'
-omdb_file = r"D:\demo3\example.opd\AMOP\AMOP.omdb"
+omdb_file = r"D:\demo\example5.opd\AMOP\AMOP.omdb"
 
 solver = MOPSolver(osl_install_path, omdb_file)
 
