@@ -62,7 +62,7 @@ create_new_project(name) method of ansys.aedt.core.hfss.Hfss instance
 此命令會顯示 `create_new_project` 函數的功能、參數與返回值，幫助使用者了解如何使用該函數。
 
 ### 直接存取屬性值
-如果名稱是屬性（名詞開頭），可以直接存取其值，例如：
+如果名稱是屬性（名詞開頭），可以直接讀取其值，例如：
 
 ```python
 In [8]: app.design_name
@@ -173,7 +173,7 @@ In [26]: box.material_name = 'copper'
 
 其他
 - 使用進階 IDE 如 Spider，可以直接將函數拖曳到 Help 欄位，排版過的內容更便於閱讀。
-- 在 GitHub 上搜尋相關關鍵字，也能幫助找到相關的函數或屬性。
+- 在 PyAEDT GitHub 上搜尋相關關鍵字，也能幫助找到相關的函數或屬性。
 - 如果還是找不到，可以聯繫 ANSYS 的技術支援尋求幫助。
 
 ![2025-02-13_15-52-41](/assets/2025-02-13_15-52-41.png)
