@@ -31,8 +31,8 @@ edb = Edb(edbversion='2024.1')
 
 material_info = {('metal1', 'conductor'): 5e8,
                  ('metal2', 'conductor'): 5e8,
-                 ('epoxy1', 'ds'):(4, 0.02, 1e9),
-                 ('epoxy2', 'ds'):(3.8, 0.015, 1e9)}
+                 ('epoxy1', 'ds'):(4, 0.02, 1),
+                 ('epoxy2', 'ds'):(3.8, 0.015, 1)}
 
 
 
@@ -51,7 +51,7 @@ for (name, _type), prop in material_info.items():
         edb.materials.add_conductor_material(name, conductivity)
     elif _type == 'ds':
         permittivity, loss_tangent, test_frequency = prop
-        edb.materials.add_djordjevicsarkar_material(name, permittivity, loss_tangent, test_frequency)
+        edb.materials.add_djordjevicsarkar_dielectric(name, permittivity, loss_tangent, test_frequency)
 
 for (name, _type), prop in layers_info.items():
     if _type == 'signal':
@@ -77,6 +77,7 @@ for (name, _type), prop in layers_info.items():
 
 edb.save_as('d:/demo4/a40.aedb')
 edb.close_edb()
+
 
 ```
 
