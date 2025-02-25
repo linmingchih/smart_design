@@ -34,4 +34,4 @@ for i in range(10, 110, 10):
 plt.show()
 ```
 
-![Figure 2025-02-25 092101](/assets/Figure%202025-02-25%20092101.png)
+![Figure 2025-02-25 092836](/assets/Figure%202025-02-25%20092836.png)
