@@ -24,7 +24,7 @@ setup.props['SweepDefinition']['Data'] = 'LINC 0GHz 20GHz 2001'
 for i in range(10, 110, 10):
     tline.set_property("P", f'{i}mm')
     circuit.analyze()
-    circuit.export_touchstone(output_file=f'd:/demo/{i}mm.s4p')
+    circuit.export_touchstone(output_file=f'd:/demo/{i}mm.s2p')
     
     data = circuit.post.get_solution_data('dB(S21)')
     y = data.data_real('dB(S21)')
