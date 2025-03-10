@@ -41,7 +41,7 @@
 from pyaedt import Hfss
 
 # 初始化 HFSS 版本為 2022.2
-hfss = Hfss(specified_version='2022.2')
+hfss = Hfss(specified_version='2025.1')
 
 # 修改材料設定
 hfss.change_material_override()
@@ -53,7 +53,7 @@ hfss.change_automatically_use_causal_materials()
 hfss['length'] = '10mm'
 
 # 創建一個朝 Z 軸的銅製圓柱
-hfss.modeler.create_cylinder(cs_axis='Z',
+c1 = hfss.modeler.create_cylinder(cs_axis='Z',
                              position=(0,0,0.5),
                              radius='0.5mm',
                              height='length',
@@ -61,7 +61,7 @@ hfss.modeler.create_cylinder(cs_axis='Z',
                              )
 
 # 創建另一個朝 Z 軸的銅製圓柱
-hfss.modeler.create_cylinder(cs_axis='Z',
+c2 = hfss.modeler.create_cylinder(cs_axis='Z',
                              position=(0,0,-0.5),
                              radius='0.5mm',
                              height='-length',
@@ -75,7 +75,7 @@ hfss.modeler.create_rectangle(csPlane=1,
                               name='sheet')
 
 # 在矩形片上創建一個端口
-hfss.create_lumped_port_to_sheet(sheet_name='sheet', axisdir=2)
+hfss.lumped_port('sheet', c2.name)
 
 # 創建一個開放區域
 hfss.create_open_region(Frequency='1GHz', )
@@ -98,9 +98,11 @@ hfss.create_linear_step_sweep(setupname='mysetup',
 
 
 # 針對不同的長度進行模擬
+import matplotlib.pyplot as plt
+
 for l in [80, 90, 100]:
     hfss['length'] = '{}mm'.format(l)
-    hfss.analyze_nominal(num_cores=4)
+    hfss.analyze(acf_file='d:/demo/ansys.acf')
     
     # 獲取模擬結果
     result = hfss.post.get_solution_data('dB(S11)', 'mysetup:mysweep')
@@ -115,8 +117,8 @@ for l in [80, 90, 100]:
     plt.plot(freq, s11, c='r')
     
 # 顯示和保存圖表
+plt.savefig('c:/s11.png')
 plt.show()
-plt.savefig('c:/s11_.png')
 
 # 關閉 AEDT 桌面
 hfss.close_desktop()
@@ -242,12 +244,55 @@ hfss.create_open_region(Frequency='1GHz')
 - 使用 `min(zip(s11, freq))` 找出最小的 S11 值及其對應的頻率。 
 - 使用 `plt.text` 和 `plt.plot` 將這些信息添加到圖表中。 
 5. **顯示和保存圖表** ： 
-- `plt.show()`：顯示圖表。 
 - `plt.savefig('c:/s11_.png')`：將圖表保存到指定的路徑。
+- `plt.show()`：顯示圖表。 
 
 總之，這段代碼展示了如何對 HFSS 模擬結果進行數據處理和可視化分析，特別是在評估不同幾何參數對模擬結果的影響方面。這在天線設計和射頻元件分析等領域非常有用。
+
+![2025-03-10_09-48-36](/assets/2025-03-10_09-48-36.png)
 
 #### 關閉AEDT
 
 hfss.close_desktop() 是一個在 HFSS (High Frequency Structure Simulator) 腳本中使用的函數，其主要目的是關閉 HFSS 應用程序及其桌面環境。當你在使用腳本或自動化流程操作 HFSS 並完成所有模擬、分析或其他任務後，這個函數可以被調用來正確地關閉應用程序。
 
+### ACF檔案
+
+.acf配置檔案用於AEDT的 DSO（Distributed Solve Option）設定，主要用來管理計算資源。它包含機器配置、計算核心分配、記憶體使用率以及作業分佈方式，確保 HFSS 在多核或多機環境下能夠有效地執行模擬。
+
+下面設定檔範例指定計算機 localhost 作為計算節點，分配 7 核心與 1 張 GPU 進行計算，並允許 87% RAM 使用率。計算作業可基於不同變數（如變數掃描、網格組裝、求解器等）進行分佈，但未啟用雙層分佈。整體設計適用於 HFSS 的自動化運算，並可與 PyAEDT 進行整合。
+```conf
+$begin 'Configs'
+	$begin 'Configs'
+		$begin 'DSOConfig'
+			ConfigName='pyaedt_config'
+			DesignType='HFSS'
+			$begin 'DSOMachineList'
+				$begin 'DSOMachineInfo'
+					MachineName='localhost'
+					NumEngines=1
+					NumCores=7
+					IsEnabled=true
+					RAMPercent=87
+					NumJobCores=0
+					NumGPUs=1
+				$end 'DSOMachineInfo'
+			$end 'DSOMachineList'
+			UseAutoSettings=true
+			NumVariationsToDistribute=1
+			$begin 'DSOJobDistributionInfo'
+				AllowedDistributionTypes[9: 'Variations', 'Frequencies', 'Mesh Assembly','Mesher', 'Transient Excitations', 'Domain Solver', 'Solver', 'Iterative Solver', 'Direct Solver']
+				Enable2LevelDistribution=false
+				NumL1Engines=1
+				UseDefaultsForDistributionTypes=false
+				Context()
+			$end 'DSOJobDistributionInfo'
+			$begin 'DSOMachineOptionsInfo'
+				MenuValues()
+				IntValues()
+				BoolValues(AllowOffCore=true)
+				DoubleValues()
+			$end 'DSOMachineOptionsInfo'
+		$end 'DSOConfig'
+	$end 'Configs'
+$end 'Configs'
+```
