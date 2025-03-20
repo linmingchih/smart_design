@@ -36,15 +36,16 @@ setup.analyze()
 
 data = circuit.post.get_solution_data('mag(Z11)')
 y = data.data_real()
-x = data.primary_sweep_values
+x = [1e3*i for i in data.primary_sweep_values]
 plt.figure(figsize=(6, 4))
-plt.loglog(x, y)
 
+plt.loglog(x, y)
 # 標籤與標題
-plt.xlabel("X (log scale)")
-plt.ylabel("Y (log scale)")
-plt.title("Log-Log Plot Example")
+plt.xlabel("Freq(MHz)")
+plt.ylabel("Z11(Ohm)")
+plt.title("Decoupling capacitors in parallel")
 plt.grid(True, which="both", linestyle="--", linewidth=0.5)
+
 ```
 
-![2025-03-20_09-25-02](/assets/2025-03-20_09-25-02.png)
+![2025-03-20_12-58-20](/assets/2025-03-20_12-58-20.png)
