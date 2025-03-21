@@ -13,11 +13,8 @@ import os
 import matplotlib.pyplot as plt
 from pyaedt import Circuit
 
-
 cap_dir = r'C:/caps'
-circuit = Circuit(non_graphical=True)
-
-caps = []
+circuit = Circuit(version='2024.2', non_graphical=True)
 
 port = circuit.modeler.components.create_interface_port('p1', location=(-0.05,0))
 
@@ -45,6 +42,8 @@ plt.xlabel("Freq(MHz)")
 plt.ylabel("Z11(Ohm)")
 plt.title("Decoupling capacitors in parallel")
 plt.grid(True, which="both", linestyle="--", linewidth=0.5)
+
+circuit.export_touchstone(output_file='d:/demo/decap.s1p')
 
 ```
 
