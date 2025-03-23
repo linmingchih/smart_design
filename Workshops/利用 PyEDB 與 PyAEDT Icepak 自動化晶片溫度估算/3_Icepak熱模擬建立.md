@@ -8,7 +8,6 @@ Icepak熱模擬建立
 在模型完成後，程式針對模型上下表面分別設定了真實環境下的熱傳邊界條件（Heat Transfer Coefficient），例如晶片封裝頂面與底部PCB面，提供不同的熱傳係數設定，進一步模擬實際產品運作時上下表面的熱散逸狀況。最後，在啟動熱模擬分析前，透過Icepak內建的網格優先級設定功能，定義了模型內各元件的網格生成順序，確保模擬計算時，最重要或溫度變化劇烈的區域獲得較精細的網格配置，以提升模擬的準確度與效率。
 
 ```python
-
 import os
 from ansys.aedt.core import Hfss3dLayout
 from ansys.aedt.core import Icepak
@@ -23,6 +22,9 @@ hfss = Hfss3dLayout('c:/demo/chip.aedb', version='2024.2')
 icepak = Icepak(version='2024.2')
 icepak.solution_type = 'SteadyState'
 icepak.problem_type = 'TemperatureOnly'
+icepak.design_settings['ExportSettings'] = True
+
+
 icepak.modeler.model_units = 'mm'
 icepak.modeler.delete('Region')
 
@@ -53,6 +55,7 @@ dies = [
         icepak.modeler.create_box((0, 12, 0), (5, 5, 0.25), 'd3', 'silicon'), 
         icepak.modeler.create_box((6, 12, 0), (5, 5, 0.25), 'd4', 'silicon'),
         ]
+
 
 for die in dies:
     icepak.assign_source(die.name, "Total Power", '0.1W', f's_{die.name}')
@@ -93,6 +96,8 @@ setup = icepak.create_setup()
 setup.props['Convergence Criteria - Energy'] = 1e-16
 setup.props['Convergence Criteria - Max Iterations'] = 500
 icepak.analyze()
+icepak.save_project()
+icepak.close_project()
 ```
 ### 完成建模
 
