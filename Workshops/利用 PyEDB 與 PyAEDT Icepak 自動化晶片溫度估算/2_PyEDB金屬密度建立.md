@@ -4,7 +4,7 @@ PyEDB金屬密度建立
 
 圖片中的堆疊結構(Stackup)從上到下依序為：最上方是封裝樹脂(Molding)，提供物理保護與絕緣；接著內含數個晶片(Die)，其中最左邊的晶片底部具有導熱與導電的凸塊(Bumps)，並透過金屬密度(Metal density)與功耗分佈(Power map)設定，精確呈現晶片內的熱量與導熱特性；最底層為基板(Substrate)，負責支撐晶片並提供電性連接。此外，圖示上下邊界標示的HTC(Heat Transfer Coefficient)表示邊界上設定了對外環境的熱傳條件，供模擬環境熱交換使用
 
-![alt text](image-1.png)
+![alt text](assets/image-1.png)
 
 ### 利用PyEDB生成10層 100x100 Metal Density
 
