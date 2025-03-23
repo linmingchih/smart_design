@@ -23,7 +23,7 @@ layer_name =''
 thickness = ''
 dx, dy = 100, 100
 
-with open('metal_density.txt') as f:
+with open('c:/demo/metal_density.txt') as f:
     for line in f:
         try:
             values = [float(i) for i in line.split()]
@@ -52,8 +52,9 @@ for (layer_name, thickness), values in metal_density.items():
             edb.modeler.add_void(rect, void)
 
 
-edb.save_edb_as('chip.aedb')
+edb.save_edb_as('c:/demo/chip.aedb')
 edb.close_edb()
+
 
 ```
 
