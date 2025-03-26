@@ -66,3 +66,4 @@ edb.close_edb()
 #### 側視圖
 ![2025-03-19_04-08-56](/assets/2025-03-19_04-08-56.png)
 
+[生成之.aedb](./assets/chip.aedb.zip)
