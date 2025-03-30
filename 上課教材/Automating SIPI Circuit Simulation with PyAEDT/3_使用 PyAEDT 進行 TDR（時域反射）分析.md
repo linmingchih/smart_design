@@ -67,3 +67,98 @@ report = circuit.post.create_report(f"O(A{probe.id}:zdiff)",
 circuit.post.export_report_to_jpg('d:/demo',  report.plot_name)
 ```
 ![differential_tdr](/assets/differential_tdr.jpg)
+
+---
+
+### 🧠 PyAEDT 與物件導向程式設計（OOP）概念說明
+
+物件導向是一種用「物件」來模擬現實世界的方法。在 PyAEDT 中，我們將一個電路設計看成是一個「物件」，並透過這個物件去建立元件、連接線路、設定模擬與產生報表。每個物件都包含：
+
+- **屬性（Attributes）**：例如元件的名稱、ID、阻值等特性
+- **方法（Methods）**：可以對物件做的事情，例如建立元件、連接、執行模擬
+
+#### 🕰 生活中的物件導向例子：手錶
+
+為了幫助初學者理解，舉一個日常生活的例子：「手錶」也是一個物件。
+
+- **屬性（Attributes）**：品牌、顏色、時間、電池狀態、錶帶材質
+- **方法（Methods）**：顯示時間、設定鬧鐘、啟動碼錶、切換模式、開啟背光
+
+我們可以這樣理解：你有一支手錶（物件），可以讀取現在時間（方法），也可以修改它的顏色或更換錶帶（修改屬性）。這和程式中我們對電路物件操作的邏輯是一樣的。例如你設定鬧鐘，就是呼叫方法；而你調整時間格式，就是在修改屬性。
+
+---
+
+#### 📘 程式碼解析
+
+```python
+from pyaedt import Circuit
+
+circuit = Circuit(non_graphical=True)
+```
+這裡 `Circuit` 是一個類別（Class），我們透過它建立了 `circuit` 物件。這個物件代表我們的電路環境，可以讓我們操作各種模擬功能，如元件建立、參數設定與模擬分析。
+
+```python
+s1 = circuit.modeler.components.create_touchstone_component('pcie')
+probe = circuit.modeler.components.create_component('a1', 'Probes','TDR_Differential_Ended')
+```
+這段是透過 `circuit.modeler.components` 建立元件。這些方法會**回傳一個元件物件（component object）**，例如 `s1` 或 `probe`，每個元件都可以有自己的名稱、編號、屬性與行為。
+
+#### 🔁 修改物件屬性與物件巢狀結構
+
+當方法回傳一個元件物件後，我們可以修改它的屬性，例如：
+
+```python
+rp = circuit.modeler.components.create_resistor()
+rp.parameters["R"] = "50ohm"
+```
+這裡 `rp` 是一個電阻元件物件，我們對它的 `parameters` 屬性指定一個阻值。這就是物件導向程式設計的精神：**我們對物件下指令，並根據需要修改它的內容。**
+
+同時，要特別注意：
+- **方法回傳的本身可以是一個新的物件**，例如 `create_resistor()` 回傳的就是電阻元件物件；
+- **屬性也可能是物件**，例如 `circuit.modeler` 是一個「建模器」物件，它裡面還有 `components` 屬性（也是一個物件），可以再呼叫方法來建立元件；
+- **物件之間可以層層巢狀**，形成清晰的結構，也讓使用者能有條理地管理模擬元件與設定。
+
+這種設計不僅有助於組織與管理，還能透過共通方法與介面，提升模組的重複使用性與可維護性。
+
+#### 🔍 查詢物件有哪些屬性與方法
+
+Python 提供兩個內建函式可以幫助我們快速探索物件：
+
+```python
+print(dir(rp))   # 列出 rp 物件所有可以使用的屬性與方法
+help(rp)         # 顯示 rp 的詳細說明文件
+```
+這對初學者非常有幫助，可以了解物件有哪些功能、能做什麼操作，並協助寫程式時避免錯誤。例如當你不知道某個模組是否支援某項操作時，先用 `dir()` 看看它有什麼方法，再用 `help()` 詳讀使用方式。
+
+#### 🔌 元件連接與模擬
+
+```python
+circuit.modeler.connect_schematic_components(s1.composed_name, probe.composed_name, 1, 1)
+```
+這是透過 `connect_schematic_components()` 方法，將元件的引腳互相連接。透過物件名稱與屬性，我們可以精確地指定每個元件的連接方式，讓整體電路圖自動生成，避免人工操作錯誤。
+
+#### ⚙️ 建立模擬與後處理
+
+```python
+setup = circuit.create_setup('mysetup', 'NexximTransient')
+setup.props['TransientData'] = ['10ps', '10ns']
+```
+這裡 `create_setup()` 會回傳一個模擬設定物件 `setup`，我們可以透過它的 `props` 屬性來修改模擬參數。像是時間步長、模擬長度等，都可以直接在屬性中設定。
+
+```python
+report = circuit.post.create_report(...)
+circuit.post.export_report_to_jpg(...)
+```
+最後透過 `post` 物件，我們可以產生報表並輸出圖片。這些動作都能以腳本實現，方便重複模擬、版本控制與報表生成自動化。
+
+---
+
+#### ✅ 小結
+- 每個模組都是一個物件（如 `circuit`, `setup`, `s1`）
+- 方法可以建立新物件（例如元件、模擬設定）
+- 回傳的物件可以再進一步修改其屬性（如參數、名稱）
+- 屬性與方法本身也可能是其他物件，可再深入操作
+- 可以用 `dir()` 與 `help()` 查詢物件有哪些方法與功能
+- 物件可以巢狀結構化，讓整個模擬架構更有彈性與可讀性
+- 透過清楚的結構與分工，PyAEDT 讓電路模擬工作流程更具模組化、可擴充性與自動化潛力
+

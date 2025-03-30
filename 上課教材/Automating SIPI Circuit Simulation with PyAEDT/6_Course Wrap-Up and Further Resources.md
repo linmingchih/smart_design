@@ -1,3 +1,120 @@
 第六章 課程總結與延伸資源
 ---
+PyAEDT 本身即具備處理電路模擬與訊號完整性分析的能力，能建立電路圖、設定參數、執行 TDR/S 參數分析等。然而，若進一步搭配 Python 生態系中的其他模組（如 NumPy、SciPy、matplotlib、scikit-RF 等），便能強化資料處理、數學分析、圖形展示等功能，使模擬結果更易於後處理與自動化整合，發揮出跨領域的強大效益與應用潛力。
+### 🔍 matplotlib 簡介
+
+`matplotlib` 是 Python 最基礎且最常用的繪圖套件，特別適合用於科學與工程分析上的數據可視化。它可以用來繪製線圖、散點圖、總和圖、熱力圖、直方圖等，可自訂線條、顏色、圖位與設計風格，適合自動化報表、學術報告與互動式展示。
+
+🔗 官方網站：[https://matplotlib.org/](https://matplotlib.org/)  
+🔗 文件教學：[https://matplotlib.org/stable/gallery/index.html](https://matplotlib.org/stable/gallery/index.html)
+
+#### 🔧 主要功能
+
+- 線圖 (Line plot)
+- 散點圖 (Scatter plot)
+- 直方圖 (Bar chart)
+- 熱力圖 (Heatmap)
+- 軸線設定、圖位、顏色、樣式設定
+- 與 NumPy/SciPy/pandas 精細搭配
+
+#### 🚀 應用場景
+
+- 學術分析與實體展示
+- 報表與動態報表自動生成
+- 計算結果的圖形化說明
+- 與 GUI 或 web 互動設計搭配
+
+#### ☕ 使用範例
+
+```python
+import matplotlib.pyplot as plt
+import numpy as np
+
+x = np.linspace(0, 2*np.pi, 100)
+y = np.sin(x)
+
+plt.plot(x, y)
+plt.title('Sine Wave')
+plt.xlabel('x')
+plt.ylabel('sin(x)')
+plt.grid(True)
+plt.show()
+```
+
+`matplotlib` 是進行數據分析與圖表展示不可或缺的基礎工具，最適合與 NumPy/SciPy/pandas 等套件搭配使用。
+
+### 📡 scikit-RF 簡介
+
+`scikit-RF` 是一套基於 Python 的開源套件，特別設計用於展現和分析射頻與微波電路系統。它提供圖形化、電氣建模與數值分析工具，能處理各種網路參數資料（如 S 參數、Z/Y 矩陣），並支援 Touchstone 格式檔案。
+
+🔗 官方網站：[https://scikit-rf.org/](https://scikit-rf.org/)  
+🔗 GitHub 倉庫：[https://github.com/scikit-rf/scikit-rf](https://github.com/scikit-rf/scikit-rf)
+
+#### 🔧 主要功能
+
+- 讀取與儲存 Touchstone (.sNp) 檔案
+- 分析 S、Z、Y、T 參數與互相轉換
+- 使用 Network 物件進行網路串接與等效運算
+- 支援 TDR（時域反射）分析
+- 搭配 numpy 與 matplotlib 進行繪圖與數據處理
+
+#### 🚀 應用場景
+
+- 微波電路模擬與驗證
+- PCB 傳輸線或連接器 S 參數分析
+- 結合 PyAEDT 或 PyVista 進行 3D 模型電磁模擬
+
+#### ☕ 使用範例
+
+```python
+import skrf as rf
+
+ntw = rf.Network('example.s2p')
+ntw.plot_s_db()  # 繪製 S21/S11 dB 圖
+```
+
+
+
+`scikit-RF` 是連接實驗與模擬的理想分析工具，適合快速進行 S 參數處理與射頻電路研究。
+
+---
+
+### 🧪 SciPy 套件簡介
+
+`SciPy` (全名為 Scientific Python) 是一套基於 NumPy 的科學計算套件，提供數學與工程預備函數、系統方程解法、線性代數、最佳化、差分方程等工具。它是 Python 科學與工程運算實務中不可或缺的基礎套件之一。
+
+🔗 官方網站：[https://scipy.org/](https://scipy.org/)  
+🔗 文件教學：[https://docs.scipy.org/doc/scipy/](https://docs.scipy.org/doc/scipy/)
+
+#### 🔧 常用模組與功能
+
+- `scipy.integrate`：數值總和與差分方程解法
+- `scipy.optimize`：最佳化與尋找最佳答案
+- `scipy.fft`：快速貨量轉換 FFT
+- `scipy.signal`：訊號處理與濾波器設計
+- `scipy.linalg`：線性代數運算 (NumPy 之上的進階版)
+- `scipy.sparse`：空間矩陣與同類算法
+- `scipy.stats`：統計分析與測試函數
+
+#### 🚀 應用場景
+
+- 統計分析與量化研究
+- 差分方程解法與物理模擬
+- 數值解析與工程效能設計
+- 訊號與接口模型處理
+
+#### ☕ 使用範例
+
+```python
+from scipy import integrate
+import numpy as np
+
+# 對 sin(x) 進行 0~pi 總和
+result, _ = integrate.quad(lambda x: np.sin(x), 0, np.pi)
+print(result)  # 結果推估為 2
+```
+
+`SciPy` 是件接線性代數與科學計算應用的基礎工具。配合 NumPy 使用能夠方便地進行各類實體預測與分析。
+
+
 
