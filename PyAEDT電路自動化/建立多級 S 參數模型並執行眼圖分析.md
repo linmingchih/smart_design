@@ -1,0 +1,116 @@
+ 建立多級 S 參數模型並執行眼圖分析
+ ---
+
+這段程式碼是使用 PyAEDT 套件，在 Ansys Electronics Desktop 環境中自動建立一個含有多級 S 參數元件的電路模型，並執行 Eye Diagram（眼圖）分析與輸出。
+
+[channel.s4p下載](/assets/channel.s4p)
+### 程式碼
+```python
+cell_path = 'D:/OneDrive - ANSYS, Inc/Models/S_Parameter/channel.s4p'
+n = 5
+
+netlist_template = '''
+.model cell S TSTONEFILE="{}"
++ INTERPOLATION=LINEAR INTDATTYP=MA HIGHPASS=10 LOWPASS=10 convolution=0 enforce_passivity=0 enforce_adpe=1 Noisemodel=External
+
+{}
+
+'''
+
+nodes = [('Port1', 'Port2'), ('Port3', 'Port4')]
+for i in range(n-1):
+    nodes.insert(-1, (f'net_p{i}', f'net_n{i}'))
+
+network = ''
+for n, i in enumerate(nodes[:-1]):
+    n1, n2 = nodes[n]
+    n3, n4 = nodes[n+1]
+    network +=f'S{n} {n1} {n2} {n3} {n4} FQMODEL="cell"\n'
+
+netlist = netlist_template.format(cell_path, network)
+
+import os
+from pyaedt import Circuit
+
+circuit = Circuit(version='2024.1')
+
+cir_path = os.path.join(circuit.temp_directory, 'channel.cir')
+with open(cir_path, 'w') as f:
+    f.write(netlist)
+    
+circuit.add_netlist_datablock(cir_path)
+
+cmp = circuit.modeler.components
+eye_source = cmp.create_component(component_library='Independent Sources', 
+                                  component_name='EYESOURCE_DIFF')
+eye_source.parameters['UIorBPSValue'] = '2e-09s'
+eye_source.parameters['trise'] = '500ps'
+eye_source.parameters['tfall'] = '500ps'
+
+eye_probe = cmp.create_component(component_library='Probes', 
+                                 component_name='EYEPROBE_DIFF')
+
+circuit.modeler.schematic.create_page_port('Port1', eye_source.pins[1].location)
+circuit.modeler.schematic.create_page_port('Port2', eye_source.pins[0].location)
+circuit.modeler.schematic.create_page_port('Port3', eye_probe.pins[1].location)
+circuit.modeler.schematic.create_page_port('Port4', eye_probe.pins[0].location)
+setup = circuit.create_setup(setup_type=circuit.SETUPS.NexximQuickEye)
+
+
+circuit.analyze()
+plot = circuit.post.create_statistical_eye_plot(setup.name, 'AEYEPROBE(required)', '')
+circuit.post.export_report_to_jpg('d:/demo', plot)
+```
+
+
+### 目的與功能
+此程式的目的是：
+1. 將一個 S4P 檔（四埠 S 參數）作為元件模板，重複串接數個相同元件，模擬傳輸通道行為。
+2. 建立測試激勵（Eye Source）與探針（Eye Probe），進行眼圖分析。
+3. 自動執行模擬並輸出分析結果（以 JPG 格式儲存眼圖）。
+
+
+### 流程架構
+
+1. **設定模型參數與電路連接：**
+   - 指定 S 參數檔案路徑與重複次數 `n`。
+   - 根據 `n` 自動建立 netlist 連接拓撲（將多個四埠元件串接在一起）。
+
+2. **生成 netlist 並寫入檔案：**
+   - 使用格式化方式將元件與連線資訊寫入 netlist 文字區塊。
+   - 將 netlist 存成 .cir 檔。
+
+3. **建立 PyAEDT Circuit 專案並匯入 netlist：**
+   - 使用 `pyaedt.Circuit` 建立臨時專案。
+   - 匯入 .cir 檔為 Datablock 元件模型。
+
+4. **加入測試元件與埠口：**
+   - 加入 Eye Source（差動訊號來源）與 Eye Probe（差動探針）。
+   - 根據元件的接腳位置建立對應的輸入輸出埠。
+
+5. **建立分析設定與模擬：**
+   - 使用 NexximQuickEye 模式建立分析設置。
+   - 執行模擬，產生眼圖資料。
+
+6. **輸出眼圖：**
+   - 將模擬得到的眼圖以圖檔方式儲存到指定資料夾。
+
+
+### 補充說明
+
+- **S-parameter Netlist 模擬方式：**
+  使用 `.model` 來定義元件，並透過 netlist 指令 `S0`, `S1`, ... 串接模擬元件。每個元件使用四個節點進行連接。
+
+- **Eye Diagram 分析：**
+  `EYESOURCE_DIFF` 是內建的差動訊號源，可自定上升/下降時間與位元間隔；`EYEPROBE_DIFF` 為差動探針用來觀察接收端訊號品質。
+
+- **PyAEDT 的操作流程：**
+  Circuit 專案可以匯入 netlist 作為元件模型來源，並使用 API 方式在 GUI 中建立元件與連線，大幅簡化手動流程。
+
+- **語法說明：**
+  - `enumerate(nodes[:-1])`：幫助同時取得索引與內容，常用於逐步處理串接元件。
+  - `os.path.join(...)`：跨平台建立檔案路徑的安全寫法。
+  - `cmp.create_component(...)`：從元件庫中加入指定元件至模型中。
+
+這份程式適合用於高速數位訊號的通道建模與分析，特別是在進行 S 參數串接與眼圖品質評估時，非常實用。
+
