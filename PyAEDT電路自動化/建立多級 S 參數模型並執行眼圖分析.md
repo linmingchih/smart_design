@@ -4,6 +4,9 @@
 這段程式碼是使用 PyAEDT 套件，在 Ansys Electronics Desktop 環境中自動建立一個含有多級 S 參數元件的電路模型，並執行 Eye Diagram（眼圖）分析與輸出。
 
 [channel.s4p下載](/assets/channel.s4p)
+
+![AMIAanalysis_OF1SWG](/assets/AMIAanalysis_OF1SWG.jpg)
+
 ### 程式碼
 ```python
 cell_path = 'D:/OneDrive - ANSYS, Inc/Models/S_Parameter/channel.s4p'
