@@ -91,8 +91,76 @@ HFSS HPC基本
 
 ### FAQ
 
-####
+#### 1. 在 Server 上檢查本機 RSM 有無正常啟動
+```bash
+Get-Process -Id (Get-NetTCPConnection -LocalPort 32958).OwningProcess
+```
+![](./assets/2025-04-12_19-41-17.png)
 
-#### HFSS當中MPI設定
+#### 2. 在 Client 上檢查Server RSM 可否正常連接
+```bash
+Test-NetConnection -ComputerName 10.72.0.61 -Port 32958
+```
+![](./assets/2025-04-12_19-50-23.png)
+
+
+#### 3. 檢查本機安裝MPI訊息 
+
+```bash
+mpiexec -info
+mpiexec -version
+
+```
+![](./assets/2025-04-12_20-15-52.png)
+
+
+#### 4. 確定mpi呼叫版本
+
+```bash
+mpiexec -version
+```
+
+**輸出**
+```bash
+C:\Users\mlin>mpiexec -version
+Intel(R) MPI Library for Windows* OS, Version 2021.8 Build 20221129
+Copyright 2003-2022, Intel Corporation.
+```
+
+#### 5. 啟動mpi服務
+
+```bash
+hydra_service -install
+```
+**輸出**
+```bash
+C:\Users\mlin>hydra_service -install
+Stopping Intel(R) MPI Library Hydra Process Manager 2021.8.
+Intel(R) MPI Library Hydra Process Manager 2021.8 stopped.
+Intel(R) MPI Library Hydra Process Manager 2021.8 removed.
+Intel(R) MPI Library Hydra Process Manager 2021.8 installed and started.
+```
+
+
+#### 6. 檢查啟動之mpi服務
+```bash
+Get-Service | Where-Object { $_.Name -like "*hydra*" }
+```
+![2025-04-13_06-09-26](/assets/2025-04-13_06-09-26.png)
+
+
+#### 6. 檢查mpi連結
+
+```bash
+mpiexec -hosts 2 10.72.0.61 1 10.72.0.63 1 hostname
+```
+
+**輸出**
+```bash
+C:\Users\mlin>mpiexec -hosts 2 10.72.0.61 1 10.72.0.63 1 hostname
+taitiger01
+taitiger03
+```
+
+#### HFSS 當中 MPI 設定
 ![](./assets/2025-04-12_12-47-39.png)
-
