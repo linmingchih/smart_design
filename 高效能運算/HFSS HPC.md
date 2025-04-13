@@ -109,7 +109,6 @@ Test-NetConnection -ComputerName 10.72.0.61 -Port 32958
 ```bash
 mpiexec -info
 mpiexec -version
-
 ```
 ![](./assets/2025-04-12_20-15-52.png)
 
@@ -149,7 +148,18 @@ Get-Service | Where-Object { $_.Name -like "*hydra*" }
 ![2025-04-13_06-09-26](/assets/2025-04-13_06-09-26.png)
 
 
-#### 6. 檢查mpi連結
+
+#### 7. 註冊 mpi
+請依照帳號類型輸入格式：
+網域帳號：Domain\Username
+本機帳號：.\Username
+此動作會將帳號資訊註冊至系統中，方便 MPI 在進行模擬時自動授權登入遠端節點。
+```bash
+mpiexec -register
+```
+
+
+#### 8. 檢查mpi連結
 
 ```bash
 mpiexec -hosts 2 10.72.0.61 1 10.72.0.63 1 hostname
@@ -162,5 +172,12 @@ taitiger01
 taitiger03
 ```
 
-#### HFSS 當中 MPI 設定
+#### 9. HFSS 當中 MPI 版本設定
 ![](./assets/2025-04-12_12-47-39.png)
+
+#### 10. HFSS MPI 機器設定
+
+![2025-04-13_06-28-33](/assets/2025-04-13_06-28-33.png)
+
+#### 11. HFSS Profile檢視
+
