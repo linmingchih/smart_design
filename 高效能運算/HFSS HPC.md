@@ -26,7 +26,6 @@ HFSS HPC基本
 #### 3. 分散多核 (Distributed using RSM + MPI)
 - 同時使用 RSM 和 MPI 轉達作業到多臺機器
 - 類似“A 與 B 一起同步執行”，所有節點同時參與
-- 適合解字法大、順於分解解法 (DDM)的 HFSS 分析
 - 需每台機器都安裝相同版本的 MPI ，且需設定 MPI 帳號、診斷通信
 - mpiexec -n 2 -hosts 2 A-ip B-ip hostname
 - 支援分散法包括:
@@ -37,15 +36,9 @@ HFSS HPC基本
 
 ---
 
-#### HFSS HPC 模式對照表
-
-| 模式             | 適用情境           | 安裝需求     | 並行等級 | 網路需求 |
-|----------------------|------------------------|------------------|----------------|-------------|
-| 本地多核         | 單人測試、中小型題目 | 無               | 多線程         | 無          |
-| 遠端單臺多核     | 作業輸入至遠端機器     | RSM              | 單機多核       | 有          |
-| 分散多核         | 同步執行大型分析計算   | RSM + MPI        | 多機多核       | 絕對需      |
 
 ### 2. HPC安裝檢查表
+
 #### 安裝與環境
 
 - 所有機器已安裝相同版本 ANSYS EM Suite，包括核心模組與所有必要模擬元件
@@ -66,10 +59,7 @@ HFSS HPC基本
 #### RSM 設定
 
 - Server 與所有 Client 均已完成 與ANSYS EM Suite相同版本之RSM 安裝
-
 - Server 與所有 Client 均已完成 RSM 註冊
-
-- 使用 services.msc 驗證 RSM 服務於所有機器皆為「執行中」狀態
 
 #### Intel MPI 設定
 
@@ -91,21 +81,72 @@ HFSS HPC基本
 
 ### FAQ
 
-#### 1. 在 Server 上檢查本機 RSM 有無正常啟動
+#### 1. 網域確認
+####
+在使用 MPI 進行多台電腦之間的協同運算時，Get-NetConnectionProfile 所顯示的幾個項目「建議在所有機器上保持一致」，尤其是以下幾項：
+
+**輸入**
+```bash
+Get-NetConnectionProfile
+```
+**輸出**
+```bash
+Name             : Network 1
+InterfaceAlias   : Ethernet
+InterfaceIndex   : 12
+NetworkCategory  : Private
+IPv4Connectivity : Internet
+IPv6Connectivity : NoTraffic
+```
+MPI 無法在 Public 模式下順利跨機運作，即使你開了 port、防火牆也會干擾。設定 Private：
+
+**輸入**
+```bash
+Set-NetConnectionProfile -InterfaceAlias "Ethernet" -NetworkCategory Private
+```
+
+#### 2. 如何關閉防火牆
+**輸入**
+```bash
+Set-NetFirewallProfile -Profile Domain,Private,Public -Enabled False
+Get-NetFirewallProfile | Select Name, Enabled
+```
+
+
+#### 3. 在 Server 上檢查本機 RSM 有無正常啟動
+
+**輸入**
 ```bash
 Get-Process -Id (Get-NetTCPConnection -LocalPort 32958).OwningProcess
 ```
 ![](./assets/2025-04-12_19-41-17.png)
 
-#### 2. 在 Client 上檢查Server RSM 可否正常連接
+#### 4. 在 Client 上檢查Server RSM 可否正常連接
+
+**輸入**
 ```bash
 Test-NetConnection -ComputerName 10.72.0.61 -Port 32958
 ```
 ![](./assets/2025-04-12_19-50-23.png)
 
 
-#### 3. 檢查本機安裝MPI訊息 
+#### 5. 清除所有mpi process
 
+**輸入**
+```bash
+
+Get-Service -Name "Intel MPI Hydra Service" -ErrorAction SilentlyContinue | Stop-Service -Force
+
+$targets = @("mpiexec", "hydra_service", "hydra_bstrap_proxy")
+foreach ($name in $targets) {
+    Get-Process -Name $name -ErrorAction SilentlyContinue | Stop-Process -Force
+}
+
+```
+
+
+#### 6. 檢查本機安裝MPI訊息 
+**輸入**
 ```bash
 mpiexec -info
 mpiexec -version
@@ -113,21 +154,10 @@ mpiexec -version
 ![](./assets/2025-04-12_20-15-52.png)
 
 
-#### 4. 確定mpi呼叫版本
 
-```bash
-mpiexec -version
-```
 
-**輸出**
-```bash
-C:\Users\mlin>mpiexec -version
-Intel(R) MPI Library for Windows* OS, Version 2021.8 Build 20221129
-Copyright 2003-2022, Intel Corporation.
-```
-
-#### 5. 啟動mpi服務
-
+#### 7. 啟動mpi服務
+**輸入**
 ```bash
 hydra_service -install
 ```
@@ -141,7 +171,9 @@ Intel(R) MPI Library Hydra Process Manager 2021.8 installed and started.
 ```
 
 
-#### 6. 檢查啟動之mpi服務
+#### 8. 檢查啟動之mpi服務
+
+**輸入**
 ```bash
 Get-Service | Where-Object { $_.Name -like "*hydra*" }
 ```
@@ -149,18 +181,21 @@ Get-Service | Where-Object { $_.Name -like "*hydra*" }
 
 
 
-#### 7. 註冊 mpi
+#### 9. 註冊 mpi
 請依照帳號類型輸入格式：
-網域帳號：Domain\Username
-本機帳號：.\Username
+**網域帳號：Domain\Username**
+**本機帳號：.\Username**
+
 此動作會將帳號資訊註冊至系統中，方便 MPI 在進行模擬時自動授權登入遠端節點。
+
+**輸入**
 ```bash
 mpiexec -register
 ```
 
 
-#### 8. 檢查mpi連結
-
+#### 10. 檢查mpi連結
+**輸入**
 ```bash
 mpiexec -hosts 2 10.72.0.61 1 10.72.0.63 1 hostname
 ```
@@ -172,12 +207,19 @@ taitiger01
 taitiger03
 ```
 
-#### 9. HFSS 當中 MPI 版本設定
+#### 11. 進行 ping-pong 測試
+**輸入**
+```
+& "C:\Program Files (x86)\Intel\oneAPI\mpi\2021.8.0\bin\mpiexec.exe" -n 2 -hosts 2 10.72.0.61 1 10.72.0.63 1 "C:\Program Files (x86)\Intel\oneAPI\mpi\2021.8.0\bin\IMB-MPI1.exe" pingpong
+```
+
+
+#### 12. HFSS 當中 MPI 版本設定
 ![](./assets/2025-04-12_12-47-39.png)
 
-#### 10. HFSS MPI 機器設定
+#### 13. HFSS MPI 機器設定
 
 ![2025-04-13_06-28-33](/assets/2025-04-13_06-28-33.png)
 
-#### 11. HFSS Profile檢視
+#### 14. HFSS Profile檢視
 
