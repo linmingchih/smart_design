@@ -72,7 +72,7 @@ for prim, raw_pts in polygons.items():
         continue
 
     minx, miny, maxx, maxy = poly.bounds
-    search_box = box(minx - 0.1, miny - 0.1, maxx + 0.1, maxy + 0.1)
+    search_box = box(minx - 0.01, miny - 0.01, maxx + 0.01, maxy + 0.01)
     idxs = line_tree.query(search_box)
 
     if len(idxs) > 0:
