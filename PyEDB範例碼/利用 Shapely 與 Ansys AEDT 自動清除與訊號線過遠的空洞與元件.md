@@ -17,7 +17,7 @@
 1. **載入資料**：使用 `ansys.aedt.core.Edb` 載入指定路徑的 AEDB 設計檔案。
 2. **擷取信號線段**：掃描所有 signal net 中的 primitive，轉為 Shapely 的 `LineString`，並建立 `STRtree` 用於後續快速空間查詢。
 3. **擷取 void polygon 和元件輪廓**：從 power nets 擷取 `is_void` 為 True 的 primitive，再加上所有元件的 bounding box 作為多邊形處理。
-4. **距離計算**：對每個 polygon 建立查詢區域（多邊形擴大 100mm），用 `STRtree` 找出可能的鄰近線段，計算最小距離。
+4. **距離計算**：對每個 polygon 建立查詢區域（多邊形擴大 10mm），用 `STRtree` 找出可能的鄰近線段，計算最小距離。
 5. **過濾刪除**：刪除與最近線段距離大於 1mm（0.001 公尺）的 primitive。
 6. **儲存結果**：儲存為新的 AEDB 設計檔。
 
