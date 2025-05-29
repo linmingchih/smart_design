@@ -52,7 +52,7 @@ INCREMENT anshpc_pack ansyslmd 2026.0508 permanent 1 \
 > * 所有 license increment 的 `ISSUED` 日期完全一致
 > * 這樣 FlexNet 才能將相同功能的 increment 進行數量累加，而不會互相覆蓋
 
-我們請他們 **在相同的日期（例如 28-May-2025）重新發行 License A 與 B**，合併後果然成功，License Manager 也能正確識別所有功能與數量。
+我們請他們 **在相同的日期（例如 28-May-2025）重新發行 License**，該檔案加到 License Manager 之後確實能正確識別所有功能與數量。
 
 
 ### 小結
