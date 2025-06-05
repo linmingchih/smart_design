@@ -87,3 +87,111 @@ for name, model in comp_lib.capacitors["Murata"]['GRM18'].items():
 ```
 
 ![2025-06-01_11-00-40](/assets/2025-06-01_11-00-40.png)
+
+### 附註：PyAEDT Extras 功能完整指南
+
+說明 PyAEDT 支援的 extras 選項及其功能與依賴套件，並提供使用與安裝建議。
+
+#### 1. 什麼是 extras？
+
+在 Python 套件開發中，開發者可以在 `setup.cfg` 或 `pyproject.toml` 中定義 "extras\_require" 區塊，讓使用者在安裝時透過 `pip install` 搭配中括號 `[]` 指定要安裝的額外功能套件。例如：
+
+```bash
+pip install pyaedt[graphics]
+```
+
+這樣的語法會除了安裝基本的 `pyaedt` 外，還額外安裝 `graphics` 模組所需的相關 Python 套件。
+
+
+#### 2. 支援的 PyAEDT Extras 一覽
+
+PyAEDT 官方在 `setup.cfg` 中定義了以下三種 extras：
+
+##### 2.1 `graphics`
+
+用於啟用圖形視覺化功能，例如場分佈的 3D 視覺化、圖片匯出、GIF 動畫等。
+
+**額外安裝的套件：**
+
+| 套件名稱              | 功能描述              |
+| ----------------- | ----------------- |
+| `pyvista>=0.32.0` | 基於 VTK 的 3D 視覺化套件 |
+| `imageio`         | 圖片與動畫讀寫（可輸出 GIF）  |
+| `matplotlib`      | 常用的 2D/3D 繪圖工具    |
+| `numpy`           | 數值運算與矩陣處理（常見依賴）   |
+
+安裝方式：
+
+```bash
+pip install "pyaedt[graphics]"
+```
+
+
+##### 2.2 `ipc2581`
+
+用於支援將設計匯出成 IPC-2581 格式的 XML 檔案。
+
+**額外安裝的套件：**
+
+| 套件名稱                | 功能描述                      |
+| ------------------- | ------------------------- |
+| `lxml>=4.9.1`       | 高效能 XML 處理函式庫（支援 XPath 等） |
+| `defusedxml>=0.7.1` | XML 安全防護（避免 XXE 等攻擊）      |
+
+安裝方式：
+
+```bash
+pip install "pyaedt[ipc2581]"
+```
+
+
+##### 2.3 `full`
+
+同時安裝 `graphics` 與 `ipc2581` 所需的所有依賴，是最完整的安裝選項。
+
+**額外安裝的套件：**
+
+| 套件名稱                | 來源（含於哪些 extras） |
+| ------------------- | --------------- |
+| `pyvista>=0.32.0`   | graphics、full   |
+| `imageio`           | graphics、full   |
+| `matplotlib`        | graphics、full   |
+| `numpy`             | graphics、full   |
+| `lxml>=4.9.1`       | ipc2581、full    |
+| `defusedxml>=0.7.1` | ipc2581、full    |
+
+安裝方式：
+
+```bash
+pip install "pyaedt[full]"
+```
+
+
+#### 3. 使用建議
+
+| 使用情境             | 建議 extras                       |
+| ---------------- | ------------------------------- |
+| 僅需控制 AEDT 模型與分析  | 無需 extras（`pip install pyaedt`） |
+| 需要匯出場分佈圖、動畫      | `graphics`                      |
+| 需要匯出 IPC-2581 格式 | `ipc2581`                       |
+| 通通都想支援           | `full`                          |
+
+
+#### 4. 寫入 requirements.txt
+
+若要用於團隊或伺服器統一安裝環境，可在 `requirements.txt` 中加入：
+
+```text
+pyaedt[full]
+```
+
+或根據需求選擇 `pyaedt[graphics]` 或 `pyaedt[ipc2581]`。
+
+
+#### 5. 小結
+
+PyAEDT 支援的 extras 機制，讓使用者可以依照實際功能需求安裝對應的依賴套件，不僅提高彈性，也能減少不必要的套件安裝。建議在開發環境時明確指定需求，便於管理。
+
+如需更多細節，歡迎參考官方 GitHub：
+[https://github.com/ansys/pyaedt](https://github.com/ansys/pyaedt)
+
