@@ -33,38 +33,51 @@
 ```python
 from pyaedt import Circuit
 
-circuit = Circuit(non_graphical=True)
+circuit = Circuit()
 
-circuit.modeler.components.create_model_from_touchstone(r"D:\Downloads\pcie.s4p")
+circuit.modeler.components.create_model_from_touchstone(r"c:/demo/pcie.s4p")
 
 #%%
 s1 = circuit.modeler.components.create_touchstone_component('pcie')
-probe = circuit.modeler.components.create_component('a1', 'Probes','TDR_Differential_Ended')
-rp = circuit.modeler.components.create_resistor()
-rn = circuit.modeler.components.create_resistor()
+x, y = s1.location
+probe = circuit.modeler.components.create_component('a1', 
+                                                    'Probes',
+                                                    'TDR_Differential_Ended',
+                                                    location=(x-0.02, y)
+                                                    ,angle=90)
+rp = circuit.modeler.components.create_resistor(location=(x+0.02, y+0.01))
+rn = circuit.modeler.components.create_resistor(location=(x+0.02, y-0.01))
 
-g1 = circuit.modeler.components.create_gnd()
-g2 = circuit.modeler.components.create_gnd()
+x, y = location=rp.pins[0].location
+g1 = circuit.modeler.components.create_gnd(location=(x, y-0.0025))
+x, y = location=rn.pins[0].location
+g2 = circuit.modeler.components.create_gnd(location=(x, y-0.0025))
 
-circuit.modeler.connect_schematic_components(s1.composed_name, probe.composed_name, 1, 1)
-circuit.modeler.connect_schematic_components(s1.composed_name, probe.composed_name, 2, 2)
 
-circuit.modeler.connect_schematic_components(s1.composed_name, rp.composed_name, 3, 1)
-circuit.modeler.connect_schematic_components(s1.composed_name, rn.composed_name, 4, 1)
+circuit.modeler.components.create_wire([probe.pins[1].location, 
+                                        s1.pins[0].location])
 
-circuit.modeler.connect_schematic_components(g1.composed_name, rp.composed_name, 1, 2)
-circuit.modeler.connect_schematic_components(g2.composed_name, rn.composed_name, 1, 2)
+circuit.modeler.components.create_wire([probe.pins[0].location, 
+                                        s1.pins[1].location])
+
+circuit.modeler.components.create_wire([rp.pins[1].location, 
+                                        s1.pins[2].location])
+
+circuit.modeler.components.create_wire([rn.pins[1].location, 
+                                        s1.pins[3].location])
+
 
 setup = circuit.create_setup('mysetup', 'NexximTransient')
 setup.props['TransientData'] = ['10ps', '10ns']
-circuit.analyze_all()
+circuit.analyze()
 
 report = circuit.post.create_report(f"O(A{probe.id}:zdiff)", 
                                     domain='Time',
                                     primary_sweep_variable='Time',
                                     variations={"Time": ["All"]},
                                     plotname='differential_tdr')
-circuit.post.export_report_to_jpg('d:/demo',  report.plot_name)
+circuit.post.export_report_to_jpg('c:/demo',  report.plot_name)
+
 ```
 ![differential_tdr](/assets/differential_tdr.jpg)
 
