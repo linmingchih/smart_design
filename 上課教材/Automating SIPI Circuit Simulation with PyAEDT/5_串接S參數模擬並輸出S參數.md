@@ -8,7 +8,7 @@
 
 ```python
 netlist = r'''
-.model channel S TSTONEFILE="D:/OneDrive - ANSYS, Inc/Models/S_Parameter/channel.s4p"
+.model channel S TSTONEFILE="c:/demo/pcie.s4p"
 + INTERPOLATION=LINEAR INTDATTYP=MA HIGHPASS=10 LOWPASS=10 convolution=0 enforce_passivity=0 enforce_adpe=1 Noisemodel=External
 
 S1 Port1 Port2 net_1 net_2 FQMODEL="channel"
@@ -18,9 +18,9 @@ S2 net_1 net_2 Port3 Port4 FQMODEL="channel"
 import os
 from pyaedt import Circuit
 
-circuit = Circuit(version='2024.1', non_graphical=True)
+circuit = Circuit()
 
-cir_path = os.path.join(circuit.temp_directory, 'channel.cir')
+cir_path = os.path.join('c:/demo', 'channel.cir')
 with open(cir_path, 'w') as f:
     f.write(netlist)
     
@@ -31,8 +31,8 @@ for i in range(4):
 setup = circuit.create_setup(setup_type=circuit.SETUPS.NexximLNA)
 setup.props['SweepDefinition']['Data'] = 'LINC 0GHz 20GHz 2001'
 
-circuit.analyze()
-circuit.export_touchstone(output_file='c:/demo/channel.s4p')
+circuit.analyze(setup.name)
+circuit.export_touchstone(output_file='c:/demo/full_channel.s4p')
 
 ```
 
