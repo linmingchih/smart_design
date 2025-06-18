@@ -64,7 +64,7 @@ if exist C:\my_venv (
     rmdir /s /q C:\my_venv
 )
 
-"C:\Program Files\AnsysEM\v242\Win64\commonfiles\CPython\3_10\winx64\Release\python\python.exe" -m venv C:\my_venv
+"C:\Program Files\ANSYS Inc\v251\commonfiles\CPython\3_10\winx64\Release\python\python.exe" -m venv C:\my_venv
 call C:\my_venv\Scripts\activate.bat
 C:\my_venv\Scripts\python.exe -m pip install --upgrade pip
 pip install pyaedt==0.14.0 matplotlib pyvista spyder
