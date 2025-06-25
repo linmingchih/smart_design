@@ -175,3 +175,48 @@ circuit.post.export_report_to_jpg(...)
 - 物件可以巢狀結構化，讓整個模擬架構更有彈性與可讀性
 - 透過清楚的結構與分工，PyAEDT 讓電路模擬工作流程更具模組化、可擴充性與自動化潛力
 
+### 網表版
+
+
+```python
+from pyaedt import Circuit
+
+path = 'c:/demo/pcie.s4p'
+ 
+netlist = f'''
+.model channel S TSTONEFILE="{path}"
++ INTERPOLATION=LINEAR INTDATTYP=MA HIGHPASS=10 LOWPASS=10 convolution=0 enforce_passivity=0 Noisemodel=External
+
+S26656 net_1 net_2 net_3 net_4 FQMODEL="channel"
+
+R11185 net_3 0 50 
+R60784 net_4 0 50 
+
+'''
+
+with open('c:/demo/tdr.cir', 'w') as f:
+    f.write(netlist)
+    
+circuit = Circuit()
+probe = circuit.modeler.components.create_component('a1', 
+                                                    'Probes',
+                                                    'TDR_Differential_Ended',)
+
+circuit.modeler.components.create_page_port('net_1', location=probe.pins[0].location)
+circuit.modeler.components.create_page_port('net_2', location=probe.pins[1].location)
+
+
+circuit.add_netlist_datablock('c:/demo/tdr.cir')
+
+setup = circuit.create_setup('mysetup', 'NexximTransient')
+setup.props['TransientData'] = ['10ps', '10ns']
+circuit.analyze()
+
+report = circuit.post.create_report(f"O(A{probe.id}:zdiff)", 
+                                    domain='Time',
+                                    primary_sweep_variable='Time',
+                                    variations={"Time": ["All"]},
+                                    plotname='differential_tdr')
+circuit.post.export_report_to_jpg('c:/demo',  report.plot_name)
+
+```
