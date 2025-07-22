@@ -43,7 +43,7 @@ dram_name = 'U1B5'
 nets = [f'M_DQ<{i}>' for i in range(8)]
 
 # 指定AEDB專案路徑
-aedb_path = 'd:/demo4/test37.aedb'
+aedb_path = 'd:/demo/new_pcb.aedb'
 
 # 匯入必要的模組
 from pyaedt import Hfss3dLayout
@@ -51,7 +51,7 @@ from pyedb import Edb
 
 
 # 初始化 EDB，載入指定的.aedb檔案
-edb = Edb(r"D:\OneDrive - ANSYS, Inc\Models\EDB\Galileo_G87173_20454.aedb", edbversion='2024.1')
+edb = Edb(r"D:/demo/Galileo_G87173_20454.aedb", edbversion='2024.1')
 
 # 對控制器和記憶體進行處理
 for comp_name in [controller_name, dram_name]:
@@ -76,30 +76,30 @@ for comp_name in [controller_name, dram_name]:
             termial_sig.SetReferenceTerminal(termial_gnd)
 
 # 建立Siwave Syz設置
-setup1 = edb.create_siwave_syz_setup()
+setup = edb.create_siwave_syz_setup("setup")
 
 # 設定頻率掃描範圍
-sweep = setup1.add_frequency_sweep()
-frequency_list = [
-    ["linear count", "0", "1kHz", 1],      # 線性掃描，從0到1kHz，共1點
-    ["log scale", "1kHz", "0.1GHz", 10],  # 對數掃描，從1kHz到0.1GHz，共10點
-    ["linear scale", "0.1GHz", "10GHz", "0.1GHz"],  # 線性掃描，從0.1GHz到10GHz，步進0.1GHz
+frequency_range = [
+    ["linear count", "0Hz", "0Hz", 1],
+    ["log scale", "1Hz", "50MHz", 50],
+    ["linear count", "50MHz", "1GHz", 100],
 ]
-sweep.set_frequencies(frequency_list)
+ 
+setup.add_sweep('sweep', frequency_set=frequency_range)
 
 # 儲存修改後的AEDB專案
 edb.save_as(aedb_path)
 # 關閉EDB專案
 edb.close_edb()
 
-# 初始化HFSS 3D Layout模組，並指定非圖形模式
-hfss = Hfss3dLayout(specified_version='2024.1', 
-                    non_graphical=True, 
+# 初始化HFSS 3D Layout模組
+hfss = Hfss3dLayout(specified_version='2025.1', 
+                    non_graphical=False, 
                     projectname=aedb_path, 
                     remove_lock=True)
 
 # 開始分析
-hfss.analyze()
+hfss.analyze(cores=16)
 # 將結果匯出為Touchstone格式
 hfss.export_touchstone()
 # 關閉HFSS專案
