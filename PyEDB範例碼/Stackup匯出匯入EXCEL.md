@@ -40,8 +40,12 @@ Stackup匯出匯入EXCEL
 ### export_xlsx.py
 ```python
 import os
+import warnings
 import pandas as pd
 from pyedb import Edb
+
+# 忽略 FutureWarning 以避免 fillna 等操作產生警告
+warnings.filterwarnings('ignore', category=FutureWarning)
 
 def export_stackup_to_excel(edb_path: str,
                             excel_path: str = None,
@@ -51,9 +55,11 @@ def export_stackup_to_excel(edb_path: str,
       • 第一列顯示單位
       • 第二列為欄位名稱
       • 第三列起為資料
-      • 介電層：conductivity 欄位空白
+      • 介電層：conductivity, Etch Factor, Roughness 欄位空白
       • 非介電層：permittivity / loss tangent 欄位空白
       • 不輸出 Material 欄位
+      • 新增欄位：Etch Factor, Roughness Enabled,
+               Nodule Radius (µm), Surface Ratio
     """
     def _meter_to_unit(val_m: float, unit: str) -> float:
         if unit == 'mm':
@@ -73,15 +79,23 @@ def export_stackup_to_excel(edb_path: str,
         mat = edb.materials.materials.get(layer.material, None)
         typ = layer.type.lower()
 
-        # 依層型態有條件地保留／清空屬性
         if typ == 'dielectric':
-            perm  = getattr(mat, 'permittivity', None)
-            loss  = getattr(mat, 'dielectric_loss_tangent', None)
-            cond  = None
+            perm = getattr(mat, 'permittivity', None)
+            loss = getattr(mat, 'dielectric_loss_tangent', None)
+            cond = None
+            etch = None
+            roughness_enabled = None
+            nodule_radius = ''
+            surface_ratio = ''
         else:
-            perm  = None
-            loss  = None
-            cond  = getattr(mat, 'conductivity', None)
+            perm = None
+            loss = None
+            cond = getattr(mat, 'conductivity', None)
+            etch = getattr(layer, 'etch_factor', None)
+            roughness_enabled = getattr(layer, 'roughness_enabled', None)
+            rough_model = layer.get_roughness_model()
+            nodule_radius = rough_model.get_NoduleRadius().ToString() if rough_model else ''
+            surface_ratio = rough_model.get_SurfaceRatio().ToString() if rough_model else ''
 
         rows.append({
             'Layer Name':           layer_name,
@@ -89,29 +103,30 @@ def export_stackup_to_excel(edb_path: str,
             f'Thickness ({unit})':  _meter_to_unit(layer.thickness, unit),
             'Permittivity':         perm,
             'Loss Tangent':         loss,
-            'Conductivity (S/m)':   cond
+            'Conductivity (S/m)':   cond,
+            'Etch Factor':          etch,
+            'Roughness Enabled':    roughness_enabled,
+            'Nodule Radius (µm)':   nodule_radius,
+            'Surface Ratio':        surface_ratio
         })
+
     edb.close_edb()
 
     df = pd.DataFrame(rows)
-    # 將所有 NaN/None → ''，保證空白儲存格
+    # 所有欄位轉為 object 讓空字串可寫入
+    df = df.astype(object)
     df.fillna('', inplace=True)
 
-    # 寫入 Excel
     with pd.ExcelWriter(excel_path, engine='openpyxl') as writer:
-        # 建立一個空 sheet
         pd.DataFrame().to_excel(writer, index=False, sheet_name='Sheet1')
         ws = writer.sheets['Sheet1']
-        # 第一列：顯示輸出單位
         ws.cell(row=1, column=1, value=f"Unit: {unit}")
-        # 第二列開始寫入 DataFrame
         df.to_excel(writer, sheet_name='Sheet1', startrow=1, index=False)
 
     return excel_path
 
-# 範例呼叫
 if __name__ == "__main__":
-    edb_path = r"D:\demo2\Galileo_G87173_20454.aedb"
+    edb_path = r"D:\demo2\Galileo_G87173_204.aedb"
     out = export_stackup_to_excel(edb_path, unit='mm')
     print(f"已輸出：{out}")
 
@@ -164,115 +179,109 @@ def import_excel(edb_path: str,
                  xlsx_path: str,
                  edbversion: str = '2024.1') -> None:
     """
-    從 Excel 匯入 stackup 資訊，為每種材料特性只建立一次材料（若已存在則重用），
-    並替換 AEDB 中所有 layer 的 material 屬性。
+    從 Excel 匯入 stackup 資訊，並更新 AEDB：
+
+      • 替換每層的 material（cond 或 diel 特性重用材料）
+      • 設定 layer.etch_factor
+      • 只在 signal layer（非 dielectric）上設定 layer.roughness_enabled
+      • 若同時有 Nodule Radius / Surface Ratio，才呼叫 assign_roughness_model()
 
     參數：
     ----------
     edb_path : str
         AEDB 檔案路徑
     xlsx_path : str
-        之前 export 時產生的 Excel 路徑（第一列為單位，第 2 列為標題）
+        之前 export 時產生的 Excel 路徑（第 1 列為單位、第 2 列為標題）
     edbversion : str
         AEDB 版本字串，預設 '2024.1'
-
-    回傳：None（直接修改並儲存 AEDB）
     """
-    # 1. 讀 Excel（第 2 列為欄位名稱）
-    df = pd.read_excel(xlsx_path, header=1)
+    # 1. 讀 Excel
+    df = pd.read_excel(xlsx_path, header=1, dtype=str).fillna('')
 
-    # 2. 收集所有不同的材料特性 key
+    # 2. 收集所有不同的材料特性 key（cond 或 diel）
     prop_keys = []
     for _, row in df.iterrows():
-        cond = row.get('Conductivity (S/m)',   pd.NA)
-        perm = row.get('Permittivity',         pd.NA)
-        loss = row.get('Loss Tangent',         pd.NA)
-
-        if pd.notna(cond) and cond != '':
+        cond = row['Conductivity (S/m)']
+        perm = row['Permittivity']
+        loss = row['Loss Tangent']
+        if cond:
             key = ('cond', float(cond))
         else:
-            key = (
-                'diel',
-                float(perm) if pd.notna(perm) else 1.0,
-                float(loss) if pd.notna(loss) else 0.0
-            )
+            p = float(perm) if perm else 1.0
+            l = float(loss) if loss else 0.0
+            key = ('diel', p, l)
         if key not in prop_keys:
             prop_keys.append(key)
 
-    # 3. 開啟 AEDB，準備檢查現有材料並新增
+    # 3. 開啟 AEDB，準備比對與新增材料
     edb = Edb(edb_path, edbversion=edbversion)
-    existing = edb.materials.materials  # dict: name -> material obj
+    existing = edb.materials.materials  # name -> material obj
+    prop_to_mat = {}
 
-    # 建立「特性 key → 材料名稱」映射
-    prop_to_matname = {}
-
+    # 4. 建材料並建立 key→material name 映射
     for key in prop_keys:
         if key[0] == 'cond':
             _, cond_val = key
-            # 先嘗試在 existing 中找到相同 conductivity
-            found = None
-            for name, mat in existing.items():
-                if hasattr(mat, 'conductivity') and mat.conductivity == cond_val:
-                    found = name
-                    break
-            if found:
-                mat_name = found
-            else:
-                mat_name = f"m_cond_{int(cond_val)}"
+            found = next((name for name, m in existing.items()
+                          if hasattr(m, 'conductivity') and m.conductivity == cond_val), None)
+            mat_name = found or f"m_cond_{int(cond_val)}"
+            if not found:
                 edb.materials.add_conductor_material(mat_name, cond_val)
-
         else:
-            _, perm_val, loss_val = key
-            # 找相同 permittivity & loss_tangent
-            found = None
-            for name, mat in existing.items():
-                if (hasattr(mat, 'permittivity') and hasattr(mat, 'dielectric_loss_tangent')
-                        and mat.permittivity == perm_val
-                        and mat.dielectric_loss_tangent == loss_val):
-                    found = name
-                    break
-            if found:
-                mat_name = found
-            else:
-                mat_name = f"m_diel_{perm_val:.2f}_{loss_val:.3f}"
-                edb.materials.add_dielectric_material(mat_name,
-                                                      perm_val,
-                                                      loss_val)
-
-        prop_to_matname[key] = mat_name
-        # 同步更新 existing，方便下一次檢查
+            _, p_val, l_val = key
+            found = next((name for name, m in existing.items()
+                          if hasattr(m, 'permittivity') and hasattr(m, 'dielectric_loss_tangent')
+                             and m.permittivity == p_val and m.dielectric_loss_tangent == l_val), None)
+            mat_name = found or f"m_diel_{p_val:.2f}_{l_val:.3f}"
+            if not found:
+                edb.materials.add_dielectric_material(mat_name, p_val, l_val)
+        prop_to_mat[key] = mat_name
         existing = edb.materials.materials
 
-    # 4. 依 Excel 每一列，替換對應 layer 的 material
+    # 5. 逐列設定 layer
     for _, row in df.iterrows():
-        layer_name = row['Layer Name']
-        cond = row.get('Conductivity (S/m)', pd.NA)
-        perm = row.get('Permittivity',       pd.NA)
-        loss = row.get('Loss Tangent',       pd.NA)
+        layer = edb.stackup.stackup_layers[row['Layer Name']]
+        typ   = layer.type.lower()
 
-        if pd.notna(cond) and cond != '':
+        # 5.1 設定材料
+        cond = row['Conductivity (S/m)']
+        if cond:
             key = ('cond', float(cond))
         else:
-            key = (
-                'diel',
-                float(perm) if pd.notna(perm) else 1.0,
-                float(loss) if pd.notna(loss) else 0.0
-            )
+            p = float(row['Permittivity']) if row['Permittivity'] else 1.0
+            l = float(row['Loss Tangent'])   if row['Loss Tangent']   else 0.0
+            key = ('diel', p, l)
+        layer.material = prop_to_mat[key]
 
-        new_mat = prop_to_matname[key]
-        layer = edb.stackup.stackup_layers[layer_name]
-        layer.material = new_mat
+        # 5.2 Etch Factor
+        if row['Etch Factor']:
+            layer.etch_factor = float(row['Etch Factor'])
 
-    # 5. 儲存並關閉
+        # 5.3 Roughness Enabled：只在非 dielectric 上依 Flag 設定
+        flag = row['Roughness Enabled'].strip().lower()
+        if typ != 'dielectric' and flag in ('true', '1', 'yes'):
+            layer.roughness_enabled = True
+        else:
+            layer.roughness_enabled = False
+
+        # 5.4 只有在啟用且有設定粗糙度參數才呼叫 assign_roughness_model
+        if layer.roughness_enabled:
+            nodule = row['Nodule Radius (µm)']
+            surf   = row['Surface Ratio']
+            if nodule or surf:
+                layer.assign_roughness_model(
+                    huray_radius=str(nodule),
+                    huray_surface_ratio=str(surf)
+                )
+
+    # 6. 儲存並關閉
     edb.save_edb()
     edb.close_edb()
 
-
-
 # 範例用法
-if __name__ == "__main__":
-    edb_path  = r"D:\demo2\Galileo_G87173_20454.aedb"
-    xlsx_path = r"D:\demo2\Galileo_G87173_20454_mm.xlsx"
+if __name__ == '__main__':
+    edb_path  = r"D:\demo2\Galileo_G87173_204.aedb"
+    xlsx_path = r"D:\demo2\Galileo_G87173_204_mm.xlsx"
     import_excel(edb_path, xlsx_path)
     print("已將 Excel 內容匯入並更新 AEDB。")
 
