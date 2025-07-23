@@ -3,7 +3,7 @@ Stackup匯出匯入EXCEL
 
 ### 目的
 
-將 AEDB 中的 Stackup 資訊匯出成 Excel 檔，方便查看與後續處理，並清楚標示單位與層屬性。
+將 AEDB 中的 Stackup 資訊匯出成 Excel 檔並清楚標示單位與層屬性。使用者可以修改EXCEL當中厚度及材料參數
 
 ### 功能
 
@@ -122,7 +122,7 @@ if __name__ == "__main__":
 
 ### 目的
 
-將先前匯出的 Excel 中 Stackup 層的材料特性（導電或介電）讀入，並在 AEDB 中建立或重用對應材料，再將各 layer 的 material 屬性替換成新的材料。
+將修改過的 Excel 中 Stackup 層的材料特性（導電或介電）讀入，並在 AEDB 中建立或重用對應材料，再將各 layer 的 material 屬性替換成新的材料。
 
 ### 功能
 
