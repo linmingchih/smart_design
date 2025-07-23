@@ -116,7 +116,7 @@ if __name__ == "__main__":
     print(f"已輸出：{out}")
 
 ```
-### 主題
+### 用修改完成的EXCEL來更新.aedb
 
 從 Excel 匯入 PCB 材料特性並更新 AEDB
 
