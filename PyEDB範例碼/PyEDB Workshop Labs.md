@@ -26,7 +26,7 @@ REM 建立新的 C:\demo 資料夾
 mkdir C:\demo
 
 REM 創建虛擬環境
-"C:\Program Files\AnsysEM\v241\Win64\commonfiles\CPython\3_10\winx64\Release\python\python.exe" -m venv C:\myvenv
+"C:\Program Files\ANSYS Inc\v251\commonfiles\CPython\3_10\winx64\Release\python\python.exe" -m venv C:\myvenv
 
 REM 進入虛擬環境並啟動
 cd /d C:\myvenv\Scripts
