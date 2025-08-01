@@ -15,7 +15,7 @@
 ### 流程架構
 1. 透過 `oDesktop` 物件操作 AEDT 的內部註冊表（類似偏好設定）
 2. 分別設定字串與整數類型的項目
-3. 這些設定會反映在對應的 XML 檔中，例如："D:\OneDrive - ANSYS, Inc\Documents\Ansoft\ElectronicsDesktop2025.2\config\AAPvhWvmVEUgTEC_user.XML"
+3. 這些設定會反映在對應的 XML 檔中，例如："D:\OneDrive - ANSYS, Inc\Documents\Ansoft\ElectronicsDesktop2025.2\config\EUgTEAAPvhWvmV_user.XML"
 
 ### 補充說明
 - `SetRegistryString(key, value)`：設定某一設定項目的字串值。
