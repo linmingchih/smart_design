@@ -1,6 +1,5 @@
 設定 AEDT 的使用者偏好與模擬環境
 ---
-### 目的
 透過 AEDT 的 `SetRegistryString` 與 `SetRegistryInt` 方法，直接修改內部設定（儲存在 XML 設定檔中），以自動化並統一模擬環境配置。
 
 ### 功能
