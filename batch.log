@@ -1,0 +1,116 @@
+ 
+Ansys Electronics Desktop Version 2025.2.0, Build: 2025-05-16 12:03:40
+Location: C:\Program Files\ANSYS Inc\v252\AnsysEM\ansysedt.exe
+Non Graphical Mode: No Project??
+Starting Batch Run: 7:30:09 PM  Aug 11, 2025
+Running as user : ANSYS\mlin
+Temp directory: C:\Users\mlin\AppData\Local\Temp
+Project directory: D:\demo2
+-- Message Window --
+      *Global - Messages
+        [info] GRPC server running on port: 53562. 
+-- Message Window --
+Stopping Batch Run: 7:33:03 PM  Aug 11, 2025
+??
+Starting Batch Run: 7:32:06 PM  Aug 11, 2025
+Running as user : ANSYS\mlin
+Temp directory: C:\Users\mlin\AppData\Local\Temp
+Project directory: D:\OneDrive - ANSYS, Inc\Documents\Ansoft
+[warning] Electronics Desktop has found a recovery file for an unsaved project : Project233.aedt.auto
+Please choose one of the following actions for this file: 
+ Yes: Open the recovery file. 
+ No: Discard the recovery file.
+ Cancel: Leave the recovery file on disk ( this prompt will reappear during the next application start) .
+-- Message Window --
+      *Global - Messages
+        [warning] Electronics Desktop has found a recovery file for an unsaved project : Project233.aedt.auto Please choose one of the following actions for this file:   Yes: Open the recovery file.   No: Discard the recovery file.  Cancel: Leave the recovery file on disk ( this prompt will reappear during the next application start) .
+        [info] GRPC server running on port: 53633. 
+-- Message Window --
+Stopping Batch Run: 7:32:44 PM  Aug 11, 2025
+ 
+Ansys Electronics Desktop Version 2025.1.0, Build: 2024-11-30 15:03:33
+Location: C:\Program Files\ANSYS Inc\v251\AnsysEM\ansysedt.exe
+Non Graphical Mode: No Project??
+Starting Batch Run: 7:33:23 PM  Aug 11, 2025
+Running as user : ANSYS\mlin
+Temp directory: C:\Users\mlin\AppData\Local\Temp
+Project directory: D:\OneDrive - ANSYS, Inc\Documents\Ansoft
+[warning] Electronics Desktop has found a recovery file for an unsaved project : Project233.aedt.auto
+Please choose one of the following actions for this file: 
+ Yes: Open the recovery file. 
+ No: Discard the recovery file.
+ Cancel: Leave the recovery file on disk ( this prompt will reappear during the next application start) .
+[error] Project "new_pcb" cannot be closed/deleted because it is in use by another application.
+[warning] Electronics Desktop cannot be closed right now because it is being used by another application, script or extension wizard.
+
+The project 'new_pcb' has been edited and/or solved. Do you want to save the changes?
+-- Message Window --
+      *Global - Messages
+        [error] EDB import failed: D:/demo/new_pcb.aedt already exists.
+        [warning] Electronics Desktop cannot be closed right now because it is being used by another application, script or extension wizard. 
+        [warning] Electronics Desktop cannot be closed right now because it is being used by another application, script or extension wizard.
+        [info] Closing the AEDT Project new_pcb
+        [info] Project new_pcb closed correctly
+        [info] Star initializing Edb 19:45:20.789394
+        [info] Edb version 2024.1
+        [info] Logger is initialized in EDB.
+        [info] legacy v0.54.0
+        [info] Python version 3.10.14 (remotes/origin/fc7956328a802ed00ef70afbb7b8a7c425877c24-dirty:fc795632, Oct 29 2) [MSC v.1941 64 bit (AMD64)]
+        [warning] AEDT project-related file D:/demo/Galileo_G87173_20454.aedt exists and may need to be deleted before opening the EDB in HFSS 3D Layout.
+        [info] aedt project found. Loading it.
+        [info] Project new_pcb has been opened.
+        [info] Active Design set to 0;Galileo_G87173_204
+        [info] Active Design set to 0;Galileo_G87173_204
+        [info] Aedt Objects correctly read
+        [info] Loading Modeler.
+        [info] Modeler loaded.
+        [info] EDB loaded.
+        [info] Layers loaded.
+        [info] Primitives loaded.
+        [info] Modeler class has been initialized! Elapsed time: 0m 0sec
+        [info] Closing the AEDT Project new_pcb
+        [info] Project new_pcb closed correctly
+        [info] EDB folder d:/demo/new_pcb.aedb has been imported to project new_pcb
+        [info] Active Design set to 0;Galileo_G87173_204
+        [info] Active Design set to 0;Galileo_G87173_204
+        [info] Aedt Objects correctly read
+        [info] Key Desktop/ActiveDSOConfigurations/HFSS 3D Layout Design correctly changed.
+        [info] Solving all design setups.
+        [info] Key Desktop/ActiveDSOConfigurations/HFSS 3D Layout Design correctly changed.
+        [info] Design setup None solved correctly in 0.0h 0.0m 8.0s
+        [info] The project 'new_pcb' has been edited and/or solved. Do you want to save the changes?
+      new_pcb (d:/demo/)
+        Galileo_G87173_204
+          [warning] Layer Validation Warnings
+            [warning] Dielectric layer "UNNAMED_000" has a thickness of 0 mm and will be ignored (07:53:37 PM  Aug 11, 2025)
+            [warning] Dielectric layer "UNNAMED_012" has a thickness of 0 mm and will be ignored (07:53:37 PM  Aug 11, 2025)
+          [error] Port Definition Error
+            [error] SYZ-parameter simulation canceled: no ports defined (07:53:37 PM  Aug 11, 2025)
+          [error] Simulation Failure
+            [error] Simulation "sweep" terminated on host AAPVHWVMVEUGTEC at Mon Aug 11 19:53:37 2025 with exit code 5 (07:53:37 PM  Aug 11, 2025)
+          [info] Simulation Status
+            [info] siwave_ng 2025 R1 (Built: Nov 30 2024 15:51:52) (07:53:35 PM  Aug 11, 2025)
+            [info] Simulation "sweep" started on host AAPVHWVMVEUGTEC at Mon Aug 11 19:53:37 2025 (07:53:37 PM  Aug 11, 2025)
+            [info] [Simulation Directory]: "C:/Users/mlin/AppData/Local/Temp/ens_temp_28624.pjt/" (07:53:37 PM  Aug 11, 2025)
+            [info] SYZ solver completed with return code 5 (07:53:37 PM  Aug 11, 2025)
+            [info] Saved "C:/Users/mlin/AppData/Local/Temp/ens_temp_28624.pjt/new_pcb.siw" (07:53:37 PM  Aug 11, 2025)
+          [error] While loading via at (6, 8), Padstack <NoPad SMT East> does not correspond to any known padstack.  Generating a minimal padstack based on available info.  (07:53:36 PM  Aug 11, 2025)
+          [warning] Port "p_AG6_0PB6ZW" has invalid type -- skipping port  (07:53:37 PM  Aug 11, 2025)
+          [warning] Port "p_AH12_73LODU" has invalid type -- skipping port  (07:53:37 PM  Aug 11, 2025)
+          [warning] Port "p_C7_LFYRWN" has invalid type -- skipping port  (07:53:37 PM  Aug 11, 2025)
+          [warning] Port "p_E3_9AX7SM" has invalid type -- skipping port  (07:53:37 PM  Aug 11, 2025)
+          [warning] Port "p_E7_46RQP2" has invalid type -- skipping port  (07:53:37 PM  Aug 11, 2025)
+          [warning] Port "p_AH15_D8UHOC" has invalid type -- skipping port  (07:53:37 PM  Aug 11, 2025)
+          [warning] Port "p_AK11_1NYK4V" has invalid type -- skipping port  (07:53:37 PM  Aug 11, 2025)
+          [warning] Port "p_AL11_2YD4BN" has invalid type -- skipping port  (07:53:37 PM  Aug 11, 2025)
+          [warning] Port "p_C2_B0V2VY" has invalid type -- skipping port  (07:53:37 PM  Aug 11, 2025)
+          [warning] Port "p_C8_6TGINF" has invalid type -- skipping port  (07:53:37 PM  Aug 11, 2025)
+          [warning] Port "p_AJ6_CA38MS" has invalid type -- skipping port  (07:53:37 PM  Aug 11, 2025)
+          [warning] Port "p_D2_LZXRE9" has invalid type -- skipping port  (07:53:37 PM  Aug 11, 2025)
+          [warning] Port "p_B3_034LYO" has invalid type -- skipping port  (07:53:37 PM  Aug 11, 2025)
+          [warning] Port "p_E8_0CS0WP" has invalid type -- skipping port  (07:53:37 PM  Aug 11, 2025)
+          [warning] Port "p_AK12_3645HC" has invalid type -- skipping port  (07:53:37 PM  Aug 11, 2025)
+          [warning] Port "p_AL15_WQDPAA" has invalid type -- skipping port  (07:53:37 PM  Aug 11, 2025)
+          [error] EnsComEngine returned an error code. Please contact Ansys technical support. (07:53:38 PM  Aug 11, 2025)
+          [error] Script macro error: Simulation for new_pcb : Galileo_G87173_204 has failed with execution error.  (07:53:39 PM  Aug 11, 2025)
+-- Message Window --
