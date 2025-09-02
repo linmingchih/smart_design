@@ -151,66 +151,161 @@ edb.save_edb_as("d:/demo/simp7.aedb")
 ### 範例程式
 
 ```python
-from shapely.geometry import LineString, Polygon, box
-from shapely.strtree import STRtree
 from ansys.aedt.core import Edb
+import os
+import numpy as np
+from scipy.spatial import cKDTree
 
-# 載入 AEDB 檔案
-path = r"d:/demo/test.aedb"
-edb = Edb(path, edbversion="2024.1")
+def distance_point_to_segment_vectorized(points, seg_start, seg_end):
+    """Calculates shortest distance from an array of points to a single line segment."""
+    points = np.array(points)
+    seg_start = np.array(seg_start)
+    seg_end = np.array(seg_end)
+    
+    line_vec = seg_end - seg_start
+    point_vec = points - seg_start
+    
+    line_len_sq = np.dot(line_vec, line_vec)
+    if line_len_sq == 0.0:
+        return np.linalg.norm(point_vec, axis=1)
+        
+    t = np.dot(point_vec, line_vec) / line_len_sq
+    t = np.clip(t, 0.0, 1.0)
+    
+    closest_points = seg_start + t[:, np.newaxis] * line_vec
+    return np.linalg.norm(points - closest_points, axis=1)
 
-# 擷取信號線段並建立 STRtree
-lines = []
-for net in edb.nets.signal_nets.values():
-    for prim in net.primitives:
-        lines.append(LineString(prim.center_line))
-line_tree = STRtree(lines)
+def clean_lines_data(geometry_list):
+    """Cleans a list of polylines."""
+    cleaned_geometry = []
+    for item in geometry_list:
+        if not item: continue
+        cleaned_item = [p for p in item if isinstance(p, (list, tuple)) and len(p) == 2 and p[1] < 1e100]
+        if len(cleaned_item) > 1:
+            cleaned_geometry.append(cleaned_item)
+    return cleaned_geometry
 
-# 擷取所有 void polygon 與元件框線
-polygons = {}
-for net in edb.nets.power_nets.values():
+def filter_and_save_edb_optimized(aedb_path, output_aedb_path, distance_threshold, edb_version="2024.1"):
+    """
+    Loads an EDB, deletes distant voids and components using spatial indexing, and saves the result.
+    """
+    print("Loading EDB...")
+    edb = Edb(aedb_path, edbversion=edb_version)
+    
+    print("Extracting and cleaning line segments...")
+    lines = []
+    for net in edb.nets.signal_nets.values():
+        for prim in net.primitives:
+            try: lines.append(prim.center_line)
+            except: pass
+    cleaned_lines = clean_lines_data(lines)
+    print(f"Found {len(cleaned_lines)} valid line segments.")
+
+    print("Building spatial index for line segments...")
+    all_line_segments = []
+    for line in cleaned_lines:
+        for i in range(len(line) - 1):
+            all_line_segments.append((line[i], line[i+1]))
+    
+    if not all_line_segments:
+        print("No line segments found. Exiting.")
+        edb.close()
+        return
+
+    segment_centers = [((s[0]+e[0])/2, (s[1]+e[1])/2) for s, e in all_line_segments]
+    tree = cKDTree(segment_centers)
+
+    # --- Void Filtering ---
+    print("\n--- Starting Void Filtering ---")
+    
+    # type1
+    all_voids = [void for primitive in edb.modeler.primitives for void in primitive.voids]
+    
+    # type2
     for prim in net.primitives:
         if prim.is_void:
-            polygons[prim] = prim.points()
+            all_voids.append(prim)
+    
+    print(f"Found {len(all_voids)} voids to process.")
+    
+    voids_to_delete = []
+    for i, void_obj in enumerate(all_voids):
+        try:
+            x_coords, y_coords = void_obj.points()
+            void_polygon = list(zip(x_coords, y_coords))
+            if not void_polygon: continue
 
-for _, comp in edb.components.components.items():
-    x1, y1, x2, y2 = comp.bounding_box
-    polygons[comp] = ([x1, x2, x2, x1], [y1, y1, y2, y2])
+            nearby_indices = tree.query_ball_point(void_polygon[0], r=distance_threshold * 1.5 + np.linalg.norm(np.max(void_polygon, axis=0) - np.min(void_polygon, axis=0)))
+            if not nearby_indices:
+                voids_to_delete.append(void_obj)
+                continue
 
-# 計算每個 polygon 與最近線段距離
-poly_distances = {}
-for prim, raw_pts in polygons.items():
-    if isinstance(raw_pts, tuple) and len(raw_pts) == 2:
-        coords = list(zip(*raw_pts))
-    elif isinstance(raw_pts, list) and raw_pts and len(raw_pts[0]) == 2:
-        coords = raw_pts
+            nearby_segments = [all_line_segments[j] for j in nearby_indices]
+            min_dist = np.min([np.min(distance_point_to_segment_vectorized(void_polygon, s, e)) for s, e in nearby_segments])
+
+            if min_dist > distance_threshold:
+                voids_to_delete.append(void_obj)
+        except Exception: continue
+
+    print(f"Found {len(voids_to_delete)} voids to delete.")
+    if voids_to_delete:
+        print("Deleting voids...")
+        for void in voids_to_delete: void.delete()
+
+    # --- Component Filtering ---
+    print("\n--- Starting Component Filtering ---")
+    all_components = list(edb.components.components.values())
+    print(f"Found {len(all_components)} components to process.")
+
+    components_to_delete = []
+    for comp in all_components:
+        try:
+            x1, y1, x2, y2 = comp.bounding_box
+            comp_corners = [[x1, y1], [x2, y1], [x2, y2], [x1, y2]]
+            
+            center = [(x1+x2)/2, (y1+y2)/2]
+            radius = np.linalg.norm(np.array([x2,y2]) - np.array(center))
+
+            nearby_indices = tree.query_ball_point(center, r=distance_threshold + radius)
+            if not nearby_indices:
+                components_to_delete.append(comp)
+                continue
+
+            nearby_segments = [all_line_segments[j] for j in nearby_indices]
+            min_dist = np.min([np.min(distance_point_to_segment_vectorized(comp_corners, s, e)) for s, e in nearby_segments])
+
+            if min_dist > distance_threshold:
+                components_to_delete.append(comp)
+        except Exception: continue
+
+    print(f"Found {len(components_to_delete)} components to delete.")
+    if components_to_delete:
+        print("Deleting components...")
+        for comp in components_to_delete: comp.delete()
+
+    # --- Save Final EDB ---
+    print(f"\nSaving modified EDB to {output_aedb_path}...")
+    edb.save_edb_as(output_aedb_path)
+    print("Save complete.")
+    
+    edb.close()
+
+if __name__ == "__main__":
+    # --- User-configurable parameters ---
+    INPUT_AED_RELATIVE_PATH = "data/pcie.aedb"
+    OUTPUT_AED_RELATIVE_PATH = "data/pcie_clear.aedb"
+    DISTANCE_THRESHOLD = 0.002  # in meters
+    # ------------------------------------
+
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    
+    aedb_full_path = os.path.join(script_dir, INPUT_AED_RELATIVE_PATH)
+    output_full_path = os.path.join(script_dir, OUTPUT_AED_RELATIVE_PATH)
+    
+    if not os.path.exists(aedb_full_path):
+        print(f"Error: AEDB file not found at {aedb_full_path}")
     else:
-        continue
-
-    try:
-        poly = Polygon(coords)
-    except Exception:
-        continue
-
-    minx, miny, maxx, maxy = poly.bounds
-    search_box = box(minx - 0.01, miny - 0.01, maxx + 0.01, maxy + 0.01)
-    idxs = line_tree.query(search_box)
-
-    if len(idxs) > 0:
-        candidate_lines = [lines[i] for i in idxs]
-        min_dist = min(poly.distance(line) for line in candidate_lines)
-    else:
-        min_dist = float("inf")
-
-    poly_distances[prim] = min_dist
-
-# 刪除距離過遠的 primitive
-to_delete = [prim for prim, dist in poly_distances.items() if dist > 0.001]
-for prim in to_delete:
-    prim.delete()
-
-# 儲存新的 AEDB 檔案
-edb.save_edb_as("d:/demo/simp6.aedb")
+        filter_and_save_edb_optimized(aedb_full_path, output_full_path, DISTANCE_THRESHOLD)
 ```
 
 ![2025-05-26_14-24-52](/assets/2025-05-26_14-24-52.png)
