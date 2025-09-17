@@ -1,4 +1,4 @@
-如何使用 PyInstaller 將 Python 程式碼打包成EXE可執行檔
+如何使用 PyInstaller 將 PyEDB 程式碼打包成EXE可執行檔
 ---
 > 感謝**陳奕廷**提供此方法
 
