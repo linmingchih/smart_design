@@ -19,7 +19,7 @@
 
 1. **設定 ProcMon 過濾器**
 
-   * Process Name 設定為 `ncedt.exe` → Include
+   * Process Name 設定為 `ansysedt.exe` → Include
    * Operation 設定為 `WriteFile` → Include
 
 2. **在 AEDT 勾選 Beta 功能**
