@@ -1,4 +1,4 @@
-將Primitive轉成Pins並合成Component
+將Primitives轉成Pins並合成Components
 ---
 
 這段程式碼的目的是將特定層（例如 top 層）上的 primitive 幾何結構，轉換成可識別的 pins（焊墊），再依照 pins 的座標位置劃分成三個區塊，並為每個區塊建立一個獨立的元件（component），最後儲存為新的 AEDB 檔案。
