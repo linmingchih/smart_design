@@ -71,10 +71,11 @@ import importlib
 import pkgutil
 import json
 import sys
-import types  # 用於類型提示分析（如 list[str] 的 GenericAlias、str | None 的 UnionType）
-import typing # 用於舊式 typing 泛型（如 typing.List[str]、typing.Union）
+import types  # 用於類型提示分析
+import typing # 用於類型提示分析
 
-# 關鍵更改：改為導入 ansys.aedt.core（通常會隨 pyaedt 安裝）
+# 關鍵更改：我們導入 ansys.aedt.core 而不是 pyaedt
+# 您必須已安裝 ansys-aedt-core (通常會隨 pyaedt 一起安裝)
 try:
     import ansys.aedt.core as aedt_core
 except ImportError:
@@ -84,68 +85,62 @@ except ImportError:
 
 
 def get_type_name(annotation):
-    """(已改進) 將各版本的型別提示統一轉成字串表示，支援 Python 3.10+ 新語法。"""
+    """(已改進) 將類型提示轉換為字串，支援 Python 3.10+"""
     if annotation == inspect.Parameter.empty:
-        return "ANY"  # 沒有註記時視為任意型別
+        return "ANY"
 
-    # 現代泛型與 union（Python 3.9+、3.10+）
-    # - types.GenericAlias: 如 list[str], dict[str, int]
-    # - types.UnionType: 如 str | None（Python 3.10+）
-    # - typing._GenericAlias: 舊式 typing.List[str]
-    if isinstance(
-        annotation,
-        (
-            types.GenericAlias,
-            getattr(typing, '_GenericAlias', type(None)),
-            getattr(types, 'UnionType', type(None)),
-        ),
-    ):
-        # 取得基礎型別名稱，例如 list、dict、Union
+    # 處理現代泛型 (e.g., list[str], dict[str, int], Union[str, None])
+    # types.GenericAlias 是 Python 3.9+ 的 list[str]
+    # types.UnionType 是 Python 3.10+ 的 str | None
+    # typing._GenericAlias 是舊版 typing.List[str]
+    if isinstance(annotation, (types.GenericAlias, getattr(typing, '_GenericAlias', type(None)), getattr(types, 'UnionType', type(None)))):
+        
+        # 獲取基礎類型名稱 (e.g., 'list', 'dict', 'Union')
         if hasattr(annotation, '__origin__'):
             name = get_type_name(annotation.__origin__)
         else:
-            name = str(annotation)  # 無 __origin__ 時用字串表達
+            name = str(annotation) # Fallback
 
         args = getattr(annotation, '__args__', [])
+        
         if not args:
             return name
-
-        # 特例：如 tuple[str, ...]
+        
+        # 處理特殊情況 e.g., tuple[str, ...]
         if len(args) == 2 and args[1] == Ellipsis:
             return f"{name}[{get_type_name(args[0])}, ...]"
-
-        # 一般泛型串接：list[str], dict[str, int]
+        
+        # 組合泛型 e.g., list[str], dict[str, int]
         return f"{name}[{', '.join(get_type_name(arg) for arg in args)}]"
 
-    # 舊式 typing.Union（Python 3.9 及更早）
+    # 處理 typing.Union (Python 3.9 及更早版本)
     if hasattr(annotation, '__origin__') and annotation.__origin__ == typing.Union:
         args = getattr(annotation, '__args__', [])
-        if not args:
-            return "Union"
+        if not args: return "Union"
         return f"Union[{', '.join(get_type_name(arg) for arg in args)}]"
 
-    # 內建型別（int、str）或自定義類別：module.name 形式
+    # 處理簡單類型 (int, str) 和自定義類別
     if hasattr(annotation, '__module__') and hasattr(annotation, '__name__'):
         if annotation.__module__ == 'builtins':
             return annotation.__name__
         return f"{annotation.__module__}.{annotation.__name__}"
-
-    # 最後手段：直接轉字串
+    
+    # Fallback
     return str(annotation)
 
 
 def analyze_class(class_obj):
-    """分析單個類別並回傳其 API 結構（doc/methods/properties）。"""
+    """分析單個類別並回傳其 API 結構"""
     if not inspect.isclass(class_obj):
         return None
-
+        
     api_info = {
         "doc": inspect.getdoc(class_obj),
         "methods": {},
-        "properties": {},
+        "properties": {}
     }
-
-    # 優先分析 __init__（常見於建立物件時會用到的參數與預設）
+    
+    # 增加對 __init__ 的分析
     try:
         init_sig = inspect.signature(class_obj.__init__)
         params = {}
@@ -154,37 +149,38 @@ def analyze_class(class_obj):
                 continue
             params[pname] = {
                 "type": get_type_name(p.annotation),
-                "default": repr(p.default) if p.default != inspect.Parameter.empty else "REQUIRED",
+                "default": repr(p.default) if p.default != inspect.Parameter.empty else "REQUIRED"
             }
         api_info["methods"]["__init__"] = {
             "doc": inspect.getdoc(class_obj.__init__),
             "params": params,
-            "return_type": "None",
+            "return_type": "None"
         }
     except (ValueError, TypeError):
-        # C 綁定（或缺少簽章資訊）時，inspect 可能失敗
-        api_info["methods"]["__init__"] = {"error": "Could not inspect __init__"}
+         # 很多底層的 __init__ (例如 C 綁定的) 無法被 inspect
+         api_info["methods"]["__init__"] = {"error": "Could not inspect __init__"}
 
-    # 走訪成員：屬性與方法
+
     for name, member in inspect.getmembers(class_obj):
-        if name.startswith('_') and name != '__init__':
-            continue  # 略過私有，保留 __init__
+        if name.startswith('_') and name != '__init__': # 允許 __init__
+            continue # 忽略私有成員
 
         try:
-            # 1) @property 屬性
+            # 1. 分析屬性 (Properties)
             if isinstance(member, property):
                 if member.fget:
                     sig = inspect.signature(member.fget)
                     return_type = get_type_name(sig.return_annotation)
                 else:
-                    return_type = "ANY"
+                    return_type = "ANY" 
+                    
                 api_info["properties"][name] = {
                     "doc": inspect.getdoc(member),
-                    "return_type": return_type,
+                    "return_type": return_type
                 }
 
-            # 2) 公開方法（排除已處理的 __init__）
-            elif (inspect.isfunction(member) or inspect.ismethod(member)) and name != '__init__':
+            # 2. 分析方法 (Methods)
+            elif (inspect.isfunction(member) or inspect.ismethod(member)) and name != '__init__': # 已處理過 __init__
                 sig = inspect.signature(member)
                 params = {}
                 for pname, p in sig.parameters.items():
@@ -192,72 +188,75 @@ def analyze_class(class_obj):
                         continue
                     params[pname] = {
                         "type": get_type_name(p.annotation),
-                        "default": repr(p.default) if p.default != inspect.Parameter.empty else "REQUIRED",
+                        "default": repr(p.default) if p.default != inspect.Parameter.empty else "REQUIRED"
                     }
+                
                 api_info["methods"][name] = {
                     "doc": inspect.getdoc(member),
                     "params": params,
-                    "return_type": get_type_name(sig.return_annotation),
+                    "return_type": get_type_name(sig.return_annotation)
                 }
-
+                
         except (ValueError, TypeError, AttributeError) as e:
-            # 無法 inspect 的情況，保留錯誤訊息以利事後排查
+            # 很多 C++ 綁定的方法無法被 inspect
             if isinstance(member, property):
                 api_info["properties"][name] = {"error": f"Could not inspect (Error: {e})"}
             else:
                 api_info["methods"][name] = {"error": f"Could not inspect (Error: {e})"}
-
+            
     return api_info
 
-
-# --- 主執行緒：遍歷與彙整 ---
+# --- 主執行緒 ---
 def crawl_aedt_core():
-    print("Starting to crawl 'ansys.aedt.core' package...")
+    print(f"Starting to crawl 'ansys.aedt.core' package...")
     database = {}
-
-    package = aedt_core  # 以實際匯入的套件作為根節點
-
+    
+    # 關鍵更改：使用 aedt_core
+    package = aedt_core
+    
     # 遍歷 ansys.aedt.core 套件下的所有模組
-    for importer, modname, ispkg in pkgutil.walk_packages(
-        path=package.__path__,
-        prefix=package.__name__ + '.',
-        onerror=lambda x: None,
-    ):
+    for importer, modname, ispkg in pkgutil.walk_packages(path=package.__path__,
+                                                         prefix=package.__name__ + '.',
+                                                         onerror=lambda x: None):
         try:
             module = importlib.import_module(modname)
             print(f"Inspecting module: {modname}")
-
-            # 逐一找出該模組中的所有類別
+            
+            # 遍歷模組中的所有成員，找出所有類別
             for class_name, class_obj in inspect.getmembers(module, inspect.isclass):
-                # 僅保留屬於 ansys.aedt.core 命名空間的類別
+                
+                # 檢查類別是否 *屬於* ansys.aedt.core 套件
                 if class_obj.__module__.startswith(package.__name__):
-                    # 以「實際模組路徑 + 類別名稱」作為唯一鍵，避免重複
+                    
+                    # 使用類別的 *實際* 模組路徑 + 類別名稱作為 key
                     full_class_name = f"{class_obj.__module__}.{class_name}"
+                    
+                    # 檢查是否已經分析過 (避免重複)
                     if full_class_name not in database:
                         print(f"  -> Analyzing class: {full_class_name}")
                         api_data = analyze_class(class_obj)
                         if api_data:
                             database[full_class_name] = api_data
-
+                        
         except ImportError as e:
-            # 子模組無法匯入時記錄並繼續
             print(f"Could not import {modname}: {e}", file=sys.stderr)
         except Exception as e:
-            # 其他非預期錯誤：印詳細堆疊以利除錯
+            # 打印更詳細的錯誤日誌，以便追蹤
             print(f"Error inspecting module {modname} (Class: {class_name}): {e}", file=sys.stderr)
             import traceback
             traceback.print_exc(file=sys.stderr)
 
+
     print("Crawl complete. Saving database...")
-    # 將彙整好的 API 資料輸出為 JSON
+    # 更改: 輸出檔案名稱
     with open("aedt_core_api_database.json", "w", encoding="utf-8") as f:
         json.dump(database, f, indent=2, ensure_ascii=False)
-
+        
     print("Database saved to 'aedt_core_api_database.json'")
 
-
-# --- 進入點 ---
+# --- 執行爬蟲 ---
 if __name__ == "__main__":
+    # 更改: 呼叫的函數名稱
     crawl_aedt_core()
 ```
 
