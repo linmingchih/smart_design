@@ -84,6 +84,8 @@ subprocess.Popen([python_exe, 'aedt_example.py']).wait()
 ```
 注意：請確保 `main.py`, `edb_example.py` 與 `aedt_example.py` 位於相同目錄下，並且路徑 `d:/demo8/test.aedb` 可被正確存取。且使用 `sys.executable` 來確保呼叫的 Python 解譯器與當前環境一致。
 
+![](/assets/2025-11-02_08-56-08.png)
+
 ### 可選：傳遞參數給子腳本
 
 如果需要傳遞參數給子腳本，可以使用 `subprocess.Popen` 的 `args` 參數來實現。舉例:
