@@ -1,5 +1,6 @@
 Pyedb Explorer使用說明
 ---
+[PyEDB Explorer 下載](/assets/pyedb-explorer.zip)
 
 Pyedb是一個用於編輯EDB檔案的Python API函式庫，可以載入.aedb檔案並進行查詢及修改、設定端口、執行HFSS 3D Layout模擬等操作。功能包括：
 - 載入.aedb檔案並顯示其結構。
