@@ -64,43 +64,37 @@ EDB當中路徑含有圓弧(archeight)與直線資訊，以下函數可將其轉
 
 ```python
 import numpy as np
+import matplotlib.pyplot as plt
 
 class PathParser:
     ARC_FLAG = 1e100
 
     def __init__(self, points, theta_max):
         """
-        points    : list of (x, y)
+        points    : list[(x,y)] with arc-height encoded as (h, y>=ARC_FLAG)
         theta_max : max central angle (radian) between adjacent arc points
         """
-        self.raw_points = list(points)
-        self.theta_max = theta_max
+        self.points = list(points)
+        self.theta_max = float(theta_max)
 
-    # ---------- public API ----------
+    # ---------- public ----------
 
     def parse(self):
-        """
-        Main entry:
-        returns Nx2 numpy array of geometry points
-        """
-        pts = self._normalize_arc_endpoints(self.raw_points)
-        return self._parse_segments(pts)
+        pts = self._normalize(self.points)
+        return self._parse_path(pts)
 
-    # ---------- arc / line detection ----------
+    # ---------- utilities ----------
 
     @classmethod
     def _is_arc_height(cls, pt):
         return pt[1] >= cls.ARC_FLAG
 
-    def _normalize_arc_endpoints(self, points):
+    def _normalize(self, pts):
         """
-        If first point is arc-height:
-            prepend last point
-        If last point is arc-height:
-            append first point
+        If first point is arc-height → prepend last point
+        If last  point is arc-height → append first point
         """
-        pts = list(points)
-
+        pts = list(pts)
         if len(pts) < 2:
             return pts
 
@@ -112,107 +106,130 @@ class PathParser:
 
         return pts
 
-    # ---------- core parsing ----------
+    # ---------- circle from 3 points ----------
 
-    def _parse_segments(self, pts):
-        result = []
-        i = 0
+    @staticmethod
+    def _circle_from_3pts(p1, p2, p3, eps=1e-12):
+        """
+        Return (C,R) for circle through 3 non-collinear points.
+        """
+        p1 = np.array(p1, float); p2 = np.array(p2, float); p3 = np.array(p3, float)
+        x1,y1 = p1; x2,y2 = p2; x3,y3 = p3
 
-        while i < len(pts) - 1:
-            p = pts[i]
-            n = pts[i + 1]
+        D = 2*(x1*(y2-y3) + x2*(y3-y1) + x3*(y1-y2))
+        if abs(D) < eps:
+            return None, None
 
-            # arc case: real -> arc-height -> real
-            if (not self._is_arc_height(p)) and self._is_arc_height(n):
-                h = n[0]
-                p2 = pts[i + 2]
-                arc_pts = self._arc_points(p, p2, h)
+        s1 = x1*x1 + y1*y1
+        s2 = x2*x2 + y2*y2
+        s3 = x3*x3 + y3*y3
 
-                if result:
-                    arc_pts = arc_pts[1:]  # avoid duplicate
-                result.extend(arc_pts)
-                i += 2
+        Ux = (s1*(y2-y3) + s2*(y3-y1) + s3*(y1-y2)) / D
+        Uy = (s1*(x3-x2) + s2*(x1-x3) + s3*(x2-x1)) / D
 
-            # line case
-            else:
-                if not result:
-                    result.append(np.array(p, float))
-                else:
-                    result.append(np.array(n, float))
-                i += 1
+        C = np.array([Ux, Uy], float)
+        R = np.linalg.norm(p1 - C)
+        return C, R
 
-        return np.array(result)
-
-    # ---------- arc geometry ----------
+    # ---------- arc generation (passes through S = M + h*n_left) ----------
 
     def _arc_points(self, p0, p2, h):
-        """
-        Discretize arc defined by p0, p2 and arc-height h
-        """
         p0 = np.array(p0, float)
         p2 = np.array(p2, float)
 
         v = p2 - p0
         L = np.linalg.norm(v)
         if L == 0:
-            raise ValueError("Zero-length arc")
-
+            raise ValueError("Zero-length arc segment")
         if h == 0:
             return np.vstack([p0, p2])
 
-        M = (p0 + p2) / 2
+        M = (p0 + p2) / 2.0
         n_left = np.array([-v[1], v[0]]) / L
 
-        s = abs(h)
-        R = (L**2) / (8*s) + s/2
-        d = np.sqrt(max(R**2 - (L/2)**2, 0.0))
-
-        # sagitta point (your rule)
+        # IMPORTANT: treat arc-height as a REAL point on the arc
         S = M + h * n_left
 
-        # circle center (opposite side of sagitta)
-        C = M - np.sign(h) * d * n_left
+        C, R = self._circle_from_3pts(p0, p2, S)
+        if C is None:
+            # nearly collinear -> line
+            return np.vstack([p0, p2])
 
-        def ang(p):
-            return np.mod(np.arctan2(p[1]-C[1], p[0]-C[0]), 2*np.pi)
+        def ang(P):
+            return np.mod(np.arctan2(P[1]-C[1], P[0]-C[0]), 2*np.pi)
 
-        th0 = ang(p0)
-        th2 = ang(p2)
-        ths = ang(S)
+        t0 = ang(p0)
+        t2 = ang(p2)
+        ts = ang(S)
 
         def ccw(a, b):
             return (b - a) % (2*np.pi)
 
-        # choose direction so arc passes through sagitta
-        go_ccw = ccw(th0, ths) <= ccw(th0, th2)
+        # choose arc from p0->p2 that passes through S (works for >180°)
+        span_ccw_02 = ccw(t0, t2)
+        span_ccw_0s = ccw(t0, ts)
+        go_ccw = span_ccw_0s <= span_ccw_02
 
         if go_ccw:
-            total = ccw(th0, th2)
+            total = span_ccw_02
             sign = +1
         else:
-            total = ccw(th2, th0)
+            total = ccw(t2, t0)  # CW magnitude
             sign = -1
 
         nseg = max(1, int(np.ceil(total / self.theta_max)))
-        dth = total / nseg
+        t = t0 + sign * np.linspace(0, total, nseg + 1)
 
-        t = th0 + sign * np.arange(nseg + 1) * dth
         return np.c_[C[0] + R*np.cos(t), C[1] + R*np.sin(t)]
 
-import matplotlib.pyplot as plt
+    # ---------- parse whole list ----------
+
+    def _parse_path(self, pts):
+        out = []
+        i = 0
+
+        while i < len(pts) - 1:
+            p = pts[i]
+            n = pts[i+1]
+
+            # arc: real -> arc-height -> real
+            if (not self._is_arc_height(p)) and self._is_arc_height(n):
+                if i + 2 >= len(pts):
+                    raise ValueError("Arc-height point must have a following real point.")
+                h = n[0]
+                p2 = pts[i+2]
+
+                arc = self._arc_points(p, p2, h)
+                if out:
+                    arc = arc[1:]  # avoid duplicate vertex
+                out.extend(arc)
+                i += 2
+            else:
+                # line
+                if not out:
+                    out.append(np.array(p, float))
+                out.append(np.array(n, float))
+                i += 1
+
+        return np.array(out)
+
+
+# --- Execution ---
 coords = [
     (-4, 0),
-    (1, 1e100),
+    (1, 1e100),  # Bulge of 10
     (0, 0),
-    (-1, 1e100), 
+    (-1, 1e100), # Bulge of -10
     (4, 0),
 ]
 
-parser = PathParser(coords, theta_max=np.deg2rad(10)) 
+parser = PathParser(coords, theta_max=np.deg2rad(5)) 
 pts = parser.parse()
 
-plt.plot(pts[:,0], pts[:,1], "-o")
+plt.figure(figsize=(8, 5))
+plt.plot(pts[:,0], pts[:,1], "-o", markersize=3)
 plt.axis("equal")
+plt.title("Parsed Path with Arcs")
 plt.grid(True)
 plt.show()
 ```
