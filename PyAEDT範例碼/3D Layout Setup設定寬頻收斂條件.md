@@ -62,3 +62,5 @@ x = [{'AdaptiveFrequency': '3.4GHz',
 setup.props['AdaptiveSettings']['BroadbandFrequencyDataList']['AdaptiveFrequencyData'] = x
 
 ```
+
+![](/assets/2026-04-10_08-53-41.jpg)
