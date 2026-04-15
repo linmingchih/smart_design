@@ -104,3 +104,5 @@ print(solver.run([[0, 0], [1, 1]]))
 ```
 
 ![2024-05-30_14-49-54](/assets/2024-05-30_14-49-54.png)
+
+[下載](/assets/mopsolver.cp310-win_amd64.pyd)
