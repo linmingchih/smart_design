@@ -94,8 +94,8 @@ with Optislang(ini_timeout=60) as osl:
 
 ``` python
 from mopsolver import MOPSolver
-osl_install_path = r'C:\Program Files\ANSYS Inc\v241\optiSLang'
-omdb_file = r"D:\demo\example5.opd\AMOP\AMOP.omdb"
+osl_install_path = r'C:\Program Files\ANSYS Inc\v252\optiSLang'
+omdb_file = r"c:\demo\example.opd\AMOP\AMOP.omdb"
 
 solver = MOPSolver(osl_install_path, omdb_file)
 
