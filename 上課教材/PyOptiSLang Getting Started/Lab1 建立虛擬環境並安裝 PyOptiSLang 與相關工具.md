@@ -34,7 +34,7 @@ Lab1 建立虛擬環境並安裝 PyOptiSLang 與相關工具
 ### Step 1：進入 ANSYS 內建 Python
 
 ```bash
-cd "C:\Program Files\ANSYS Inc\v252\commonfiles\CPython\3_10\winx64\Release\python"
+cd "C:\Program Files\ANSYS Inc\v252\optiSLang\lib\python3.10"
 ```
 
 **說明：**
@@ -104,7 +104,7 @@ activate
 ### Step 5：安裝 PyAEDT
 
 ```bash
-pip install pyaedt
+pip install pyaedt[all]
 ```
 
 **功能：**
