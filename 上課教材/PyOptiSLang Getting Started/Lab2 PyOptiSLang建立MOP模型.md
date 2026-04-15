@@ -24,9 +24,10 @@ Lab2 PyOptiSLang建立MOP模型
 5. **儲存專案與執行優化流程** 
 程式最後將整個專案存檔成指定的 .opf 檔案，再啟動優化流程。流程結束後，系統會自動釋放相關資源。
 
+#### **c:/demo/lab2.py**
 ```python
-script_path = 'c:/demo/script.py'
-opf_path = 'c:/demo/example.opf'
+script_path = 'c:/demo/script2.py'
+opf_path = 'c:/demo/lab2.opf'
 
 from ansys.optislang.core import Optislang
 import ansys.optislang.core.node_types as node_types
