@@ -1,6 +1,3 @@
-Lab0 簡介
----
-
 隨著工程設計日益複雜，多物理場耦合與大量設計參數已成為常態。傳統以人工調整參數與反覆模擬為主的設計方式，不僅效率低落，亦難以全面探索設計空間。Ansys optiSLang 作為一套成熟之流程整合與設計最佳化（Process Integration and Design Optimization, PIDO）平台，能有效整合多種模擬工具並自動化設計流程，協助工程師在高維度設計空間中快速尋找最佳解。本文將介紹 optiSLang 之核心功能與技術定位，並進一步探討其 Python 介面 PyOptiSLang 在工程自動化中的應用價值。
 
 ---
